@@ -4,7 +4,6 @@ import React, { useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import Head from 'next/head';
 import Script from 'next/script';
-import html2pdf from 'html2pdf.js';
 import '../../booking-report.css';
 import TripHeader from '@/components/TripReport/TripHeader';
 import TripSummary from '@/components/TripReport/TripSummary';
@@ -19,14 +18,21 @@ import DrivingBehavior from '@/components/TripReport/DrivingBehavior';
 import { useGetTripData } from '@/queries/GetTripReportData';
 
 export default function TripReportPage() {
+  let html2pdf;
+
+  useEffect(() => {
+    import('html2pdf.js').then((module) => {
+      html2pdf = module.default;
+    });
+  }, []);
   const params = useParams();
-  const { 
-    getTripData, 
-    isLoading, 
-    tripData, 
-    error 
+  const {
+    getTripData,
+    isLoading,
+    tripData,
+    error
   } = useGetTripData();
-  
+
   const reportRef = useRef(null);
   const COMPANY_LOGO_URL = process.env.NEXT_PUBLIC_COMPANY_LOGO_URL;
   const MAPBOX_PUBLIC_KEY = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_KEY;
@@ -40,10 +46,10 @@ export default function TripReportPage() {
   // Función para descargar el reporte como PDF
   const downloadAsPDF = () => {
     if (!tripData || !tripData.trip) return;
-    
+
     const element = reportRef.current;
     const filename = `Trip_Report_${tripData.trip.transaction_id}.pdf`;
-    
+
     // Esperar a que Mapbox se cargue completamente
     const waitForMapboxRender = () => {
       return new Promise(resolve => {
@@ -51,13 +57,13 @@ export default function TripReportPage() {
         setTimeout(resolve, 1500);
       });
     };
-    
+
     // Configuración de html2pdf
     const options = {
       margin: 10,
       filename: filename,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { 
+      html2canvas: {
         scale: 2,
         useCORS: true,
         logging: true,
@@ -65,7 +71,7 @@ export default function TripReportPage() {
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
-    
+
     // Generar el PDF
     waitForMapboxRender().then(() => {
       html2pdf().from(element).set(options).save();
@@ -92,17 +98,17 @@ export default function TripReportPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
-      <Script 
-        src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" 
-        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow==" 
-        crossOrigin="anonymous" 
+      <Script
+        src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossOrigin="anonymous"
       />
       <Script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js" />
       <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet" />
 
       {/* Añadir botón de descarga */}
       <div className="download-button-container" style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 1000 }}>
-        <button 
+        <button
           onClick={downloadAsPDF}
           className="download-button"
           style={{
@@ -134,50 +140,50 @@ export default function TripReportPage() {
           </a>
         </div>
 
-        <TripHeader 
-          trip={tripData.trip} 
-          vehicle={tripData.vehicle} 
-          tripDetails={tripData.analytics?.tripDetails} 
+        <TripHeader
+          trip={tripData.trip}
+          vehicle={tripData.vehicle}
+          tripDetails={tripData.analytics?.tripDetails}
         />
 
         <div className="container">
-          <TripSummary 
-            speedMetrics={tripData.analytics?.speedMetrics} 
-            tripDetails={tripData.analytics?.tripDetails} 
+          <TripSummary
+            speedMetrics={tripData.analytics?.speedMetrics}
+            tripDetails={tripData.analytics?.tripDetails}
           />
-          
-          <TripRoute 
-            mapData={tripData.map_data} 
-            addresses={tripData.analytics?.addresses} 
+
+          <TripRoute
+            mapData={tripData.map_data}
+            addresses={tripData.analytics?.addresses}
             trip={tripData.trip}
-            tolls={tripData.toll_info} 
-            mapboxPublicKey={MAPBOX_PUBLIC_KEY} 
+            tolls={tripData.toll_info}
+            mapboxPublicKey={MAPBOX_PUBLIC_KEY}
           />
-          
-          <DrivingBehavior 
-            speedingEvents={tripData.analytics?.speedingEvents} 
-            collisionEvents={tripData.analytics?.collisionEvents} 
-            tripDetails={tripData.analytics?.tripDetails} 
+
+          <DrivingBehavior
+            speedingEvents={tripData.analytics?.speedingEvents}
+            collisionEvents={tripData.analytics?.collisionEvents}
+            tripDetails={tripData.analytics?.tripDetails}
           />
-          
-          {(tripData.analytics?.troubleCodes && tripData.analytics.troubleCodes.length > 0) || 
-           (tripData.health_data && tripData.health_data.length > 0) ? (
-            <VehicleHealth 
-              troubleCodes={tripData.analytics?.troubleCodes} 
-              healthData={tripData.health_data} 
+
+          {(tripData.analytics?.troubleCodes && tripData.analytics.troubleCodes.length > 0) ||
+            (tripData.health_data && tripData.health_data.length > 0) ? (
+            <VehicleHealth
+              troubleCodes={tripData.analytics?.troubleCodes}
+              healthData={tripData.health_data}
             />
           ) : null}
-          
+
           {tripData.trip_metadata && tripData.trip_metadata.weather && (
-            <TripConditions 
-              weather={tripData.trip_metadata.weather} 
-              roadCondition={tripData.trip_metadata.roadCondition} 
+            <TripConditions
+              weather={tripData.trip_metadata.weather}
+              roadCondition={tripData.trip_metadata.roadCondition}
             />
           )}
-          
+
           {tripData.toll_info && (
-            <TollInformation 
-              tollInfo={tripData.toll_info} 
+            <TollInformation
+              tollInfo={tripData.toll_info}
             />
           )}
         </div>
