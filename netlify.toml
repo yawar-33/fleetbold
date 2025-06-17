@@ -1,4 +1,3 @@
 [build]
   command = "npm install --force && npm run build"
-  publish = "next"
-  GO_VERSION = "1.22"
+  publish = "out"  GO_VERSION = "1.22"
