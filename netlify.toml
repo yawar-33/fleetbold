@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[plugins]]
+  package = "@netlify/plugin-npm-install"
+
+  [plugins.inputs]
+    install_command = "npm install --force"
