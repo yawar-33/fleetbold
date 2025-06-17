@@ -1,3 +1,4 @@
 [build]
   command = "npm install --force && npm run build"
   publish = "dist" # or "build" or the folder where your static files are
+  GO_VERSION = "1.22"
