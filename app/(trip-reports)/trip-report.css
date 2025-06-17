@@ -1,0 +1,1016 @@
+/* File: styles/trip-report.css */
+
+:root {
+    --primary-color: #3366FF;
+    --primary-dark: #2952CC;
+    --secondary-color: #6C63FF;
+    --success-color: #0ACF83;
+    --warning-color: #FFC107;
+    --danger-color: #FF5252;
+    --text-color: #1F2937;
+    --text-secondary: #6B7280;
+    --background-color: #F9FAFB;
+    --card-background: #FFFFFF;
+    --border-color: #E5E7EB;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  /* Header */
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,100 L0,100 Z" fill="%232952CC" fill-opacity="0.3" /></svg>'), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%232952CC" fill-opacity="0.2" /></svg>');
+    background-size: 100px;
+    opacity: 0.3;
+    z-index: 0;
+  }
+  
+  .header-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .report-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  .logo-area {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .logo {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 10px;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+  
+  .vehicle-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .vehicle-info-item {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .vehicle-info-item i {
+    margin-right: 0.5rem;
+  }
+  
+  /* Cards */
+  .card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  
+  .card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 8px;
+    font-size: 1.2rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .stat-card {
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  
+  .stat-secondary {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+  
+  /* Map Container */
+  .map-container {
+    width: 100%;
+    height: 400px;
+    background-color: #E8EAED;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .map-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+  }
+  
+  /* Route Info */
+  .route-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .route-point {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .route-marker {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1rem;
+  }
+  
+  .route-marker.start {
+    background-color: var(--success-color);
+    color: white;
+  }
+  
+  .route-marker.end {
+    background-color: var(--danger-color);
+    color: white;
+  }
+  
+  .route-data {
+    flex-grow: 1;
+  }
+  
+  .route-address {
+    font-weight: 500;
+  }
+  
+  .route-time {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+  
+  .route-connector {
+    width: 2px;
+    background-color: var(--border-color);
+    height: 30px;
+    margin-left: 18px;
+  }
+  
+  /* Events Grid */
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .event-card {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  
+  .event-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.2rem;
+  }
+  
+  .event-icon.warning {
+    background-color: var(--warning-color);
+    color: white;
+  }
+  
+  .event-icon.danger {
+    background-color: var(--danger-color);
+    color: white;
+  }
+  
+  .event-details {
+    flex-grow: 1;
+  }
+  
+  .event-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .event-meta {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+  
+  /* Tables */
+  .health-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .health-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background-color: var(--background-color);
+    font-weight: 600;
+    color: var(--text-color);
+  }
+  
+  .health-table td {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .health-table tr:nth-child(even) td {
+    background-color: var(--background-color);
+  }
+  
+  .dtc-pill {
+    display: inline-flex;
+    align-items: center;
+    background-color: #FEF3C7;
+    color: #D97706;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Weather information */
+  .weather-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .weather-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .weather-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-color);
+  }
+  
+  .weather-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+  
+  .weather-value {
+    font-weight: 600;
+  }
+  
+  /* Speed chart */
+  .speed-chart {
+    width: 100%;
+    height: 200px;
+    margin-top: 2rem;
+    position: relative;
+  }
+  
+  .speed-chart-bars {
+    display: flex;
+    align-items: flex-end;
+    height: 150px;
+    gap: 8px;
+    padding-bottom: 30px;
+  }
+  
+  .speed-bar {
+    flex-grow: 1;
+    background-color: var(--primary-color);
+    opacity: 0.7;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+  }
+  
+  .speed-bar-label {
+    position: absolute;
+    bottom: -25px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+  
+  .speed-chart-x-axis {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--border-color);
+  }
+  
+  .speed-chart-title {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  
+  /* FleetBold Banner */
+  .fleetbold-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    gap: 5px;
+    color: var(--primary-dark);
+  }
+  
+  .fleetbold-banner span {
+    font-size: 18px;
+    margin-left: 5px;
+  }
+  
+  .fleetbold-banner img {
+    width: 200px;
+    height: auto;
+  }
+  
+  /* Loading and Error States */
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  .loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid var(--primary-color);
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .error-container h2 {
+    color: var(--danger-color);
+    margin-bottom: 1rem;
+  }
+  
+  .error-container button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .error-container button:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  /* Footer */
+  .footer {
+    margin-top: 4rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .report-title {
+      font-size: 1.75rem;
+    }
+    
+    .stats-grid, .events-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .map-container {
+      height: 300px;
+    }
+  }
+  
+  /* Print styles */
+  @media print {
+    body {
+      background-color: white;
+    }
+    
+    .container {
+      max-width: 100%;
+      padding: 0;
+    }
+    
+    .card {
+      box-shadow: none;
+      border: 1px solid var(--border-color);
+      break-inside: avoid;
+      margin-bottom: 1rem;
+    }
+    
+    .map-container {
+      height: 300px;
+    }
+    
+    header {
+      background-color: white;
+      color: var(--text-color);
+      padding: 1rem 0;
+    }
+    
+    header::before {
+      display: none;
+    }
+    
+    .vehicle-info-item {
+      background-color: var(--background-color);
+    }
+  }
+
+
+ 
+          /* BookingReport Styles */
+          .booking-report {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background-color: #f7f9fc;
+            padding-bottom: 3rem;
+          }
+  
+          /* Header */
+          header {
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+          }
+  
+          .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+          }
+  
+          .logo-area {
+            display: flex;
+            align-items: center;
+          }
+  
+          .report-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1a73e8;
+          }
+  
+          .subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.3rem;
+          }
+  
+          .vehicle-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+          }
+  
+          .vehicle-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          }
+  
+          .vehicle-info-item i {
+            color: #5f6368;
+            width: 1.2rem;
+            text-align: center;
+          }
+  
+          /* Container */
+          .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+          }
+  
+          /* Cards */
+          .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+          }
+  
+          .card-header {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+          }
+  
+          .card-icon {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: #e8f0fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+  
+          .card-icon i {
+            color: #1a73e8;
+            font-size: 1rem;
+          }
+  
+          .card-title {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #202124;
+          }
+  
+          .card-body {
+            padding: 1.5rem;
+          }
+  
+          /* Stats Grid */
+          .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+          }
+  
+          .stat-card {
+            padding: 1.2rem;
+            border-radius: 6px;
+            border: 1px solid #f0f0f0;
+            transition: all 0.2s ease;
+          }
+  
+          .stat-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+          }
+  
+          .stat-label {
+            font-size: 0.9rem;
+            color: #5f6368;
+            margin-bottom: 0.5rem;
+          }
+  
+          .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #202124;
+          }
+  
+          .stat-secondary {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+          }
+  
+          /* Info Grid */
+          .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+          }
+  
+          .info-card {
+            padding: 0.5rem 0;
+          }
+  
+          .info-label {
+            font-size: 0.9rem;
+            color: #5f6368;
+            margin-bottom: 0.3rem;
+          }
+  
+          .info-value {
+            font-size: 1.1rem;
+            color: #202124;
+          }
+  
+          .info-link {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 0.9rem;
+          }
+  
+          .info-link:hover {
+            text-decoration: underline;
+          }
+  
+          /* Table */
+          .health-table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+  
+          .health-table th {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #5f6368;
+            font-size: 0.9rem;
+          }
+  
+          .health-table td {
+            padding: 1rem;
+            border-top: 1px solid #f0f0f0;
+            color: #202124;
+          }
+  
+          .health-table tr:hover td {
+            background-color: #f8f9fa;
+          }
+  
+          .selected-row td {
+            background-color: #e8f0fe !important;
+          }
+  
+          .details-row td {
+            padding: 0;
+            background-color: #f8f9fa;
+          }
+  
+          .trip-details-container {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+          }
+  
+          .details-section {
+            background-color: white;
+            border-radius: 6px;
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+          }
+  
+          .details-section.warning {
+            border-left: 4px solid #ff6b6b;
+          }
+  
+          .details-section h4 {
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            color: #1a73e8;
+            font-size: 1rem;
+          }
+  
+          .map-data-info p {
+            margin: 0.5rem 0;
+          }
+  
+          .nested-table {
+            width: 100%;
+            font-size: 0.9rem;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+          }
+  
+          .nested-table th {
+            background-color: #f0f5ff;
+            padding: 0.5rem;
+            text-align: left;
+            font-weight: 600;
+          }
+  
+          .nested-table td {
+            padding: 0.5rem;
+            border-top: 1px solid #f0f0f0;
+          }
+          
+          .toll-total {
+            font-weight: 600;
+            margin-top: 0.8rem;
+            text-align: right;
+            color: #1a73e8;
+          }
+  
+          .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+          }
+  
+          .view-trip-btn {
+            display: inline-block;
+            padding: 0.5rem 0.8rem;
+            background-color: #1a73e8;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: background-color 0.2s;
+            text-align: center;
+          }
+  
+          .view-trip-btn:hover {
+            background-color: #1558b1;
+          }
+          
+          .details-btn {
+            display: inline-block;
+            padding: 0.5rem 0.8rem;
+            background-color: #f0f5ff;
+            color: #1a73e8;
+            border: 1px solid #1a73e8;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+          
+          .details-btn:hover {
+            background-color: #e0ebff;
+          }
+  
+          /* Footer */
+          .footer {
+            background-color: #f8f9fa;
+            padding: 1.5rem 0;
+            text-align: center;
+            border-top: 1px solid #e5e5e5;
+            margin-top: 2rem;
+          }
+  
+          .footer p {
+            color: #5f6368;
+            font-size: 0.9rem;
+            margin: 0;
+          }
+          
+          /* Color indicators for the trip rows */
+          .trip-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
+          }
+  
+          /* Responsive adjustments */
+          @media (max-width: 768px) {
+            .header-content {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 1rem;
+            }
+            
+            .vehicle-info {
+              flex-direction: column;
+              gap: 0.8rem;
+              margin-top: 1rem;
+            }
+            
+            .info-grid, .stats-grid {
+              grid-template-columns: 1fr;
+            }
+            
+            .health-table {
+              display: block;
+              overflow-x: auto;
+            }
+            
+            .trip-details-container {
+              grid-template-columns: 1fr;
+            }
+          }
+
+
+
+
+
+
+          .vehicle-info-layout {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+          }
+        
+          .vehicle-image-container {
+            flex: 0 0 250px;
+            max-width: 250px;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+          }
+        
+          .vehicle-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        
+          .vehicle-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+          }
+        
+          .vehicle-placeholder i {
+            font-size: 4rem;
+          }
+        
+          .vehicle-details-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+          }
+        
+          .vehicle-detail {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 0.75rem;
+            border: 1px solid #e9e9e9;
+          }
+        
+          .detail-label {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+          }
+        
+          .detail-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333;
+          }
+        
+          .detail-value.highlight {
+            color: #3366FF;
+            font-weight: 600;
+          }
+        
+          @media (max-width: 768px) {
+            .vehicle-info-layout {
+              flex-direction: column;
+            }
+        
+            .vehicle-image-container {
+              max-width: 100%;
+              margin-bottom: 1rem;
+            }
+        
+            .vehicle-details-grid {
+              grid-template-columns: 1fr;
+            }
+          }

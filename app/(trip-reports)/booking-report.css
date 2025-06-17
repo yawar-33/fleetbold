@@ -1,0 +1,81 @@
+/* styles/pdf-print-styles.css */
+
+/* Estilos para optimizar la impresión PDF */
+@media print {
+    /* Asegura que el documento use toda la página */
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Oculta elementos que no necesitan estar en el PDF */
+    .download-button-container {
+      display: none !important;
+    }
+    
+    /* Asegura que los colores se impriman correctamente */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    /* Mejora la presentación de las tablas */
+    table {
+      page-break-inside: auto;
+    }
+    
+    tr {
+      page-break-inside: avoid;
+      page-break-after: auto;
+    }
+    
+    /* Evita que ciertos elementos se corten entre páginas */
+    .trip-header,
+    .trip-summary,
+    .vehicle-health,
+    .trip-conditions,
+    .toll-information {
+      page-break-inside: avoid;
+    }
+    
+    /* Asegura que se muestren los fondos de color */
+    .container,
+    .trip-header,
+    .trip-summary,
+    .trip-route,
+    .driving-behavior,
+    .vehicle-health,
+    .trip-conditions,
+    .toll-information,
+    .footer {
+      background-color: #ffffff !important;
+      print-color-adjust: exact !important;
+    }
+    
+    /* Mejora la presentación de las imágenes */
+    img {
+      max-width: 100% !important;
+    }
+    
+    /* Asegura que los elementos del mapa se renderizen correctamente */
+    .mapboxgl-canvas {
+      max-width: 100% !important;
+      height: auto !important;
+    }
+    
+    /* Fuerza los breaks de página después de secciones importantes */
+    .trip-route,
+    .driving-behavior {
+      page-break-after: always;
+    }
+  }
+  
+  /* Estilo para el botón de descarga visible solo en pantalla */
+  @media screen {
+    .download-button:hover {
+      background-color: #45a049 !important;
+    }
+  }
