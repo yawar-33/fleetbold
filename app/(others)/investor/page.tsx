@@ -1,4 +1,5 @@
 'use client';
+import NavbarAltV2 from '@/components/Navbar/NavbarAltV2';
 import React, { useState } from 'react';
 
 const InvestorPage = () => {
@@ -63,6 +64,7 @@ const InvestorPage = () => {
 
   return (
     <div className="investor-page">
+      <NavbarAltV2 />
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">

@@ -6,23 +6,24 @@ import { motion, useInView } from 'framer-motion';
 const ProcessBadge = () => {
     return (
         <>
-            <div className="flex justify-center mb-6 " id="how-it-works-section">
-                <div className=" bg-[#0C0C0F] rounded px-3 py-1 text-xs font-semibold flex items-center gap-1 select-none border border-[rgba(238,238,238,0.1)]">
-                    <img src="https://framerusercontent.com/images/D1xufro5jRUAjALx1V1rogtEfZA.png" alt="Testinomials" height={24} width={24} />
+            <div className="flex justify-center mb-4 sm:mb-6" id="how-it-works-section">
+                <div className="bg-[#0C0C0F] rounded px-3 py-1 text-xs font-semibold flex items-center gap-1 select-none border border-[rgba(238,238,238,0.1)]">
+                    <img src="https://framerusercontent.com/images/D1xufro5jRUAjALx1V1rogtEfZA.png" alt="Process" height={24} width={24} />
                     <span className="font-outfit text-[13px] font-medium leading-[1.8em] text-white/80 capitalize">
                         Process
                     </span>
                 </div>
             </div>
 
-            <section className="text-center max-w-xl mx-auto mb-12">
-                <h2 className="font-outfit font-[500] text-[45px] leading-tight12 tracking-normal text-center text-white no-underline">How It Works</h2>
-                <p className="font-outfit font-normal text-[18px] leading-relaxed15 tracking-normal text-center text-white/80 no-underline">
-                    Our Simple 3- Step Process
+            <section className="text-center max-w-xl mx-auto mb-8 sm:mb-12 px-4">
+                <h2 className="font-outfit font-[500] text-[28px] sm:text-[35px] lg:text-[45px] leading-tight tracking-normal text-center text-white no-underline mb-2 sm:mb-4">
+                    How It Works
+                </h2>
+                <p className="font-outfit font-normal text-[16px] sm:text-[18px] leading-relaxed tracking-normal text-center text-white/80 no-underline">
+                    Our Simple 3-Step Process
                 </p>
             </section>
         </>
-
     );
 };
 
@@ -31,7 +32,7 @@ const StepCard = ({ step, title, description, index }) => {
         <motion.div
             initial={{
                 opacity: 0,
-                y: 150,
+                y: 50,
                 willChange: 'transform'
             }}
             whileInView={{
@@ -41,28 +42,28 @@ const StepCard = ({ step, title, description, index }) => {
             viewport={{
                 once: true,
                 amount: 0.1,
-                margin: "100px"
+                margin: "50px"
             }}
             transition={{
                 type: "spring",
                 damping: 32,
                 stiffness: 496,
                 mass: 1,
-                delay: 0.2 + (index * 0.1)
+                delay: 0.1 + (index * 0.1)
             }}
-            className="relative"
+            className="relative w-full"
         >
             {/* Main Card Container */}
             <div
-                className="w-full rounded-lg h-full"
+                className="w-full rounded-lg h-full min-h-0"
                 style={{
                     backgroundColor: 'var(--token-1487e9ff-e7f3-4e6b-8871-b47a173be7cd, rgb(12, 12, 15))',
                     boxShadow: `
-            0px 0.7961918735236395px 2.3885756205709185px -0.625px rgba(0, 0, 0, 0.05),
-            0px 2.414506143104518px 7.2435184293135535px -1.25px rgba(0, 0, 0, 0.05),
-            0px 6.382653521484461px 19.147960564453385px -1.875px rgba(0, 0, 0, 0.05),
-            0px 20px 60px -2.5px rgba(0, 0, 0, 0.05)
-          `
+                        0px 0.8px 2.4px -0.6px rgba(0, 0, 0, 0.05),
+                        0px 2.4px 7.2px -1.3px rgba(0, 0, 0, 0.05),
+                        0px 6.4px 19.1px -1.9px rgba(0, 0, 0, 0.05),
+                        0px 20px 60px -2.5px rgba(0, 0, 0, 0.05)
+                    `
                 }}
             >
                 {/* Card Frame */}
@@ -70,20 +71,20 @@ const StepCard = ({ step, title, description, index }) => {
                     <div>
                         {/* Inner Card */}
                         <div
-                            className="p-8 rounded-lg"
+                            className="p-4 sm:p-6 lg:p-8 rounded-lg"
                             style={{
                                 boxShadow: `
-                  0px 0.7961918735236395px 2.3885756205709185px -0.625px rgba(0, 0, 0, 0.05),
-                  0px 2.414506143104518px 7.2435184293135535px -1.25px rgba(0, 0, 0, 0.05),
-                  0px 6.382653521484461px 19.147960564453385px -1.875px rgba(0, 0, 0, 0.05),
-                  0px 20px 60px -2.5px rgba(0, 0, 0, 0.05)
-                `
+                                    0px 0.8px 2.4px -0.6px rgba(0, 0, 0, 0.05),
+                                    0px 2.4px 7.2px -1.3px rgba(0, 0, 0, 0.05),
+                                    0px 6.4px 19.1px -1.9px rgba(0, 0, 0, 0.05),
+                                    0px 20px 60px -2.5px rgba(0, 0, 0, 0.05)
+                                `
                             }}
                         >
-                            {/* Counter SVG placeholder */}
-                            <div className="flex justify-center mb-6">
+                            {/* Counter SVG */}
+                            <div className="flex justify-center mb-4 sm:mb-6">
                                 <div
-                                    className="w-16 h-16 flex-shrink-0"
+                                    className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 flex-shrink-0"
                                     style={{
                                         imageRendering: 'pixelated',
                                         backgroundSize: '100% 100%',
@@ -94,25 +95,24 @@ const StepCard = ({ step, title, description, index }) => {
                             </div>
 
                             {/* Title */}
-                            <div className="flex flex-col justify-start flex-shrink-0 mb-4">
-                                <p
-                                    className="text-center"
+                            <div className="flex flex-col justify-start flex-shrink-0 mb-3 sm:mb-4">
+                                <h3
+                                    className="text-center break-words"
                                     style={{
                                         fontFamily: '"Outfit", "Outfit Placeholder", sans-serif',
-                                        fontSize: step === 2 ? '24px' : '25px',
+                                        fontSize: 'clamp(18px, 4vw, 25px)',
                                         fontWeight: '500',
-                                        color: 'rgb(255, 255, 255)'
+                                        color: 'rgb(255, 255, 255)',
+                                        lineHeight: '1.2'
                                     }}
                                 >
                                     {title}
-                                </p>
+                                </h3>
                             </div>
 
                             {/* Description */}
                             <div className="flex flex-col justify-start flex-shrink-0">
-                                <p
-                                    className="font-[300] text-[18px] leading-[1.4em] text-center text-white/70 font-outfit"
-                                >
+                                <p className="font-[300] text-[14px] sm:text-[16px] lg:text-[18px] leading-[1.4em] text-center text-white/70 font-outfit break-words">
                                     {description}
                                 </p>
                             </div>
@@ -120,7 +120,6 @@ const StepCard = ({ step, title, description, index }) => {
                     </div>
                 </div>
             </div>
-            
         </motion.div>
     );
 };
@@ -130,7 +129,7 @@ const HowItWorksSection = () => {
     const isInView = useInView(sectionRef, {
         once: true,
         amount: 0.1,
-        margin: "100px"
+        margin: "50px"
     });
 
     const steps = [
@@ -152,12 +151,11 @@ const HowItWorksSection = () => {
         <section
             id="how-it-works"
             ref={sectionRef}
-            className="py-20  overflow-hidden max-w-7xl mx-auto "
+            className="py-12 sm:py-16 lg:py-20 overflow-hidden w-full"
         >
-            
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                 {/* Header */}
-                <div className="text-center mb-16">
+                <div className="text-center mb-12 sm:mb-16">
                     {/* Badge */}
                     <motion.div
                         initial={{
@@ -173,24 +171,22 @@ const HowItWorksSection = () => {
                         viewport={{
                             once: true,
                             amount: 0.1,
-                            margin: "100px"
+                            margin: "50px"
                         }}
                         transition={{
                             type: "spring",
                             damping: 32,
                             stiffness: 496,
                             mass: 1,
-                            delay: 0.2
+                            delay: 0.1
                         }}
                     >
                         <ProcessBadge />
                     </motion.div>
-
-
                 </div>
 
                 {/* Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto w-full">
                     {steps.map((step, index) => (
                         <StepCard
                             key={index}

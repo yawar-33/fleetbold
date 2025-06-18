@@ -46,53 +46,53 @@ const MemberShipBenefitsCard = () => {
   ];
 
   return (
-   <>
-   <MembershipHeader />
-    <div className="w-full max-w-7xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {features.map((feature, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 50 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{
-              delay: index * 0.1,
-              duration: 0.6,
-              ease: "easeOut"
-            }}
-            className="relative group"
-          >
-            <motion.div 
-              className="relative p-8 rounded-2xl border border-white/10 bg-black/40 shadow-2xl"
-             
-              transition={{ duration: 0.3 }}
+    <div className="w-full overflow-hidden">
+      <MembershipHeader />
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{
+                delay: index * 0.1,
+                duration: 0.6,
+                ease: "easeOut"
+              }}
+              className="relative group w-full"
             >
-              <div className="flex justify-center  " />
-              
-              <div className="w-24 h-24 mb-6 m-auto flex items-center justify-center relative z-10">
-                <LottieAnimation
-                  src={feature.src}
-                  className="w-24 h-24"
-                />
-              </div>
+              <motion.div 
+                className="relative p-6 sm:p-8 rounded-2xl border border-white/10 bg-black/40 shadow-2xl w-full min-h-0"
+                transition={{ duration: 0.3 }}
+              >
+                {/* Lottie Animation Container */}
+                <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 sm:mb-6 mx-auto flex items-center justify-center relative z-10 flex-shrink-0">
+                  <LottieAnimation
+                    src={feature.src}
+                    className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
+                  />
+                </div>
 
-              <div className="relative z-10">
-                <h3 className="text-xl font-semibold mb-3 text-white text-center">
-                  {feature.title}
-                </h3>
-                
-                <p className="text-gray-300 text-sm leading-relaxed text-center ">
-                  {feature.description}
-                </p>
-              </div>
+                {/* Content */}
+                <div className="relative z-10 w-full">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-white text-center break-words">
+                    {feature.title}
+                  </h3>
+                  
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed text-center break-words hyphens-auto">
+                    {feature.description}
+                  </p>
+                </div>
 
-              <div className="absolute -inset-px bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                {/* Hover gradient effect */}
+                <div className="absolute -inset-px bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+              </motion.div>
             </motion.div>
-          </motion.div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
-   </>
   );
 };
 

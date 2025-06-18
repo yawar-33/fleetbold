@@ -127,7 +127,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} dark`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} dark min-w-fit`}>
         <CustomCursor />
         <GoogleTagManager />
       

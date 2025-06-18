@@ -1,6 +1,49 @@
-import React from "react";
+'use client';
+import React, { useState, useEffect } from "react";
 
 const NavbarAltV2 = () => {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsMobile(window.innerWidth <= 768);
+            if (window.innerWidth > 768) {
+                setIsMobileMenuOpen(false);
+            }
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    const closeMobileMenu = () => {
+        setIsMobileMenuOpen(false);
+    };
+
+    const handleContactClick = () => {
+        const section = document.getElementById("contact-us-section");
+        if (section) {
+            section.scrollIntoView({ behavior: "smooth" });
+        }
+        closeMobileMenu();
+    };
+
+    const handleNavClick = (href: string) => {
+        if (href.startsWith('#')) {
+            const element = document.getElementById(href.substring(1));
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+        closeMobileMenu();
+    };
+
     return (
         <div className="navbar-container">
             <nav className="navbar">
@@ -11,6 +54,7 @@ const NavbarAltV2 = () => {
                             href="#hero" 
                             className="logo-container"
                             aria-label="FleetBold Home"
+                            onClick={() => handleNavClick('#hero')}
                         >
                             <div className="logo-wrapper">
                                 <img 
@@ -21,51 +65,176 @@ const NavbarAltV2 = () => {
                             </div>
                         </a>
 
-                        {/* Separator */}
-                        <div className="nav-separator"></div>
+                        {/* Desktop Navigation */}
+                        {!isMobile && (
+                            <>
+                                {/* Separator */}
+                                <div className="nav-separator"></div>
 
-                        {/* Navigation Links */}
-                        <div className="nav-links">
-                            <a  href="#services" className="nav-link">
-                                Features
-                            </a>
-                            <a 
-                                href="https://blog.fleetbold.com/" 
-                                target="_blank" 
-                                rel="noopener" 
-                                className="nav-link"
+                                {/* Navigation Links */}
+                                <div className="nav-links">
+                                    <a 
+                                        href="#services" 
+                                        className="nav-link"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleNavClick('#services');
+                                        }}
+                                    >
+                                        Features
+                                    </a>
+                                    <a 
+                                        href="https://blog.fleetbold.com/" 
+                                        target="_blank" 
+                                        rel="noopener" 
+                                        className="nav-link"
+                                    >
+                                        Our Blog
+                                    </a>
+                                    <a 
+                                        href="#how-it-works-section" 
+                                        className="nav-link"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleNavClick('#how-it-works-section');
+                                        }}
+                                    >
+                                        How it Works
+                                    </a>
+                                    <a 
+                                        href="#testinomials-section"
+                                        className="nav-link nav-link-active"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleNavClick('#testinomials-section');
+                                        }}
+                                    >
+                                        Testimonials
+                                    </a>
+                                    <a 
+                                        href="#faq-section" 
+                                        className="nav-link"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleNavClick('#faq-section');
+                                        }}
+                                    >
+                                        FAQs
+                                    </a>
+                                    <a 
+                                        href="#pricing-section"
+                                        className="nav-link"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleNavClick('#pricing-section');
+                                        }}
+                                    >
+                                        Pricing
+                                    </a>
+                                </div>
+
+                                {/* Contact Button */}
+                                <div className="contact-button-container">
+                                    <button onClick={handleContactClick} className="contact-button">
+                                        <span className="contact-button-text">
+                                            Contact Us
+                                        </span>
+                                    </button>
+                                </div>
+                            </>
+                        )}
+
+                        {/* Mobile Menu Toggle */}
+                        {isMobile && (
+                            <button 
+                                className="mobile-menu-toggle" 
+                                onClick={toggleMobileMenu}
+                                aria-label="Toggle mobile menu"
                             >
-                                Our Blog
-                            </a>
-                            <a href="#how-it-works-section"  className="nav-link">
-                                How it Works
-                            </a>
-                            <a href="#testinomials-section"className="nav-link nav-link-active">
-                                Testimonials
-                            </a>
-                            <a href="#faq-section" className="nav-link">
-                                FAQs
-                            </a>
-                            <a href="#pricing-section"className="nav-link">
-                                Pricing
-                            </a>
-                        </div>
-
-                        {/* Contact Button */}
-                        <div className="contact-button-container">
-                            <a href="#contact" className="contact-button" onClick={() => {
-						const section = document.getElementById("contact-us-section");
-						if (section) {
-							section.scrollIntoView({ behavior: "smooth" });
-						}
-					}}>
-                                <span className="contact-button-text">
-                                    Contact Us
-                                </span>
-                            </a>
-                        </div>
+                                <div className={`hamburger-line ${isMobileMenuOpen ? 'active' : ''}`}></div>
+                                <div className={`hamburger-line ${isMobileMenuOpen ? 'active' : ''}`}></div>
+                                <div className={`hamburger-line ${isMobileMenuOpen ? 'active' : ''}`}></div>
+                            </button>
+                        )}
                     </div>
                 </div>
+
+                {/* Mobile Menu Overlay */}
+                {isMobile && (
+                    <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
+                        <div className="mobile-menu-content">
+                            <div className="mobile-nav-links">
+                                <a 
+                                    href="#services" 
+                                    className="mobile-nav-link"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleNavClick('#services');
+                                    }}
+                                >
+                                    Features
+                                </a>
+                                <a 
+                                    href="https://blog.fleetbold.com/" 
+                                    target="_blank" 
+                                    rel="noopener" 
+                                    className="mobile-nav-link"
+                                    onClick={closeMobileMenu}
+                                >
+                                    Our Blog
+                                </a>
+                                <a 
+                                    href="#how-it-works-section" 
+                                    className="mobile-nav-link"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleNavClick('#how-it-works-section');
+                                    }}
+                                >
+                                    How it Works
+                                </a>
+                                <a 
+                                    href="#testinomials-section"
+                                    className="mobile-nav-link mobile-nav-link-active"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleNavClick('#testinomials-section');
+                                    }}
+                                >
+                                    Testimonials
+                                </a>
+                                <a 
+                                    href="#faq-section" 
+                                    className="mobile-nav-link"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleNavClick('#faq-section');
+                                    }}
+                                >
+                                    FAQs
+                                </a>
+                                <a 
+                                    href="#pricing-section"
+                                    className="mobile-nav-link"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleNavClick('#pricing-section');
+                                    }}
+                                >
+                                    Pricing
+                                </a>
+                            </div>
+
+                            <div className="mobile-contact-section">
+                                <button onClick={handleContactClick} className="mobile-contact-button">
+                                    <span className="mobile-contact-button-text">
+                                        Contact Us
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </nav>
 
             <style jsx>{`
@@ -242,12 +411,158 @@ const NavbarAltV2 = () => {
                     font-weight: 400;
                 }
 
+                /* Mobile Menu Toggle */
+                .mobile-menu-toggle {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    width: 32px;
+                    height: 32px;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    margin-left: auto;
+                    padding: 4px;
+                    transition: all 0.3s ease;
+                }
+
+                .hamburger-line {
+                    width: 20px;
+                    height: 2px;
+                    background-color: rgb(255, 255, 255);
+                    margin: 2px 0;
+                    transition: all 0.3s ease;
+                    transform-origin: center;
+                }
+
+                .mobile-menu-toggle .hamburger-line:nth-child(1).active {
+                    transform: rotate(45deg) translate(6px, 6px);
+                }
+
+                .mobile-menu-toggle .hamburger-line:nth-child(2).active {
+                    opacity: 0;
+                }
+
+                .mobile-menu-toggle .hamburger-line:nth-child(3).active {
+                    transform: rotate(-45deg) translate(6px, -6px);
+                }
+
+                /* Mobile Menu Overlay */
+                .mobile-menu-overlay {
+                    position: fixed;
+                    top: 80px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: calc(100% - 32px);
+                    max-width: 400px;
+                    background-color: rgba(13, 13, 13, 0.95);
+                    backdrop-filter: blur(20px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 12px;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: all 0.3s ease;
+                    z-index: 40;
+                }
+
+                .mobile-menu-overlay.open {
+                    opacity: 1;
+                    visibility: visible;
+                }
+
+                .mobile-menu-content {
+                    padding: 24px;
+                }
+
+                .mobile-nav-links {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                    margin-bottom: 24px;
+                }
+
+                .mobile-nav-link {
+                    color: rgb(255, 255, 255);
+                    text-decoration: none;
+                    font-family: "Outfit", "Outfit Placeholder", sans-serif;
+                    font-size: 16px;
+                    font-weight: 400;
+                    padding: 12px 16px;
+                    border-radius: 8px;
+                    transition: all 0.2s ease;
+                    border: 1px solid transparent;
+                }
+
+                .mobile-nav-link:hover {
+                    background-color: rgba(255, 255, 255, 0.1);
+                    border-color: rgba(255, 255, 255, 0.2);
+                }
+
+                .mobile-nav-link-active {
+                    background-color: rgba(255, 255, 255, 0.15);
+                    border-color: rgba(255, 255, 255, 0.3);
+                }
+
+                .mobile-contact-section {
+                    border-top: 1px solid rgba(255, 255, 255, 0.1);
+                    padding-top: 20px;
+                    text-align: center;
+                }
+
+                .mobile-contact-button {
+                    border: 1px solid rgba(255, 255, 255, 0.5);
+                    background: linear-gradient(259deg, rgb(36, 36, 36) 0%, rgb(16, 16, 16) 100%);
+                    border-radius: 8px;
+                    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 0px;
+                    cursor: pointer;
+                    padding: 12px 24px;
+                    transition: all 0.2s ease;
+                    width: 100%;
+                }
+
+                .mobile-contact-button:hover {
+                    box-shadow: rgba(255, 255, 255, 0.3) 0px 0px 8px 0px;
+                    border-color: rgba(255, 255, 255, 0.7);
+                }
+
+                .mobile-contact-button-text {
+                    color: rgb(255, 255, 255);
+                    font-family: "Outfit", "Outfit Placeholder", sans-serif;
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+
+                /* Desktop Responsiveness */
+                @media (min-width: 769px) {
+                    .navbar-container {
+                        margin-top: 16px;
+                    }
+                }
+
                 /* Mobile Responsiveness */
                 @media (max-width: 768px) {
                     .navbar-container {
-                        margin-top: 4px;
+                        margin-top: 8px;
                         width: calc(100% - 16px);
                         max-width: 100%;
+                    }
+
+                    .nav-content {
+                        padding: 0 16px;
+                        height: 48px;
+                        justify-content: space-between;
+                    }
+
+                    .mobile-menu-overlay {
+                        top: 64px;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .navbar-container {
+                        margin-top: 4px;
+                        width: calc(100% - 8px);
                     }
 
                     .nav-content {
@@ -255,58 +570,22 @@ const NavbarAltV2 = () => {
                         height: 44px;
                     }
 
-                    .nav-links {
-                        gap: 16px;
-                        overflow-x: auto;
-                        scrollbar-width: none;
-                        -ms-overflow-style: none;
+                    .mobile-menu-overlay {
+                        top: 60px;
+                        width: calc(100% - 16px);
                     }
 
-                    .nav-links::-webkit-scrollbar {
-                        display: none;
+                    .mobile-menu-content {
+                        padding: 20px;
                     }
 
-                    .nav-separator {
-                        margin: 0 12px;
-                    }
-
-                    .contact-button-container {
-                        margin-left: 12px;
-                    }
-
-                    .nav-link {
-                        font-size: 13px;
-                        white-space: nowrap;
-                    }
-
-                    .contact-button-text {
-                        font-size: 13px;
-                    }
-                }
-
-                @media (max-width: 640px) {
-                    .nav-links {
+                    .mobile-nav-links {
                         gap: 12px;
                     }
 
-                    .nav-separator {
-                        margin: 0 8px;
-                    }
-
-                    .contact-button-container {
-                        margin-left: 8px;
-                    }
-
-                    .nav-link {
-                        font-size: 12px;
-                    }
-
-                    .contact-button {
-                        padding: 3px 7px;
-                    }
-
-                    .contact-button-text {
-                        font-size: 12px;
+                    .mobile-nav-link {
+                        font-size: 15px;
+                        padding: 10px 14px;
                     }
                 }
             `}</style>
