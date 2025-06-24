@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 const NavbarAltV2 = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [activeSection, setActiveSection] = useState('');
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -16,6 +17,38 @@ const NavbarAltV2 = () => {
         checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
         return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = ['hero', 'services', 'how-it-works-section', 'testinomials-section', 'faq-section', 'pricing-section'];
+            const scrollPosition = window.scrollY + 100;
+
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const element = document.getElementById(sections[i]);
+                if (element && element.offsetTop <= scrollPosition) {
+                    setActiveSection(sections[i]);
+                    break;
+                }
+            }
+        };
+
+        // Only add scroll listener if we're on a page with sections
+        const hasSections = document.getElementById('hero') || 
+                           document.getElementById('services') || 
+                           document.getElementById('how-it-works-section') ||
+                           document.getElementById('testinomials-section') ||
+                           document.getElementById('faq-section') ||
+                           document.getElementById('pricing-section');
+
+        if (hasSections) {
+            window.addEventListener('scroll', handleScroll);
+            handleScroll(); // Check initial position
+        } else {
+            setActiveSection(''); // Clear active section if no sections exist
+        }
+
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const toggleMobileMenu = () => {
@@ -42,6 +75,10 @@ const NavbarAltV2 = () => {
             }
         }
         closeMobileMenu();
+    };
+
+    const isActive = (sectionId: string) => {
+        return activeSection === sectionId;
     };
 
     return (
@@ -75,7 +112,7 @@ const NavbarAltV2 = () => {
                                 <div className="nav-links">
                                     <a 
                                         href="#services" 
-                                        className="nav-link"
+                                        className={`nav-link ${isActive('services') ? 'nav-link-active' : ''}`}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             handleNavClick('#services');
@@ -93,7 +130,7 @@ const NavbarAltV2 = () => {
                                     </a>
                                     <a 
                                         href="#how-it-works-section" 
-                                        className="nav-link"
+                                        className={`nav-link ${isActive('how-it-works-section') ? 'nav-link-active' : ''}`}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             handleNavClick('#how-it-works-section');
@@ -103,7 +140,7 @@ const NavbarAltV2 = () => {
                                     </a>
                                     <a 
                                         href="#testinomials-section"
-                                        className="nav-link nav-link-active"
+                                        className={`nav-link ${isActive('testinomials-section') ? 'nav-link-active' : ''}`}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             handleNavClick('#testinomials-section');
@@ -113,7 +150,7 @@ const NavbarAltV2 = () => {
                                     </a>
                                     <a 
                                         href="#faq-section" 
-                                        className="nav-link"
+                                        className={`nav-link ${isActive('faq-section') ? 'nav-link-active' : ''}`}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             handleNavClick('#faq-section');
@@ -123,7 +160,7 @@ const NavbarAltV2 = () => {
                                     </a>
                                     <a 
                                         href="#pricing-section"
-                                        className="nav-link"
+                                        className={`nav-link ${isActive('pricing-section') ? 'nav-link-active' : ''}`}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             handleNavClick('#pricing-section');
@@ -166,7 +203,7 @@ const NavbarAltV2 = () => {
                             <div className="mobile-nav-links">
                                 <a 
                                     href="#services" 
-                                    className="mobile-nav-link"
+                                    className={`mobile-nav-link ${isActive('services') ? 'mobile-nav-link-active' : ''}`}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         handleNavClick('#services');
@@ -185,7 +222,7 @@ const NavbarAltV2 = () => {
                                 </a>
                                 <a 
                                     href="#how-it-works-section" 
-                                    className="mobile-nav-link"
+                                    className={`mobile-nav-link ${isActive('how-it-works-section') ? 'mobile-nav-link-active' : ''}`}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         handleNavClick('#how-it-works-section');
@@ -195,7 +232,7 @@ const NavbarAltV2 = () => {
                                 </a>
                                 <a 
                                     href="#testinomials-section"
-                                    className="mobile-nav-link mobile-nav-link-active"
+                                    className={`mobile-nav-link ${isActive('testinomials-section') ? 'mobile-nav-link-active' : ''}`}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         handleNavClick('#testinomials-section');
@@ -205,7 +242,7 @@ const NavbarAltV2 = () => {
                                 </a>
                                 <a 
                                     href="#faq-section" 
-                                    className="mobile-nav-link"
+                                    className={`mobile-nav-link ${isActive('faq-section') ? 'mobile-nav-link-active' : ''}`}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         handleNavClick('#faq-section');
@@ -215,7 +252,7 @@ const NavbarAltV2 = () => {
                                 </a>
                                 <a 
                                     href="#pricing-section"
-                                    className="mobile-nav-link"
+                                    className={`mobile-nav-link ${isActive('pricing-section') ? 'mobile-nav-link-active' : ''}`}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         handleNavClick('#pricing-section');

@@ -332,10 +332,7 @@ const CareersPage = () => {
           font-size: 48px;
           font-weight: 700;
           margin: 0 0 24px;
-          background: linear-gradient(135deg, rgb(255, 255, 255) 0%, #0086FF 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
+        color:blue;
         }
 
         .hero-description {

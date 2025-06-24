@@ -1,4 +1,5 @@
 'use client';
+import Footer from '@/components/Footer/Footer';
 import NavbarAltV2 from '@/components/Navbar/NavbarAltV2';
 import React, { useState } from 'react';
 
@@ -424,6 +425,7 @@ const InvestorPage = () => {
             </div>
           </form>
         </div>
+        <Footer />
       </section>
 
       <style jsx>{`
