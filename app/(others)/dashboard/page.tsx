@@ -27,7 +27,7 @@ const Header = ({ onMenuToggle, sidebarOpen }) => {
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">FleetBold</h1>
         </div>
 
-        <div className="flex-1 max-w-lg mx-4">
+        {/* <div className="flex-1 max-w-lg mx-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
             <input
@@ -36,7 +36,7 @@ const Header = ({ onMenuToggle, sidebarOpen }) => {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
-        </div>
+        </div> */}
 
         <div className="flex items-center space-x-4">
           <button className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 relative">
@@ -78,7 +78,7 @@ const Sidebar = ({ isOpen, onClose, activeItem, setActiveItem }) => {
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3, href: '/dashboard' },
-    { id: 'vehicles', label: 'Vehicles', icon: Car, href: '/vehicles' },
+    { id: 'vehicles', label: 'Membership Benefits', icon: Settings, href: '/membershipBenefits' },
     { id: 'tracking', label: 'Live Tracking', icon: Map, href: '/tracking' },
     { id: 'drivers', label: 'Drivers', icon: Users, href: '/drivers' },
     { id: 'reports', label: 'Reports', icon: FileText, href: '/reports' },
@@ -192,12 +192,12 @@ const ProtectedLayout = ({ children }) => {
   useEffect(() => {
     const path = window.location.pathname;
     if (path.includes('/dashboard')) setActiveMenuItem('dashboard');
-    else if (path.includes('/vehicles')) setActiveMenuItem('vehicles');
-    else if (path.includes('/tracking')) setActiveMenuItem('tracking');
-    else if (path.includes('/drivers')) setActiveMenuItem('drivers');
-    else if (path.includes('/reports')) setActiveMenuItem('reports');
-    else if (path.includes('/schedule')) setActiveMenuItem('schedule');
-    else if (path.includes('/settings')) setActiveMenuItem('settings');
+    else if (path.includes('/membershipBenefits')) setActiveMenuItem('vehicles');
+    // else if (path.includes('/tracking')) setActiveMenuItem('tracking');
+    // else if (path.includes('/drivers')) setActiveMenuItem('drivers');
+    // else if (path.includes('/reports')) setActiveMenuItem('reports');
+    // else if (path.includes('/schedule')) setActiveMenuItem('schedule');
+    // else if (path.includes('/settings')) setActiveMenuItem('settings');
   }, []);
 
   const toggleSidebar = () => {

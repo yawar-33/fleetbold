@@ -1,25 +1,27 @@
 'use client'
 import React, { useState } from 'react';
-import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock ,User} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-const LoginPage = ({ onLogin }) => {
+const SignupPage = ({ onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+    username:'',
     email: '',
-    password: ''
+    password: '',
+    role:''
   });
 const route = useRouter()
   const handleSubmit = (e) => {
     e.preventDefault();
     // Simple validation - in real app, you'd validate against backend
     if (formData.email && formData.password) {
-      route.push('/membershipBenefits'); // Redirect to dashboard on successful login
+      route.push('/membershipBenefits'); // Redirect to membershipbenefits page on successful login
     }
   };
-   const handleSignup = (e) => {
+   const handleSignIn = (e) => {
    
-      route.push('/signup'); // Redirect to dashboard on successful login
+      route.push('/login'); // Redirect to login 
   };
 
   const handleChange = (e) => {
@@ -34,13 +36,32 @@ const route = useRouter()
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">FleetBold</h1>
-          <p className="text-gray-600 dark:text-gray-400">Sign in to your account</p>
+          <p className="text-gray-600 dark:text-gray-400">Create New Account</p>
         </div>
         
          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
  <form>
           <div className="space-y-6">
     
+ <div>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              User Name
+              </label>
+              <div className="relative">
+                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <input
+                  id="username"
+                  name="username"
+                  type="email"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  placeholder="Enter your name"
+                  required
+                />
+              </div>
+            </div>
+ 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email Address
@@ -85,39 +106,39 @@ const route = useRouter()
                 </button>
               </div>
             </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
+<div>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Role
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  id="role"
+                  name="role"
+                  type="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  placeholder="Enter your role"
+                  required
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Remember me
-                </label>
               </div>
-              <a href="#" className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                Forgot password?
-              </a>
             </div>
-
             <button
               type="button"
               onClick={handleSubmit}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
             >
-              Sign In
+              Sign Up
             </button>
             </div>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Don't have an account?{' '}
-              <a  className="text-blue-600 dark:text-blue-400 hover:underline font-medium" onClick={handleSignup}>
-                Sign up
+              Already have an account?{' '}
+              <a  className="text-blue-600 dark:text-blue-400 hover:underline font-medium" onClick={handleSignIn}>
+                Sign In
               </a>
             </p>
           </div>
@@ -126,4 +147,4 @@ const route = useRouter()
     </div>
   );
 };
-export default LoginPage
+export default SignupPage

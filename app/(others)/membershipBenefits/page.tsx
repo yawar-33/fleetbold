@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Menu, Bell, Search, User, Settings, LogOut, Car, BarChart3, Map, Users, FileText, Calendar } from 'lucide-react';
+import MembershipBenefitContent from '../protected/membershipBenefits/page';
 
 const Header = ({ onMenuToggle, sidebarOpen }) => {
   const router = useRouter();
@@ -51,7 +52,6 @@ const Header = ({ onMenuToggle, sidebarOpen }) => {
               <span className="hidden md:block text-sm font-medium">John Doe</span>
             </button>
             
-            {/* Dropdown menu */}
             <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
               <a href="#" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                 Profile
@@ -77,13 +77,13 @@ const Sidebar = ({ isOpen, onClose, activeItem, setActiveItem }) => {
   const router = useRouter();
 
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: BarChart3, href: '/dashboard' },
-    { id: 'vehicles', label: 'Vehicles', icon: Car, href: '/vehicles' },
-    { id: 'tracking', label: 'Live Tracking', icon: Map, href: '/tracking' },
-    { id: 'drivers', label: 'Drivers', icon: Users, href: '/drivers' },
-    { id: 'reports', label: 'Reports', icon: FileText, href: '/reports' },
-    { id: 'schedule', label: 'Schedule', icon: Calendar, href: '/schedule' },
-    { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
+    // { id: 'dashboard', label: 'Dashboard', icon: BarChart3, href: '/dashboard' },
+    { id: 'vehicles', label: 'Membership Benefits', icon: Settings, href: '/membershipBenefits' },
+    // { id: 'tracking', label: 'Live Tracking', icon: Map, href: '/tracking' },
+    // { id: 'drivers', label: 'Drivers', icon: Users, href: '/drivers' },
+    // { id: 'reports', label: 'Reports', icon: FileText, href: '/reports' },
+    // { id: 'schedule', label: 'Schedule', icon: Calendar, href: '/schedule' },
+    // { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
   ];
 
   const handleNavigation = (item) => {
@@ -159,23 +159,21 @@ const Sidebar = ({ isOpen, onClose, activeItem, setActiveItem }) => {
 };
 
 const ProtectedLayout = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
   const router = useRouter();
 
-  // Authentication check
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Check if user has valid auth token
         const token = localStorage.getItem('authToken');
         
-        if (!token) {
-          router.push('/login');
-          return;
-        }
+        // if (!token) {
+        //   router.push('/login');
+        //   return;
+        // }
 
       
         setIsAuthenticated(true);
@@ -194,12 +192,12 @@ const ProtectedLayout = ({ children }) => {
   useEffect(() => {
     const path = window.location.pathname;
     if (path.includes('/dashboard')) setActiveMenuItem('dashboard');
-    else if (path.includes('/vehicles')) setActiveMenuItem('vehicles');
-    else if (path.includes('/tracking')) setActiveMenuItem('tracking');
-    else if (path.includes('/drivers')) setActiveMenuItem('drivers');
-    else if (path.includes('/reports')) setActiveMenuItem('reports');
-    else if (path.includes('/schedule')) setActiveMenuItem('schedule');
-    else if (path.includes('/settings')) setActiveMenuItem('settings');
+    else if (path.includes('/membershipBenefits')) setActiveMenuItem('vehicles');
+    // else if (path.includes('/tracking')) setActiveMenuItem('tracking');
+    // else if (path.includes('/drivers')) setActiveMenuItem('drivers');
+    // else if (path.includes('/reports')) setActiveMenuItem('reports');
+    // else if (path.includes('/schedule')) setActiveMenuItem('schedule');
+    // else if (path.includes('/settings')) setActiveMenuItem('settings');
   }, []);
 
   const toggleSidebar = () => {
@@ -233,7 +231,6 @@ const ProtectedLayout = ({ children }) => {
     );
   }
 
-  // Authenticated - show the protected layout
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Header onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
@@ -245,7 +242,7 @@ const ProtectedLayout = ({ children }) => {
           setActiveItem={setActiveMenuItem}
         />
         <main className="flex-1 lg:ml-0">
-          {children}
+         <MembershipBenefitContent/>
         </main>
       </div>
     </div>
