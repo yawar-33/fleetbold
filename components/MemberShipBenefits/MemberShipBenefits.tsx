@@ -4,13 +4,48 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import LottieAnimation from './LottieAnimation';
 import MembershipHeader from './MembershipHeader';
-
+import axios from 'axios';
 const MemberShipBenefitsCard = () => {
+  const url = process.env.NEXT_PUBLIC_APP_URL
   const [isVisible, setIsVisible] = useState(false);
-
+  const [benefitsList, setBenefitsList] = useState([]);
   useEffect(() => {
     setIsVisible(true);
+    getData()
   }, []);
+  const token = localStorage.getItem('authToken');
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+      // access_Token: `${token}`,
+      Accept: "*/*",
+    },
+  };
+  const getData = async () => {
+    axios
+      .get(`${url}/services/getlist`, options)
+      .then((res) => {
+        setBenefitsList(res.data.data)
+      }).catch((error) => {
+        // toast({
+        //   title: "error:",
+        //   description:
+        //     error.message
+        // });
+      })
+
+  };
+
+  const convertToJson = (icon) => {
+    const json = atob(icon); // decode base64
+    try {
+      const data = JSON.parse(json);
+      console.log('data', data)
+      return data
+    } catch (err) {
+      console.error("Invalid base64 Lottie JSON:", err);
+    }
+  }
 
   const features = [
     {
@@ -50,7 +85,10 @@ const MemberShipBenefitsCard = () => {
       <MembershipHeader />
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
-          {features.map((feature, index) => (
+          {benefitsList.map((feature, index) =>
+
+          (
+
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -62,14 +100,19 @@ const MemberShipBenefitsCard = () => {
               }}
               className="relative group w-full"
             >
-              <motion.div 
+              <motion.div
                 className="relative p-6 sm:p-8 rounded-2xl border border-white/10 bg-black/40 shadow-2xl w-full min-h-0"
                 transition={{ duration: 0.3 }}
               >
                 {/* Lottie Animation Container */}
                 <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 sm:mb-6 mx-auto flex items-center justify-center relative z-10 flex-shrink-0">
-                  <LottieAnimation
-                    src={feature.src}
+                  {/* <LottieAnimation
+                    src={()=>convertToJson(feature.icon)}
+                    className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
+                  /> */}
+                  <img
+                    src={`data:image/png;base64,${feature.icon}`}
+                    alt="Feature Icon"
                     className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
                   />
                 </div>
@@ -79,7 +122,7 @@ const MemberShipBenefitsCard = () => {
                   <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-white text-center break-words">
                     {feature.title}
                   </h3>
-                  
+
                   <p className="text-gray-300 text-sm sm:text-base leading-relaxed text-center break-words hyphens-auto">
                     {feature.description}
                   </p>

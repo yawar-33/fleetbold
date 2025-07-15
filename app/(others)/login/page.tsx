@@ -2,19 +2,56 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+
+import { useToast } from "@/hooks/use-toast";
 
 const LoginPage = ({ onLogin }) => {
+   const { toast } = useToast()
+const url=process.env.NEXT_PUBLIC_APP_URL
+  console.log('url',url)
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: ''
   });
 const route = useRouter()
   const handleSubmit = (e) => {
     e.preventDefault();
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+        //Authorization: "Bearer " + TOKEN(),
+        Accept: "*/*",
+        // 'Access-Control-Allow-Headers': '*',
+        // 'Access-Control-Allow-Origin': '*',
+      },
+      // responseType: "blob",
+    };
     // Simple validation - in real app, you'd validate against backend
-    if (formData.email && formData.password) {
-      route.push('/membershipBenefits'); // Redirect to dashboard on successful login
+    if (formData.username && formData.password) {
+       axios
+      .post(`${url}/auth/signin`, formData, options)
+          .then((res) => {
+            console.log('response1',res.data)
+            
+            localStorage.setItem('authToken', res.data.accessToken)
+            route.push('/membershipBenefits')
+            toast({
+                  title: "Success:",
+                  description:
+                    "Login Successfully",
+                });
+            //  toaster('Login Successfully', "success")
+          }).catch((error)=>{
+             
+                toast({
+                  title: "Error:",
+                  description:
+                    error.message,
+                });
+              
+          })
     }
   };
    const handleSignup = (e) => {
@@ -42,19 +79,19 @@ const route = useRouter()
           <div className="space-y-6">
     
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email Address
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
+                  id="username"
+                  name="username"
+                  type="username"
+                  value={formData.username}
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-                  placeholder="Enter your email"
+                  placeholder="Enter your name"
                   required
                 />
               </div>
