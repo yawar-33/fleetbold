@@ -1,4 +1,4 @@
-import toaster from '@/components/toaster/toaster';
+"use client"
 import { useToast } from '@/hooks/use-toast';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
@@ -107,7 +107,7 @@ const MembershipBenefitContent = () => {
           toast({
             title: "error:",
             description:
-              error.message,
+              error.response.data.message,
           });
         })
 
@@ -139,7 +139,7 @@ const MembershipBenefitContent = () => {
           toast({
             title: "error:",
             description:
-              error.message,
+              error.response.data.message,
           });
         })
 
@@ -160,7 +160,7 @@ const MembershipBenefitContent = () => {
         toast({
           title: "error:",
           description:
-            error.message
+           error.response.data.message
         });
       })
   };
@@ -173,7 +173,7 @@ const MembershipBenefitContent = () => {
         toast({
           title: "error:",
           description:
-            error.message
+           error.response.data.message
         });
       })
 

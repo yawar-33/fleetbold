@@ -1,21 +1,22 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock ,User} from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { callPublicApi } from '@/components/callApiMethod/callApi';
 import { useToast } from '@/hooks/use-toast';
+import { callPublicApi } from '@/components/callApiMethod/callAPI';
 
 const SignupPage = ({ onLogin }) => {
    const { toast } = useToast()
   const url=process.env.NEXT_PUBLIC_APP_URL
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({
     username:'',
     email: '',
     password: '',
     role:''
   });
 const route = useRouter()
+  
   const handleSubmit = async(e) => {
     e.preventDefault();
     // Simple validation - in real app, you'd validate against backend
@@ -24,17 +25,7 @@ const route = useRouter()
        e.preventDefault();
         callPublicApi('auth/signup', 'post',formData)
           .then((res) => {
-            console.log('response',res)
-          })
-   
-       // Redirect to membershipbenefits page on successful login
-    }
-
-    if (formData.email && formData.password) {
-       e.preventDefault();
-        callPublicApi('auth/signin','post',formData).then((res) => {
-            console.log('response',res)
-            if(res){
+              if(res){
                toast({
                   title: "Success:",
                   description:
@@ -43,9 +34,13 @@ const route = useRouter()
                route.push('/login')
             }
           })
+   
        // Redirect to membershipbenefits page on successful login
     }
+
   };
+   
+   
    const handleSignIn = async(e) => {
     
       route.push('/login'); // Redirect to login 
@@ -174,5 +169,5 @@ const route = useRouter()
       </div>
     </div>
   );
-};
+}
 export default SignupPage

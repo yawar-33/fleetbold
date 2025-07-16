@@ -13,11 +13,9 @@ const MemberShipBenefitsCard = () => {
     setIsVisible(true);
     getData()
   }, []);
-  const token = localStorage.getItem('authToken');
   const options = {
     headers: {
       "Content-Type": "application/json",
-      // access_Token: `${token}`,
       Accept: "*/*",
     },
   };

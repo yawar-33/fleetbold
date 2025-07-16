@@ -1,7 +1,7 @@
 import axios from "axios";
 import toaster from "../toaster/toaster";
 // import Store from "../store";
-const url=process.env.APP_URL
+const url=process.env.NEXT_PUBLIC_APP_URL
 const callApi = (endpoint, method, payload, loginToken) => {
   let token;
   if (loginToken) {
