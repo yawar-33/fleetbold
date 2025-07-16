@@ -19,33 +19,7 @@ const MemberShipBenefitsCard = () => {
       Accept: "*/*",
     },
   };
-  const getData = async () => {
-    axios
-      .get(`${url}/services/getlist`, options)
-      .then((res) => {
-        setBenefitsList(res.data.data)
-      }).catch((error) => {
-        // toast({
-        //   title: "error:",
-        //   description:
-        //     error.message
-        // });
-      })
-
-  };
-
-  const convertToJson = (icon) => {
-    const json = atob(icon); // decode base64
-    try {
-      const data = JSON.parse(json);
-      console.log('data', data)
-      return data
-    } catch (err) {
-      console.error("Invalid base64 Lottie JSON:", err);
-    }
-  }
-
-  const features = [
+   const features = [
     {
       title: "Unlimited Request",
       description: "Make as many design requests as you need without any limits.",
@@ -77,6 +51,34 @@ const MemberShipBenefitsCard = () => {
       src: "https://framerusercontent.com/assets/BJ4F7Sz38tbwXHxmoCjePRCKk.json"
     }
   ];
+  const getData = async () => {
+    axios
+      .get(`${url}/services/getlist`, options)
+      .then((res) => {
+        setBenefitsList(res.data.data)
+      }).catch((error) => {
+         setBenefitsList(features)
+        // toast({
+        //   title: "error:",
+        //   description:
+        //     error.message
+        // });
+      })
+
+  };
+
+  const convertToJson = (icon) => {
+    const json = atob(icon); // decode base64
+    try {
+      const data = JSON.parse(json);
+      console.log('data', data)
+      return data
+    } catch (err) {
+      console.error("Invalid base64 Lottie JSON:", err);
+    }
+  }
+
+ 
 
   return (
     <div className="w-full overflow-hidden">
@@ -104,15 +106,20 @@ const MemberShipBenefitsCard = () => {
               >
                 {/* Lottie Animation Container */}
                 <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 sm:mb-6 mx-auto flex items-center justify-center relative z-10 flex-shrink-0">
-                  {/* <LottieAnimation
-                    src={()=>convertToJson(feature.icon)}
+                 {
+                  feature.src?
+                   <LottieAnimation
+                    src={feature.src}
                     className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
-                  /> */}
-                  <img
+                  />:
+                   <img
                     src={`data:image/png;base64,${feature.icon}`}
                     alt="Feature Icon"
                     className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
                   />
+                 }
+                 
+                 
                 </div>
 
                 {/* Content */}

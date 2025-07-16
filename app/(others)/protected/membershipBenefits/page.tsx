@@ -1,4 +1,5 @@
 "use client"
+import LottieAnimation from '@/components/MemberShipBenefits/LottieAnimation';
 import { useToast } from '@/hooks/use-toast';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
@@ -6,7 +7,7 @@ import React, { useState, useEffect } from 'react'
 
 const MembershipBenefitContent = () => {
   const { toast } = useToast()
-  const url=process.env.NEXT_PUBLIC_APP_URL
+  const url = process.env.NEXT_PUBLIC_APP_URL
 
   const [addnewScreen, setAddnewScreen] = useState(false)
   const [file, setFile] = useState(null);
@@ -26,6 +27,38 @@ const MembershipBenefitContent = () => {
       Accept: "*/*",
     },
   };
+  const features = [
+    {
+      title: "Unlimited Request",
+      description: "Make as many design requests as you need without any limits.",
+      src: "https://framerusercontent.com/assets/vgOkoU9rwLT1K2cxGl0cOK8yiXQ.json"
+    },
+    {
+      title: "Unique Designs",
+      description: "Stand out with custom, one-of-a-kind designs tailored specifically for your brand.",
+      src: "https://framerusercontent.com/assets/I9xlhPU99WGrb5js2m2QFzYN4.json"
+    },
+    {
+      title: "Fast Delivery",
+      description: "Get your designs quickly and efficiently, ensuring your projects stay on track.",
+      src: "https://framerusercontent.com/assets/PzwKVkOPz3y9ZMjmapEb7adQGU.json"
+    },
+    {
+      title: "Conversion Friendly",
+      description: "Our designs are optimized to drive engagement and boost conversions.",
+      src: "https://framerusercontent.com/assets/5p3Xq0b1Hhp3NsQeSF1FaopYWI.json"
+    },
+    {
+      title: "Full Solution",
+      description: "From concept to completion, we provide design solutions to cover all your needs.",
+      src: "https://framerusercontent.com/assets/kuYQckJlc62KSjyDl7yOTLwzzo.json"
+    },
+    {
+      title: "Full Satisfaction",
+      description: "Your satisfaction is our top priority. We'll revise the designs until you're 100% satisfied.",
+      src: "https://framerusercontent.com/assets/BJ4F7Sz38tbwXHxmoCjePRCKk.json"
+    }
+  ];
   useEffect(() => {
     getData()
   }, []);
@@ -160,7 +193,7 @@ const MembershipBenefitContent = () => {
         toast({
           title: "error:",
           description:
-           error.response.data.message
+            error.response.data.message
         });
       })
   };
@@ -170,10 +203,11 @@ const MembershipBenefitContent = () => {
       .then((res) => {
         setBenefitsList(res.data.data)
       }).catch((error) => {
+        setBenefitsList(features)
         toast({
           title: "error:",
           description:
-           error.response.data.message
+            error.response.data.message
         });
       })
 
@@ -261,9 +295,15 @@ const MembershipBenefitContent = () => {
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
                           <div className="h-5 w-5 text-gray-600 dark:text-gray-400">
-                            <img
-                              src={`data:image/png;base64,${row.icon}`}
-                            />
+                            {
+                              row.src ? <LottieAnimation
+                                src={row.src}
+                                className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
+                              /> : <img
+                                src={`data:image/png;base64,${row.icon}`}
+                              />
+                            }
+
                           </div>
                         </div>
                         <div>
