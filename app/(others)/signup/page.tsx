@@ -1,26 +1,48 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock ,User} from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
+import { callPublicApi } from '@/components/callApiMethod/callAPI';
 
 const SignupPage = ({ onLogin }) => {
+   const { toast } = useToast()
+  const url=process.env.NEXT_PUBLIC_APP_URL
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({
     username:'',
     email: '',
     password: '',
     role:''
   });
 const route = useRouter()
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // Simple validation - in real app, you'd validate against backend
-    if (formData.email && formData.password) {
-      route.push('/membershipBenefits'); // Redirect to membershipbenefits page on successful login
-    }
-  };
-   const handleSignIn = (e) => {
+
+    if (formData.email && formData.password && formData.username && formData.role) {
+       e.preventDefault();
+        callPublicApi('auth/signup', 'post',formData)
+          .then((res) => {
+              if(res){
+               toast({
+                  title: "Success:",
+                  description:
+                    "Signup Successfully",
+                });
+               route.push('/login')
+            }
+          })
    
+       // Redirect to membershipbenefits page on successful login
+    }
+
+  };
+   
+   
+   const handleSignIn = async(e) => {
+    
       route.push('/login'); // Redirect to login 
   };
 
@@ -30,6 +52,7 @@ const route = useRouter()
       [e.target.name]: e.target.value
     });
   };
+    
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
@@ -146,5 +169,5 @@ const route = useRouter()
       </div>
     </div>
   );
-};
+}
 export default SignupPage
