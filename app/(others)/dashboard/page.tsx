@@ -78,12 +78,12 @@ const Sidebar = ({ isOpen, onClose, activeItem, setActiveItem }) => {
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3, href: '/dashboard' },
-    { id: 'vehicles', label: 'Membership Benefits', icon: Settings, href: '/membershipBenefits' },
+    { id: 'membershipBenefits', label: 'Membership Benefits', icon: Settings, href: '/membershipBenefits' },
     { id: 'tracking', label: 'Live Tracking', icon: Map, href: '/tracking' },
-    { id: 'drivers', label: 'Drivers', icon: Users, href: '/drivers' },
-    { id: 'reports', label: 'Reports', icon: FileText, href: '/reports' },
-    { id: 'schedule', label: 'Schedule', icon: Calendar, href: '/schedule' },
-    { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
+    // { id: 'drivers', label: 'Drivers', icon: Users, href: '/drivers' },
+    // { id: 'reports', label: 'Reports', icon: FileText, href: '/reports' },
+    // { id: 'schedule', label: 'Schedule', icon: Calendar, href: '/schedule' },
+    // { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
   ];
 
   const handleNavigation = (item) => {
@@ -192,7 +192,7 @@ const ProtectedLayout = ({ children }) => {
   useEffect(() => {
     const path = window.location.pathname;
     if (path.includes('/dashboard')) setActiveMenuItem('dashboard');
-    else if (path.includes('/membershipBenefits')) setActiveMenuItem('vehicles');
+   // else if (path.includes('/membershipBenefits')) setActiveMenuItem('vehicles');
     // else if (path.includes('/tracking')) setActiveMenuItem('tracking');
     // else if (path.includes('/drivers')) setActiveMenuItem('drivers');
     // else if (path.includes('/reports')) setActiveMenuItem('reports');

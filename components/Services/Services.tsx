@@ -1,16 +1,25 @@
 'use client';
 
+import axios from 'axios';
 import { motion, useAnimation } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 const ServicesSection = () => {
+  const url = process.env.NEXT_PUBLIC_APP_URL
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [servisesList, setServicesList] = useState([]);
   const leftControls = useAnimation();
   const rightControls = useAnimation();
-
+const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "*/*",
+    },
+  };
   useEffect(() => {
     setIsVisible(true);
+    getData()
     // Start animations
     leftControls.start({
       y: [0, -100],
@@ -29,7 +38,21 @@ const ServicesSection = () => {
       }
     });
   }, [leftControls, rightControls]);
+const getData = async () => {
+    axios
+      .get(`${url}/services/public/getAll`, options)
+      .then((res) => {
+        setServicesList(res.data.data)
+      }).catch((error) => {
+         setServicesList(services)
+        // toast({
+        //   title: "error:",
+        //   description:
+        //     error.message
+        // });
+      })
 
+  };
   const handleLeftHover = (isHovering) => {
     if (isHovering) {
       leftControls.stop();
@@ -149,7 +172,7 @@ const ServicesSection = () => {
                 className="flex flex-col gap-6"
                 animate={leftControls}
               >
-                {[...leftColumnServices, ...leftColumnServices, ...leftColumnServices].map((service, index) => (
+                {[...leftColumnServices].map((service, index) => (
                   <motion.div
                     key={`left-${index}`}
                     className="relative p-6 rounded-lg  w-full"

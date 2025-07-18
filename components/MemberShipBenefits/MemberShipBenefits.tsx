@@ -23,37 +23,37 @@ const MemberShipBenefitsCard = () => {
     {
       title: "Unlimited Request",
       description: "Make as many design requests as you need without any limits.",
-      src: "https://framerusercontent.com/assets/vgOkoU9rwLT1K2cxGl0cOK8yiXQ.json"
+      icon: "https://framerusercontent.com/assets/vgOkoU9rwLT1K2cxGl0cOK8yiXQ.json"
     },
     {
       title: "Unique Designs",
       description: "Stand out with custom, one-of-a-kind designs tailored specifically for your brand.",
-      src: "https://framerusercontent.com/assets/I9xlhPU99WGrb5js2m2QFzYN4.json"
+      icon: "https://framerusercontent.com/assets/I9xlhPU99WGrb5js2m2QFzYN4.json"
     },
     {
       title: "Fast Delivery",
       description: "Get your designs quickly and efficiently, ensuring your projects stay on track.",
-      src: "https://framerusercontent.com/assets/PzwKVkOPz3y9ZMjmapEb7adQGU.json"
+      icon: "https://framerusercontent.com/assets/PzwKVkOPz3y9ZMjmapEb7adQGU.json"
     },
     {
       title: "Conversion Friendly",
       description: "Our designs are optimized to drive engagement and boost conversions.",
-      src: "https://framerusercontent.com/assets/5p3Xq0b1Hhp3NsQeSF1FaopYWI.json"
+      icon: "https://framerusercontent.com/assets/5p3Xq0b1Hhp3NsQeSF1FaopYWI.json"
     },
     {
       title: "Full Solution",
       description: "From concept to completion, we provide design solutions to cover all your needs.",
-      src: "https://framerusercontent.com/assets/kuYQckJlc62KSjyDl7yOTLwzzo.json"
+      icon: "https://framerusercontent.com/assets/kuYQckJlc62KSjyDl7yOTLwzzo.json"
     },
     {
       title: "Full Satisfaction",
       description: "Your satisfaction is our top priority. We'll revise the designs until you're 100% satisfied.",
-      src: "https://framerusercontent.com/assets/BJ4F7Sz38tbwXHxmoCjePRCKk.json"
+      icon: "https://framerusercontent.com/assets/BJ4F7Sz38tbwXHxmoCjePRCKk.json"
     }
   ];
   const getData = async () => {
     axios
-      .get(`${url}/services/getlist`, options)
+      .get(`${url}/membershipBenefits/public/getAll`, options)
       .then((res) => {
         setBenefitsList(res.data.data)
       }).catch((error) => {
@@ -106,20 +106,17 @@ const MemberShipBenefitsCard = () => {
               >
                 {/* Lottie Animation Container */}
                 <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 sm:mb-6 mx-auto flex items-center justify-center relative z-10 flex-shrink-0">
-                 {
-                  feature.src?
+                
                    <LottieAnimation
-                    src={feature.src}
+                    src={feature.icon}
                     className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
-                  />:
-                   <img
+                 />
+                   {/* <img
                     src={`data:image/png;base64,${feature.icon}`}
                     alt="Feature Icon"
                     className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
-                  />
-                 }
-                 
-                 
+                  /> */}
+                  
                 </div>
 
                 {/* Content */}

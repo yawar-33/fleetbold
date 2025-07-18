@@ -1,5 +1,4 @@
 import axios from "axios";
-import toaster from "../toaster/toaster";
 // import Store from "../store";
 const url=process.env.NEXT_PUBLIC_APP_URL
 const callApi = (endpoint, method, payload, loginToken) => {
@@ -40,7 +39,7 @@ const callApi = (endpoint, method, payload, loginToken) => {
           error.response?.data?.responseMessage?.toLowerCase() ===
           "Token expired. Kindly Re-login".toLowerCase();
         if (isMatched && error.response.status === 401) {
-          toaster(error.response.data.responseMessage, "error");
+        
           setTimeout(() => {
             window.location.reload();
           }, 2000);

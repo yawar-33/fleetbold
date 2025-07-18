@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock ,User} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import { callPublicApi } from '@/components/callApiMethod/callAPI';
+//import { callPublicApi } from '@/components/callApiMethod/callAPI';
 
 const SignupPage = ({ onLogin }) => {
    const { toast } = useToast()
@@ -23,17 +23,17 @@ const route = useRouter()
 
     if (formData.email && formData.password && formData.username && formData.role) {
        e.preventDefault();
-        callPublicApi('auth/signup', 'post',formData)
-          .then((res) => {
-              if(res){
-               toast({
-                  title: "Success:",
-                  description:
-                    "Signup Successfully",
-                });
-               route.push('/login')
-            }
-          })
+        // callPublicApi('auth/signup', 'post',formData)
+        //   .then((res) => {
+        //       if(res){
+        //        toast({
+        //           title: "Success:",
+        //           description:
+        //             "Signup Successfully",
+        //         });
+        //        route.push('/login')
+        //     }
+        //   })
    
        // Redirect to membershipbenefits page on successful login
     }

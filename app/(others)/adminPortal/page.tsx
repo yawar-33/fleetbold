@@ -2,12 +2,12 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Menu, Bell, Search, User, Settings, LogOut, Car, BarChart3, Map, Users, FileText, Calendar } from 'lucide-react';
-import MembershipBenefitContent from '../protected/membershipBenefits/page';
+import { Menu, Bell, Search, User, Settings, LogOut, Car, BarChart3, Map, Users, FileText, Calendar, Component } from 'lucide-react';
+import Admin_MembershipBenefits from '@/components/AdminComponents/Admin_MembershipBenefits';
+import Admin_Services from '@/components/AdminComponents/Admin_Services';
 
 const Header = ({ onMenuToggle, sidebarOpen }) => {
   const router = useRouter();
-
   const handleLogout = () => {
     // Clear any auth tokens/session data here
     localStorage.removeItem('authToken'); // Example
@@ -30,7 +30,7 @@ const Header = ({ onMenuToggle, sidebarOpen }) => {
         {/* <div className="flex-1 max-w-lg mx-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            <input
+            <input 
               type="text"
               placeholder="Search..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
@@ -73,22 +73,23 @@ const Header = ({ onMenuToggle, sidebarOpen }) => {
   );
 };
 
-const Sidebar = ({ isOpen, onClose, activeItem, setActiveItem }) => {
+const Sidebar = ({ isOpen, onClose, activeItem, setActiveItem ,setActiveComponent}) => {
   const router = useRouter();
 
   const menuItems = [
     // { id: 'dashboard', label: 'Dashboard', icon: BarChart3, href: '/dashboard' },
-    { id: 'vehicles', label: 'Membership Benefits', icon: Settings, href: '/membershipBenefits' },
-    // { id: 'tracking', label: 'Live Tracking', icon: Map, href: '/tracking' },
-    // { id: 'drivers', label: 'Drivers', icon: Users, href: '/drivers' },
-    // { id: 'reports', label: 'Reports', icon: FileText, href: '/reports' },
-    // { id: 'schedule', label: 'Schedule', icon: Calendar, href: '/schedule' },
+    { id: 'membershipbenefits', label: 'Membership Benefits', icon: Settings, component:<Admin_MembershipBenefits/>},
+    { id: 'services', label: 'Services', icon: Map, component:<Admin_Services/> },
+    { id: 'howitworks', label: 'How It Works', icon: Users,component:<></>},
+    { id: 'testimonial', label: 'Testimonial', icon: FileText, component:<></>},
+    { id: 'pricing', label: 'Pricing', icon: Calendar,component:<></> },
     // { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
   ];
 
   const handleNavigation = (item) => {
     setActiveItem(item.id);
-    router.push(item.href);
+    setActiveComponent(item.component)
+    //router.push(item.href);
     onClose(); // Close sidebar on mobile after navigation
   };
 
@@ -162,7 +163,8 @@ const ProtectedLayout = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
+  const [activeMenuItem, setActiveMenuItem] = useState('membershipbenefits');
+  const [activeComponent,setActiveComponent]=useState(<Admin_MembershipBenefits/>)
   const router = useRouter();
 
   useEffect(() => {
@@ -189,16 +191,11 @@ const ProtectedLayout = ({ children }) => {
   }, [router]);
 
   // Set active menu item based on current path
-  useEffect(() => {
-    const path = window.location.pathname;
-    if (path.includes('/dashboard')) setActiveMenuItem('dashboard');
-    else if (path.includes('/membershipBenefits')) setActiveMenuItem('vehicles');
-    // else if (path.includes('/tracking')) setActiveMenuItem('tracking');
-    // else if (path.includes('/drivers')) setActiveMenuItem('drivers');
-    // else if (path.includes('/reports')) setActiveMenuItem('reports');
-    // else if (path.includes('/schedule')) setActiveMenuItem('schedule');
-    // else if (path.includes('/settings')) setActiveMenuItem('settings');
-  }, []);
+  // useEffect(() => {
+  //   const path = window.location.pathname;
+  //   if (path.includes('/membershipBenefits')) setActiveMenuItem('membershipbenefits');
+   
+  // }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -240,9 +237,10 @@ const ProtectedLayout = ({ children }) => {
           onClose={closeSidebar}
           activeItem={activeMenuItem}
           setActiveItem={setActiveMenuItem}
+          setActiveComponent={setActiveComponent}
         />
         <main className="flex-1 lg:ml-0">
-         <MembershipBenefitContent/>
+        {activeComponent}
         </main>
       </div>
     </div>
