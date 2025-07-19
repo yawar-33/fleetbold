@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-
+import axios from 'axios';
 const ProcessBadge = () => {
     return (
         <>
@@ -125,6 +125,32 @@ const StepCard = ({ step, title, description, index }) => {
 };
 
 const HowItWorksSection = () => {
+    const url = process.env.NEXT_PUBLIC_APP_URL
+const [dataList, setdataList] = useState([]);
+  useEffect(() => {
+    getData()
+  }, []);
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "*/*",
+    },
+  };
+     const getData = async () => {
+    axios
+      .get(`${url}/howItWorks/public/getAll`, options)
+      .then((res) => {
+        setdataList(res.data.data)
+      }).catch((error) => {
+         setdataList(steps)
+        // toast({
+        //   title: "error:",
+        //   description:
+        //     error.message
+        // });
+      })
+
+  };
     const sectionRef = useRef(null);
     const isInView = useInView(sectionRef, {
         once: true,
@@ -187,7 +213,7 @@ const HowItWorksSection = () => {
 
                 {/* Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto w-full">
-                    {steps.map((step, index) => (
+                    {dataList.map((step, index) => (
                         <StepCard
                             key={index}
                             step={index + 1}
