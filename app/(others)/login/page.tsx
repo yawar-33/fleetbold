@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 import { useToast } from "@/hooks/use-toast";
+import { validation } from '@/components/AdminComponents/Utils/validation';
 
 const LoginPage = ({ onLogin }) => {
   const { toast } = useToast()
@@ -14,6 +15,8 @@ const LoginPage = ({ onLogin }) => {
     username: '',
     password: ''
   });
+  const [errors, setErrors] = useState({});
+  const requiredFields = ['username', 'password'];
   const route = useRouter()
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,14 +31,16 @@ const LoginPage = ({ onLogin }) => {
       // responseType: "blob",
     };
     // Simple validation - in real app, you'd validate against backend
-    if (formData.username && formData.password) {
+   const validationErrors = validation(requiredFields,formData);
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length === 0) {
       axios
         .post(`${url}/auth/signin`, formData, options)
         .then((res) => {
           console.log('response1', res.data)
 
           localStorage.setItem('authToken', res.data.accessToken)
-          route.push('/membershipBenefits')
+          route.push('/adminPortal')
           toast({
             title: "Success:",
             description:
@@ -78,7 +83,7 @@ const LoginPage = ({ onLogin }) => {
 
               <div>
                 <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Email Address
+                  User Name
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -92,7 +97,9 @@ const LoginPage = ({ onLogin }) => {
                     placeholder="Enter your name"
                     required
                   />
+                  
                 </div>
+                {errors['username'] && <p style={{ color: 'red' }}>{errors['username']}</p>}
               </div>
 
               <div>
@@ -118,6 +125,7 @@ const LoginPage = ({ onLogin }) => {
                   >
                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
+                   {errors['password'] && <p style={{ color: 'red' }}>{errors['password']}</p>}
                 </div>
               </div>
 
