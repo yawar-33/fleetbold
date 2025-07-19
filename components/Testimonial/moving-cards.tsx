@@ -4,11 +4,12 @@ import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 import React, { ReactNode, useEffect, useState } from "react";
 import { testimonialData } from "./testimonialData";
+import axios from "axios";
 
 export const InfiniteMovingCards = ({
     skills,
     direction = "left",
-    speed = "fast",
+    speed = "fast", 
     pauseOnHover = true,
     className,
 }: {
@@ -20,9 +21,32 @@ export const InfiniteMovingCards = ({
 }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const scrollerRef = React.useRef<HTMLUListElement>(null);
+    const url = process.env.NEXT_PUBLIC_APP_URL
+    const [testimonialDataList, setTestimonialDataList] = useState([]);
+ const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "*/*",
+    },
+  };
+    const getData = async () => {
+    axios
+      .get(`${url}/testimonial/public/getAll`, options)
+      .then((res) => {
+        setTestimonialDataList(res.data.data)
+      }).catch((error) => {
+         setTestimonialDataList(testimonialData)
+        // toast({
+        //   title: "error:",
+        //   description:
+        //     error.message
+        // });
+      })
 
+  };
     useEffect(() => {
         addAnimation();
+        getData()
     }, []);
 
     const [start, setStart] = useState(false);
