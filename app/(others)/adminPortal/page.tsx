@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import { Menu, Bell, Search, User, Settings, LogOut, Car, BarChart3, Map, Users, FileText, Calendar, Component } from 'lucide-react';
 import Admin_MembershipBenefits from '@/components/AdminComponents/Admin_MembershipBenefits';
 import Admin_Services from '@/components/AdminComponents/Admin_Services';
+import Admin_HowItWorks from '@/components/AdminComponents/Admin_HowItWorks';
+import Admin_Testimonial from '@/components/AdminComponents/Admin_Testimonial';
+import Admin_Pricing from '@/components/AdminComponents/Admin_Pricing';
 
 const Header = ({ onMenuToggle, sidebarOpen }) => {
   const router = useRouter();
@@ -80,9 +83,9 @@ const Sidebar = ({ isOpen, onClose, activeItem, setActiveItem ,setActiveComponen
     // { id: 'dashboard', label: 'Dashboard', icon: BarChart3, href: '/dashboard' },
     { id: 'membershipbenefits', label: 'Membership Benefits', icon: Settings, component:<Admin_MembershipBenefits/>},
     { id: 'services', label: 'Services', icon: Map, component:<Admin_Services/> },
-    { id: 'howitworks', label: 'How It Works', icon: Users,component:<></>},
-    { id: 'testimonial', label: 'Testimonial', icon: FileText, component:<></>},
-    { id: 'pricing', label: 'Pricing', icon: Calendar,component:<></> },
+    { id: 'howitworks', label: 'How It Works', icon: Users,component:<Admin_HowItWorks/>},
+    { id: 'testimonial', label: 'Testimonial', icon: FileText, component:<Admin_Testimonial/>},
+    { id: 'pricing', label: 'Pricing', icon: Calendar,component:<Admin_Pricing/> },
     // { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
   ];
 
