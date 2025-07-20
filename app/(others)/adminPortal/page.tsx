@@ -7,6 +7,7 @@ import Admin_MembershipBenefits from '@/components/AdminComponents/Admin_Members
 import Admin_Services from '@/components/AdminComponents/Admin_Services';
 import Admin_HowItWorks from '@/components/AdminComponents/Admin_HowItWorks';
 import Admin_Testimonial from '@/components/AdminComponents/Admin_Testimonial';
+import Admin_Pricing from '@/components/AdminComponents/Admin_Pricing';
 
 const Header = ({ onMenuToggle, sidebarOpen }) => {
   const router = useRouter();
@@ -84,7 +85,7 @@ const Sidebar = ({ isOpen, onClose, activeItem, setActiveItem ,setActiveComponen
     { id: 'services', label: 'Services', icon: Map, component:<Admin_Services/> },
     { id: 'howitworks', label: 'How It Works', icon: Users,component:<Admin_HowItWorks/>},
     { id: 'testimonial', label: 'Testimonial', icon: FileText, component:<Admin_Testimonial/>},
-    { id: 'pricing', label: 'Pricing', icon: Calendar,component:<></> },
+    { id: 'pricing', label: 'Pricing', icon: Calendar,component:<Admin_Pricing/> },
     // { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
   ];
 

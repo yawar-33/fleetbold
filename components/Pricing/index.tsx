@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect,useState } from 'react';
 
 interface FeatureItemProps {
   text: string;
@@ -31,7 +32,31 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ text }) => {
 
 const Pricing = () => {
   const [email, setEmail] = useState('');
-
+ const url = process.env.NEXT_PUBLIC_APP_URL
+const [dataList, setdataList] = useState([]);
+  useEffect(() => {
+    getData()
+  }, []);
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "*/*",
+    },
+  };
+     const getData = async () => {
+    axios
+      .get(`${url}/pricingPlan/public/getAll`, options)
+      .then((res) => {
+        setdataList(res.data.data)
+      }).catch((error) => {
+        // setdataList(steps)
+        // toast({
+        //   title: "error:",
+        //   description:
+        //     error.message
+        // });
+      })
+    }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Email submitted:', email);
@@ -68,7 +93,72 @@ const Pricing = () => {
         <div className="framer-z0ssk2">
           
           {/* Starter Plan */}
-          <div className="framer-kgo7za" data-border="true">
+          {
+            dataList.map((data, index) => (
+               <div className="framer-kgo7za" data-border="true">
+            <div className="framer-1gfbwed">
+              <div className="framer-3t4ylf">
+                <div className="framer-d92mk">
+                  <div className="framer-n80pfj">
+                    <div style={{position:'absolute',borderRadius:'inherit',top:0,right:0,bottom:0,left:0}}>
+                      <img 
+                        src="https://framerusercontent.com/images/mkZSznH7DLTlO0nLOHY1ndf2ndw.png" 
+                        alt="" 
+                        style={{display:'block',width:'100%',height:'100%',borderRadius:'inherit',objectPosition:'center',objectFit:'cover'}}
+                      />
+                    </div>
+                  </div>
+                  <div className="framer-16gfye3">
+                    <p className="framer-text">{data.name}</p>
+                  </div>
+                </div>
+                <div className="framer-q70f1m">
+                  <div className="framer-su3t6q">
+                    <p className="framer-text">{data.price}</p>
+                  </div>
+                </div>
+                <div className="framer-15bq62u">
+                  <div className="framer-bagpdz">
+                    <p className="framer-text">{data.description}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="framer-1bv5bwc"></div>
+              <div className="framer-fcdxhq">
+{
+  data.features && data.features.map((feature)=>(
+     <FeatureItem text={feature} />
+  ))
+}
+                {/* <FeatureItem text="Tesla Fleet Live Monitor" />
+                <FeatureItem text="GeoFence Alerts" />
+                <FeatureItem text="Tesla SuperCharger Report" />
+                <FeatureItem text="Tesla Trip Route History" />
+                <FeatureItem text="Up to 1 Year Trip History" />
+                <FeatureItem text="Bouncie Integration" />
+                <FeatureItem text="Whatsapp DM Integration" />
+                <FeatureItem text="Vehicles DTC Alerts" />
+                <FeatureItem text="Tolls to Booking Sync" /> */}
+              </div>
+            </div>
+            <div className="framer-9inqei">
+              <div className="framer-6oxp2e-container">
+                <a className="framer-ONXRv framer-7jk1m4 framer-v-7jk1m4 framer-qiiiez" data-border="true">
+                  <div className="framer-14dgct4">
+                    <div className="framer-2ztnzq">
+                      <p className="framer-text">Get Started</p>
+                    </div>
+                    <div className="framer-qspc07">
+                      <div className="framer-7kh0sx" aria-hidden="true"></div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+            ))
+          }
+          {/* <div className="framer-kgo7za" data-border="true">
             <div className="framer-1gfbwed">
               <div className="framer-3t4ylf">
                 <div className="framer-d92mk">
@@ -123,7 +213,7 @@ const Pricing = () => {
                 </a>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Premium Plan */}
           <div className="framer-108250c" data-border="true">
