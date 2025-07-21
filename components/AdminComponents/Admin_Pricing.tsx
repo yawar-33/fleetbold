@@ -239,14 +239,18 @@ const Admin_Pricing = () => {
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
 
                         <div className='p-3'>
-                            <input
-                                type="text"
-                                placeholder="Name"
-                                name='name'
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-                                onChange={handleInputChange}
-                                value={pricingModel.name}
-                            />
+                           <div>
+                                <select
+                                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                                  name='name' value={pricingModel.name} onChange={handleInputChange}>
+                                    <option value="">-- Choose a Plan --</option>
+                                    <option value="Starter Plan">Starter Plan</option>
+                                    <option value="Premium Plan">Premium Plan</option>
+                                    <option value="Enterprise Plan">Enterprise Plan</option>
+                                </select>
+                               </div>
+      
+  
                             {errors['name'] && <p style={{ color: 'red' }}>{errors['name']}</p>}
                         </div>
                         <div className='p-3 pt-0'>

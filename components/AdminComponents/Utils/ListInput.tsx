@@ -28,15 +28,21 @@ const ListInput = ({ label = "Features", onChange ,list}) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Enter item"
+          className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                                 
         />
-        <button type="button"  onClick={handleAdd}>Add</button>
+        <button 
+        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 ml-2 rounded-lg transition-colors duration-200"
+        type="button"  onClick={handleAdd}>Add</button>
       </div>
 
       <ul>
         {items.map((item, index) => (
           <li key={index}>
             {item}{" "}
-            <button type="button" className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200" onClick={() => handleRemove(index)}>Remove</button>
+            <button 
+            title='Delete'
+            type="button" onClick={() => handleRemove(index)}>🗑️</button>
           </li>
         ))}
       </ul>

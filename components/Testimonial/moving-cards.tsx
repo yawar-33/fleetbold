@@ -112,7 +112,7 @@ export const InfiniteMovingCards = ({
                     pauseOnHover && "hover:[animation-play-state:paused]"
                 )}
             >
-                {testimonialData.map((item, index) => (
+                {testimonialDataList.map((item, index) => (
                     <div className="relative bg-[#0C0C0F] w-max h-[291px] rounded-lg flex-shrink-0" key={index}>
                         <div className="overflow-hidden">
                             <div className="flex space-x-6 snap-x snap-mandatory overflow-x-auto scrollbar-hide">
@@ -121,7 +121,7 @@ export const InfiniteMovingCards = ({
                                         <div className="flex items-center gap-3">
                                             <img alt="Profile picture of Allen Moran, a man with short dark hair and a blue shirt"
                                                 className="w-8 h-8 rounded-full object-cover" height="32"
-                                                src="https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg" width="32" />
+                                                src={`data:image/png;base64,${item.image}`} width="32" />
                                             <span className="font-semibold text-sm">
                                                 {item.name}
                                             </span>
@@ -134,7 +134,7 @@ export const InfiniteMovingCards = ({
                                         {item.content}
                                     </p>
                                     <p className="text-[9px] font-semibold self-end">
-                                        — Turo Host
+                                        {item.designation}
                                     </p>
                                 </div>
 
