@@ -8,7 +8,7 @@ const ServicesSection = () => {
   const url = process.env.NEXT_PUBLIC_APP_URL
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [servisesList, setServicesList] = useState([]);
+  const [servicesList, setServicesList] = useState([]);
   const leftControls = useAnimation();
   const rightControls = useAnimation();
 const options = {
@@ -131,8 +131,10 @@ const getData = async () => {
   ];
 
   // Split services into two columns
-  const leftColumnServices = services.slice(0, 4);
-  const rightColumnServices = services.slice(4, 8);
+  // const leftColumnServices = servicesList.slice(0, 4);
+  // const rightColumnServices = servicesList.slice(4, 8);
+const leftColumnServices = servicesList.filter((_, index) => index % 2 === 0); // Even indexes
+const rightColumnServices = servicesList.filter((_, index) => index % 2 === 1); // Odd indexes
 
   return (
     <section id="services" className="w-full py-16 ">
@@ -215,7 +217,7 @@ const getData = async () => {
                 className="flex flex-col gap-6"
                 animate={rightControls}
               >
-                {[...rightColumnServices, ...rightColumnServices, ...rightColumnServices].map((service, index) => (
+                {[...rightColumnServices].map((service, index) => (
                   <motion.div
                     key={`right-${index}`}
                     className="relative p-6 rounded-lg  w-full"

@@ -8,6 +8,7 @@ import Admin_Services from '@/components/AdminComponents/Admin_Services';
 import Admin_HowItWorks from '@/components/AdminComponents/Admin_HowItWorks';
 import Admin_Testimonial from '@/components/AdminComponents/Admin_Testimonial';
 import Admin_Pricing from '@/components/AdminComponents/Admin_Pricing';
+import Admin_FAQS from '@/components/AdminComponents/Admin_FAQS';
 
 const Header = ({ onMenuToggle, sidebarOpen }) => {
   const router = useRouter();
@@ -86,7 +87,7 @@ const Sidebar = ({ isOpen, onClose, activeItem, setActiveItem ,setActiveComponen
     { id: 'howitworks', label: 'How It Works', icon: Users,component:<Admin_HowItWorks/>},
     { id: 'testimonial', label: 'Testimonial', icon: FileText, component:<Admin_Testimonial/>},
     { id: 'pricing', label: 'Pricing', icon: Calendar,component:<Admin_Pricing/> },
-    // { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
+    { id: 'faq', label: 'FAQs', icon: Settings, component:<Admin_FAQS/> },
   ];
 
   const handleNavigation = (item) => {

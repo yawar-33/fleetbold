@@ -1,5 +1,7 @@
 import FAQ from "@/components/FAQ/FAQComponent";
 import { FAQItem } from "@/components/FAQ/FAQComponent";
+import React, { useEffect,useState } from 'react';
+import axios from "axios";
 
 const faqs: FAQItem[] = [
   {
@@ -45,9 +47,34 @@ const faqs: FAQItem[] = [
 ];
 
 export default function Home() {
+  const url = process.env.NEXT_PUBLIC_APP_URL
+  const [dataList, setdataList] = useState([]);
+    useEffect(() => {
+      getData()
+    }, []);
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+      },
+    };
+       const getData = async () => {
+      axios
+        .get(`${url}/faq/public/getAll`, options)
+        .then((res) => {
+          setdataList(res.data.data)
+        }).catch((error) => {
+          setdataList(faqs)
+          // toast({
+          //   title: "error:",
+          //   description:
+          //     error.message
+          // });
+        })
+      }
   return (
     <section className="w-full min-h-screen flex flex-col items-center justify-center">
-      <FAQ faqs={faqs} />
+      <FAQ faqs={dataList} />
     </section>
   );
 }

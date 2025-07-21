@@ -5,21 +5,19 @@ import React, { useState, useEffect } from 'react'
 import { validation } from './Utils/validation';
 
 
-const Admin_Testimonial = () => {
+const Admin_FAQS = () => {
     const { toast } = useToast()
     const url = process.env.NEXT_PUBLIC_APP_URL
 
     const [addnewScreen, setAddnewScreen] = useState(false)
-    const [testimonialList, settestimonialList] = useState([]);
+    const [faqList, setfaqList] = useState([]);
     const [editmode, setEditMode] = useState(false);
     const [errors, setErrors] = useState({});
-    const requiredFields = ['name', 'content'];
-    const [testimonialModel, settestimonialModel] = useState({
+    const requiredFields = ['question', 'answer'];
+    const [faqModel, setfaqModel] = useState({
         id: 0,
-        name: '',
-        content: '',
-        image: '',
-        designation:'',
+        question: '',
+        answer: '',
     })
     const token = localStorage.getItem('authToken');
     const options = {
@@ -29,36 +27,48 @@ const Admin_Testimonial = () => {
             Accept: "*/*",
         },
     };
-    const services = [
-         {
-    id: 1,
-    name: "Ava Martinez",
-    content:
-      "I have tried most of the lead generation services in the industry, and none compare to the Advertizip Prime Bundle Leads. The mere fact of calling your leads and having them recognize you and await your call significantly changes and eases the entire process from the start.",
-    image:"https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
-    },
+    const faqs = [
+       {
+    question: "What is FleetBold and how does it work?",
+    answer: "FleetBold is an advanced fleet management platform designed to help businesses track vehicles in real time, optimize operations, and enhance security. Our platform connects with GPS tracking devices, including Moovetrax, Bouncie, and Tesla, to provide live vehicle location, performance insights, and operational analytics in one seamless interface."
+  },
   {
-    id: 2,
-    name: "Michael C.",
-    content:
-      "The combination of Advertizip leads and its chatbot appointment setter makes it my preferred tool for my business. I have been immersed in other activities when I receive a notification of a new appointment without even having interacted with the leads, because the chatbot has done all the hard work.",
-    image:"https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
-    },
+    question: "What GPS tracking devices are compatible with FleetBold?",
+    answer: "FleetBold supports a wide range of GPS devices, including Moovetrax, Bouncie and more. Additionally, our Tesla API integration allows for advanced real-time tracking and data analysis."
+  },
   {
-    id: 3,
-    name: "Linda H.",
-    content:
-      "I was skeptical at first, but the increase in our lead pipeline has been phenomenal. The platform is user-friendly, efficient, and delivers on its promises.",
-   image:"https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
-    },
+    question: "What makes FleetBold better than other fleet management platforms?",
+    answer: "FleetBold stands out with cutting-edge AI technology, Tesla integration, and an intuitive user experience that simplifies fleet tracking. Our platform is built for flexibility, offering businesses cost-effective solutions, real-time insights, and superior customer support to streamline operations."
+  },
   {
-    id: 4,
-    name: "John Abraham",
-    content:
-      "This is the secret weapon for any real estate professional's arsenal. The lead quality and seamless marketing tools have transformed our approach and results.",
-   image:"https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
-    },
-];
+    question: "Can I use Moovetrax or Bouncie with FleetBold?",
+    answer: "Yes! FleetBold is fully compatible with Moovetrax and Bouncie GPS devices. We ensure seamless integration so users can continue using their existing devices while benefiting from FleetBold’s advanced fleet tracking and management features."
+  },
+  {
+    question: "How much does FleetBold cost?",
+    answer: "FleetBold offers flexible pricing plans based on the number of vehicles and required features. Contact us to get a custom quote tailored to your fleet’s needs."
+  },
+  {
+    question: "Does FleetBold integrate with Tesla vehicles?",
+    answer: "Yes! FleetBold provides one of the most advanced Tesla integrations, offering real-time tracking, battery status updates, trip history, and more. Plus, our platform is a cost-effective alternative to Tesla’s high-priced API access."
+  },
+  {
+    question: "How do I access the FleetBold platform?",
+    answer: "You can access FleetBold via any web browser or mobile device, with no additional software installation required. Simply log in to our secure platform and start tracking your fleet instantly."
+  },
+  {
+    question: "How does FleetBold protect my data?",
+    answer: "At FleetBold, data security is our top priority. We follow strict data protection protocols, ensuring that all fleet information is encrypted and stored securely. We never share your data with third parties without authorization."
+  },
+  {
+    question: "Does FleetBold offer customer support?",
+    answer: "For now, we offer support exclusively via email. If you need assistance, feel free to contact us at support@fleetbold.com."
+  },
+  {
+    question: "How can I start using FleetBold?",
+    answer: "FleetBold is currently in beta, and early access is available exclusively to users who sign up for our waiting list. By joining, you’ll get priority access to FleetBold before its official launch in mid-to-late March. Don’t miss out—sign up now to be among the first to experience the future of fleet management!"
+  }
+    ];
     useEffect(() => {
         getData()
     }, []);
@@ -66,13 +76,11 @@ const Admin_Testimonial = () => {
     const addBenefit = (flag, mode, row) => {
         console.log('row', row)
         if (mode === 'Edit') {
-            settestimonialModel({
-                ...testimonialModel,
-                 id: 0,
-                name: '',
-                content: '',
-                image: '',
-                designation:'',
+            setfaqModel({
+                ...faqModel,
+                id: row._id,
+                question: row.question,
+                answer: row.answer,
             })
             setEditMode(true)
             setAddnewScreen(flag)
@@ -80,38 +88,18 @@ const Admin_Testimonial = () => {
         else {
             setAddnewScreen(flag)
             setEditMode(false)
-            settestimonialModel({
+            setfaqModel({
                 id: 0,
-                name: '',
-                content: '',
-                image: '',
-                designation:'',
+                question: '',
+                answer: '',
             })
         }
 
     }
-    const handleFileChange = (e) => {
-
-        const file = e.target.files[0];
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-
-                const base64String = reader.result.toString().split(',')[1] // remove data:image/...;base64,
-                settestimonialModel({
-                    ...testimonialModel,
-                    image: base64String
-                })
-                console.log("Base64:", base64String);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
     const handleInputChange = (event) => {
         const { name, value } = event.target
-        settestimonialModel({
-            ...testimonialModel,
+        setfaqModel({
+            ...faqModel,
             [name]: value
         })
     }
@@ -119,11 +107,11 @@ const Admin_Testimonial = () => {
     const handleSaveData = async (e) => {
         e.preventDefault();
 
-       const validationErrors = validation(requiredFields,testimonialModel);
+       const validationErrors = validation(requiredFields,faqModel);
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length === 0) {
             axios
-                .post(`${url}/testimonial`, testimonialModel, options)
+                .post(`${url}/faq`, faqModel, options)
                 .then((res) => {
                     console.log('response1', res)
                     toast({
@@ -131,12 +119,11 @@ const Admin_Testimonial = () => {
                         description:
                             "Record Save Successfully",
                     });
-                    settestimonialModel({
-                         id: 0,
-                        name: '',
-                        content: '',
-                        image: '',
-                        designation:'',
+                    setfaqModel({
+                        id: 0,
+                        question: '',
+                        answer: '',
+                        
                     })
                     setAddnewScreen(false)
                     getData()
@@ -154,11 +141,11 @@ const Admin_Testimonial = () => {
     };
     const handleUpdateData = async (e) => {
         e.preventDefault();
-        const validationErrors = validation(requiredFields,testimonialModel);
+        const validationErrors = validation(requiredFields,faqModel);
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length === 0) {
             axios
-                .put(`${url}/testimonial`, testimonialModel, options)
+                .put(`${url}/faq`, faqModel, options)
                 .then((res) => {
                     console.log('response1', res)
                     toast({
@@ -166,12 +153,11 @@ const Admin_Testimonial = () => {
                         description:
                             "Record Update Successfully",
                     });
-                    settestimonialModel({
-                         id: 0,
-                        name: '',
-                        content: '',
-                        image: '',
-                        designation:'',
+                    setfaqModel({
+                        id: 0,
+                        question: '',
+                        answer: '',
+                         
                     })
                     setAddnewScreen(false)
                     getData()
@@ -188,7 +174,7 @@ const Admin_Testimonial = () => {
     };
     const handleDeleteData = async (id) => {
         axios
-            .delete(`${url}/testimonial/${id}`, options)
+            .delete(`${url}/faq/${id}`, options)
             .then((res) => {
                 toast({
                     title: "Success:",
@@ -206,11 +192,11 @@ const Admin_Testimonial = () => {
     };
     const getData = async () => {
         axios
-            .get(`${url}/testimonial`, options)
+            .get(`${url}/faq`, options)
             .then((res) => {
-                settestimonialList(res.data.data)
+                setfaqList(res.data.data)
             }).catch((error) => {
-                settestimonialList(services)
+                setfaqList(faqs)
                 toast({
                     title: "error:",
                     description:
@@ -222,7 +208,7 @@ const Admin_Testimonial = () => {
     return (
         <div className="p-6 space-y-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Testimonial</h1>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Frequently Asked Questions (FAQs)</h1>
                 <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
                     onClick={() => addBenefit(true, 'New', null)}
                 >
@@ -233,58 +219,29 @@ const Admin_Testimonial = () => {
             {
                 addnewScreen ?
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-                        <div className='ml-2'>
-              <div className="w-30 h-30 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mt-2">
-                <div className="h-15 w-15 text-gray-600 dark:text-gray-400">
-                  <img
-                    src={`data:image/png;base64,${testimonialModel.image}`}
-                  />
-                </div>
-              </div>
+                        <div className='p-3'>
 
-              <label className='pl-1' htmlFor="upload-input" style={{ cursor: 'pointer' }}>
-                upload Image
-               
-              </label>
-              <input
-                id="upload-input"
-                type="file"
-                onChange={handleFileChange}
-                style={{ display: 'none' }}
-              />
-            </div>
-                       
+                            <input
+                                type="text"
+                                placeholder="Enter Question"
+                                name='question'
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                                onChange={handleInputChange}
+                                value={faqModel.question}
+                            />
+                              {errors['question'] && <p style={{ color: 'red' }}>{errors['question']}</p>}
+                        </div>
+
                         <div className='p-3 pt-0'>
                             <input
                                 type="text"
-                                placeholder="Name"
-                                name='name'
+                                placeholder="Enter Answer"
+                                name='answer'
                                 className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                                 onChange={handleInputChange}
-                                value={testimonialModel.name}
+                                value={faqModel.answer}
                             />
-                              {errors['name'] && <p style={{ color: 'red' }}>{errors['name']}</p>}
-                        </div>
-                        <div className='p-3 pt-0'>
-                            <input
-                                type="textArea"
-                                placeholder="Enter Content"
-                                name='content'
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-                                onChange={handleInputChange}
-                                value={testimonialModel.content}
-                            />
-                             {errors['review'] && <p style={{ color: 'red' }}>{errors['review']}</p>}
-                        </div>
-                          <div className='p-3 pt-0'>
-                            <input
-                                type="text"
-                                placeholder="Enter Designation"
-                                name='designation'
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-                                onChange={handleInputChange}
-                                value={testimonialModel.designation}
-                            />
+                              {errors['answer'] && <p style={{ color: 'red' }}>{errors['answer']}</p>}
                         </div>
                         <div className='p-3 pt-0'>
                             <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
@@ -308,20 +265,13 @@ const Admin_Testimonial = () => {
                         <div className="p-6">
                             <div className="space-y-4">
                                 {
-                                    testimonialList && testimonialList.length > 0 ? testimonialList.map((row, index) => (
+                                    faqList && faqList.length > 0 ? faqList.map((row, index) => (
                                         <div key={index} className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
                                             <div className="flex items-center space-x-3">
-                                                <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                                                    <div className="h-5 w-5 text-gray-600 dark:text-gray-400">
-                                                        <img
-                                                                src={`data:image/png;base64,${row.image}`}
-                                                            />
-                                                    </div>
-                                                </div>
+                                        
                                                 <div>
-                                                    <p className="text-sm font-medium text-gray-900 dark:text-white">{row.name}</p>
-                                                    <p className="text-xs text-gray-500 dark:text-gray-400">{row.content}</p>
-                                                      <p className="text-xs text-gray-500 dark:text-gray-400">{row.designation}</p>
+                                                    <p className="text-sm font-medium text-gray-900 dark:text-white">{row.question}</p>
+                                                    <p className="text-xs text-gray-500 dark:text-gray-400">{row.answer}</p>
                                                 </div>
                                             </div>
                                             <div>
@@ -350,4 +300,4 @@ const Admin_Testimonial = () => {
         </div>
     );
 };
-export default Admin_Testimonial
+export default Admin_FAQS

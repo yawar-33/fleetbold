@@ -95,7 +95,8 @@ const [dataList, setdataList] = useState([]);
           {/* Starter Plan */}
           {
             dataList.map((data, index) => (
-               <div className="framer-kgo7za" data-border="true">
+              
+                data.name === 'Starter Plan'?<> <div className="framer-kgo7za" data-border="true">
             <div className="framer-1gfbwed">
               <div className="framer-3t4ylf">
                 <div className="framer-d92mk">
@@ -155,7 +156,159 @@ const [dataList, setdataList] = useState([]);
                 </a>
               </div>
             </div>
+          </div></>:
+          data.name==='Premium Plan'?
+           <>
+           <div className="framer-108250c" data-border="true">
+            <div className="framer-1pjs9xc">
+              <div className="framer-5c3smi">
+                <div className="framer-ejat6c">
+                  <div className="framer-1rv2fwm">
+                    <div className="framer-ezg7gp">
+                      <div style={{position:'absolute',borderRadius:'inherit',top:0,right:0,bottom:0,left:0}}>
+                        <img 
+                          src="https://framerusercontent.com/images/dCFrjWpEvtmrQJUXKwtgVUcjE.png" 
+                          alt="" 
+                          style={{display:'block',width:'100%',height:'100%',borderRadius:'inherit',objectPosition:'center',objectFit:'cover'}}
+                        />
+                      </div>
+                    </div>
+                    <div className="framer-1wojdxq">
+                      <p className="framer-text">{data.name}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="framer-ygle17">
+                  <div className="framer-1n6gds2">
+                    <p className="framer-text">{data.price}</p>
+                  </div>
+                </div>
+                <div className="framer-141y6an">
+                  <div className="framer-zak9d1">
+                    <p className="framer-text">{data.description}</p>
+                    {/* <p className="framer-text">for existing users</p> */}
+                  </div>
+                </div>
+              </div>
+              <div className="framer-sxk892"></div>
+              <div className="framer-16yd87h">
+                {
+  data.features && data.features.map((feature)=>(
+     <FeatureItem text={feature} />
+  ))
+}
+                {/* <FeatureItem text="ALL IN STARTER PLAN" />
+                <FeatureItem text="Turo Checkout Assistant" />
+                <FeatureItem text="IRS-Compliant Mileage Report" />
+                <FeatureItem text="Tesla Guest Key Generator" />
+                <FeatureItem text="Tesla Remote Commands" />
+                <FeatureItem text="AI Turo Booking Management" />
+                <FeatureItem text="Bookings Tolls Report" />
+                <FeatureItem text="Tesla Auto Kill Switch" />
+                <FeatureItem text="Late Return AutoDetector" />
+                <FeatureItem text="MooveTrax Full Integration" />
+                <FeatureItem text="Zubie Full Integration" />
+                <FeatureItem text="OneStep GPS Full Integration" />
+                <FeatureItem text="Excess Miles Alert" />
+                <FeatureItem text="Possible Vehicle Towed" />
+                <FeatureItem text="Non Review Detected" />
+                <FeatureItem text="Possible Smoking Violation" /> */}
+              </div>
+            </div>
+            <div className="framer-jpvl74">
+              <div className="framer-1bl8u6h">
+                <div className="framer-19sseu3">
+                  <div className="framer-1rqbcdh">
+                    <p className="framer-text">Email</p>
+                  </div>
+                  <div className="framer-form-text-input framer-form-input-wrapper framer-butpc">
+                    <input 
+                      type="email" 
+                      name="Email" 
+                      placeholder="jane@fleetbold.com" 
+                      className="framer-form-input framer-form-input-empty" 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="framer-1w11dbe-container">
+                  <button 
+                    type="submit" 
+                    className="framer-5pHxE framer-wal6u7 framer-v-wal6u7" 
+                    onClick={handleSubmit}
+                  >
+                    <div className="framer-75go7p">
+                      <p className="framer-text">Claim my Spot!</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
+           
+           </>:
+           data.name === 'Enterprise Plan'?
+           <>
+            <div className="framer-14y7761" data-border="true">
+            <div className="framer-1a6d73t">
+              <div className="framer-5nugq8">
+                <div className="framer-lm80sb">
+                  <div className="framer-auf783">
+                    <div style={{position:'absolute',borderRadius:'inherit',top:0,right:0,bottom:0,left:0}}>
+                      <img 
+                        src="https://framerusercontent.com/images/fT7uaDhP4VAjXwkxnYed6Neo5M.png" 
+                        alt="" 
+                        style={{display:'block',width:'100%',height:'100%',borderRadius:'inherit',objectPosition:'center',objectFit:'cover'}}
+                      />
+                    </div>
+                  </div>
+                  <div className="framer-b1wnjr">
+                    <p className="framer-text">{data.name}</p>
+                  </div>
+                </div>
+                <div className="framer-1y4oawr">
+                  <div className="framer-1mdrb2l">
+                    <p className="framer-text">{data.price}</p>
+                  </div>
+                </div>
+                <div className="framer-hczz0z">
+                  <div className="framer-k2dwin">
+                    <p className="framer-text">{data.description}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="framer-1jzuobb"></div>
+              <div className="framer-196yxr5">
+                {
+  data.features && data.features.map((feature,index)=>(
+     <FeatureItem text={feature} />
+  ))
+}
+                {/* <FeatureItem text="ALL IN PREMIUM PLAN" />
+                <FeatureItem text="Booking Behaviour Report" />
+                <FeatureItem text="Remote Setup" />
+                <FeatureItem text="Dedicated account manager" />
+                <FeatureItem text="CRM Integration" />
+                <FeatureItem text="Possible Commercial Use Alert" />
+                <FeatureItem text="Turo Smart Dispute Report" />
+                <FeatureItem text="Vehicle Inactivity Alert" />
+                <FeatureItem text="Tickets-to-Booking Sync" />
+                <FeatureItem text="Ineligible Invoice Alert" />
+                <FeatureItem text="Turo Invoice Dashboard" />
+                <FeatureItem text="Towed Vehicle Detection" />
+                <FeatureItem text="Criminal Zone Alert" />
+                <FeatureItem text="Suspicious Activity Detected" />
+                <FeatureItem text="Risky Driver Report" />
+                <FeatureItem text="Possible Late Return" />
+                <FeatureItem text="Upcoming Trip in Risk" /> */}
+              </div>
+            </div>
+            <div className="framer-cvt2eu"></div>
+          </div>
+           </>:<></>
+              
+              
             ))
           }
           {/* <div className="framer-kgo7za" data-border="true">
@@ -216,7 +369,7 @@ const [dataList, setdataList] = useState([]);
           </div> */}
 
           {/* Premium Plan */}
-          <div className="framer-108250c" data-border="true">
+          {/* <div className="framer-108250c" data-border="true">
             <div className="framer-1pjs9xc">
               <div className="framer-5c3smi">
                 <div className="framer-ejat6c">
@@ -297,10 +450,10 @@ const [dataList, setdataList] = useState([]);
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Enterprise Plan */}
-          <div className="framer-14y7761" data-border="true">
+          {/* <div className="framer-14y7761" data-border="true">
             <div className="framer-1a6d73t">
               <div className="framer-5nugq8">
                 <div className="framer-lm80sb">
@@ -350,10 +503,10 @@ const [dataList, setdataList] = useState([]);
               </div>
             </div>
             <div className="framer-cvt2eu"></div>
-          </div>
+          </div> */}
         </div>
       </div>
-      
+       
       <style jsx>{`
         /* Font Face Definitions */
         @font-face {
