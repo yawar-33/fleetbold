@@ -111,12 +111,12 @@ const AnimatedBorderButton = ({
   );
 };
 
-export const ButtonDemo = () => {
+export const ButtonDemo = ({buttonText}) => {
   return (
       <AnimatedBorderButton 
           onClick={() => alert('Button clicked!')}
         >
-          DOWNLOAD
+        {buttonText?buttonText: 'DOWNLOAD'} 
         </AnimatedBorderButton>
   );
 };

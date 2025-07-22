@@ -1,6 +1,7 @@
 'use client';
 import React, { useRef, useEffect, useState } from 'react';
 import ButtonDemo from './ButtonDemo';
+import axios from 'axios';
 
 const ParticleCanvas = () => {
   const canvasRef = useRef(null);
@@ -96,7 +97,40 @@ const ParticleCanvas = () => {
 
 const PixelLabHero = () => {
   const [spotsLeft] = useState(12);
-
+ const url = process.env.NEXT_PUBLIC_APP_URL
+const [data, setdata] = useState({
+        badge: 'Hurry! Only Few Spots Left',
+        headline: 'Drive Your Car Rental Business Forward With FleetBold',
+        subheadline:'Crafted by Active Turo Hosts, Incorporating Industry-Leading Features Demanded by Car Rental Professionals',
+        buttonText:'Download',
+        buttonLink:''
+});
+  useEffect(() => {
+    getData()
+  }, []);
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "*/*",
+    },
+  };
+     const getData = async () => {
+    axios
+      .get(`${url}/hero/public/getAll`, options)
+      .then((res) => {
+        if(res.data.data.length !==0){
+         setdata(res.data.data[0])
+        }
+       
+      }).catch((error) => {
+        // setdataList(steps)
+        // toast({
+        //   title: "error:",
+        //   description:
+        //     error.message
+        // });
+      })
+    }
   return (
     <div className="relative text-white overflow-hidden">
       {/* Particle Background */}
@@ -111,27 +145,33 @@ const PixelLabHero = () => {
       <div className="relative z-10 flex justify-center mt-[5rem]">
         <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-full px-4 py-2 flex items-center space-x-2">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-sm text-gray-300">Hurry! Only Few Spots Left</span>
+          <span className="text-sm text-gray-300">{data.badge}
+            {/* Hurry! Only Few Spots Left */}
+            </span>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[50vh] px-6 text-center">
         <h1 style={{lineHeight:'70px'}} className="text-3xl md:text-4xl  font-outfit lg:text-5xl font-medium mb-8 leading-tight lg:w-[100%]">
-     Drive Your Car Rental Business
+    {data.headline}
+     {/* Drive Your Car Rental Business
           <br />
-         Forward With FleetBold
+         Forward With FleetBold */}
         </h1>
         
         <p className="text-xl md:text-[18px] font-outfit text-white mb-12 max-w-2xl">
-         Crafted by Active Turo Hosts, Incorporating Industry-Leading
+          {data.subheadline}
+         {/* Crafted by Active Turo Hosts, Incorporating Industry-Leading
          <br/>
-          Features Demanded by Car Rental Professionals
+          Features Demanded by Car Rental Professionals */}
         
         </p>
 
 
-<ButtonDemo />
+<ButtonDemo 
+ buttonText={data.buttonText}
+ />
        
 
         {/* Logo Section */}

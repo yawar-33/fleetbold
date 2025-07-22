@@ -70,7 +70,7 @@ const Admin_Pricing = () => {
         if (mode === 'Edit') {
             setPricingModel({
                 ...pricingModel,
-                id: 0,
+                id:row._id,
                 name: row.name,
                 description: row.description,
                 price: row.price,
