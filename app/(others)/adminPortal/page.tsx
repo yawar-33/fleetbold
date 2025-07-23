@@ -10,6 +10,7 @@ import Admin_Testimonial from '@/components/AdminComponents/Admin_Testimonial';
 import Admin_Pricing from '@/components/AdminComponents/Admin_Pricing';
 import Admin_FAQS from '@/components/AdminComponents/Admin_FAQS';
 import Admin_Hero from '@/components/AdminComponents/Admin_Hero';
+import Admin_NavItems from '@/components/AdminComponents/Admin_NavItems';
 
 const Header = ({ onMenuToggle, sidebarOpen }) => {
   const router = useRouter();
@@ -89,7 +90,8 @@ const Sidebar = ({ isOpen, onClose, activeItem, setActiveItem ,setActiveComponen
     { id: 'testimonial', label: 'Testimonial', icon: FileText, component:<Admin_Testimonial/>},
     { id: 'pricing', label: 'Pricing', icon: Calendar,component:<Admin_Pricing/> },
     { id: 'faq', label: 'FAQs', icon: Settings, component:<Admin_FAQS/> },
-     { id: 'hero', label: 'Hero Section', icon: Settings, component:<Admin_Hero/> },
+    { id: 'hero', label: 'Hero Section', icon: Settings, component:<Admin_Hero/> },
+    { id: 'navItems', label: 'Navbar Items', icon: Settings, component:<Admin_NavItems/> },
   ];
 
   const handleNavigation = (item) => {

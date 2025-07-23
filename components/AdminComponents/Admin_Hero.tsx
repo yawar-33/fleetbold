@@ -22,7 +22,7 @@ const Admin_Hero = () => {
         buttonText:'',
         buttonLink:''
     })
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('authToken');  
     const options = {
         headers: {
             "Content-Type": "application/json",
@@ -145,10 +145,8 @@ const Admin_Hero = () => {
                         description:
                             error.response.data.message,
                     });
-                })
-
+                }) 
         }
-
 
     };
     const handleUpdateData = async (e) => {
@@ -235,7 +233,7 @@ const Admin_Hero = () => {
                 addnewScreen ?
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                        <div className='p-3'>
-
+                           <label>Badge:</label>
                             <input
                                 type="text"
                                 placeholder="Enter Badge"
@@ -247,7 +245,7 @@ const Admin_Hero = () => {
                              
                         </div>
                         <div className='p-3 pt-0'>
-
+                                <label>Headline:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="text"
                                 placeholder="Enter Headline"
@@ -260,6 +258,7 @@ const Admin_Hero = () => {
                         </div>
 
                         <div className='p-3 pt-0'>
+                             <label>SubHeadline:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="text"
                                 placeholder="Enter Subheadline"
@@ -271,6 +270,7 @@ const Admin_Hero = () => {
                               {errors['subheadline'] && <p style={{ color: 'red' }}>{errors['subheadline']}</p>}
                         </div>
                          <div className='p-3 pt-0'>
+                             <label>ButtonText:</label>
                             <input
                                 type="text"
                                 placeholder="Enter ButtonText"
@@ -282,6 +282,7 @@ const Admin_Hero = () => {
                              
                         </div>
                          <div className='p-3 pt-0'>
+                            <label>ButtonLink:</label>
                             <input
                                 type="text"
                                 placeholder="Enter ButtonLink"

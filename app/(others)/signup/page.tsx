@@ -3,25 +3,29 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock ,User} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { validation } from '@/components/AdminComponents/Utils/validation';
 //import { callPublicApi } from '@/components/callApiMethod/callAPI';
 
 const SignupPage = ({ onLogin }) => {
-   const { toast } = useToast()
+  const { toast } = useToast()
   const url=process.env.NEXT_PUBLIC_APP_URL
   const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     username:'',
     email: '',
     password: '',
     role:''
   });
+  const [errors, setErrors] = useState({});
+  const requiredFields = ['username', 'password','email','role'];
 const route = useRouter()
   
   const handleSubmit = async(e) => {
     e.preventDefault();
     // Simple validation - in real app, you'd validate against backend
-
-    if (formData.email && formData.password && formData.username && formData.role) {
+ const validationErrors = validation(requiredFields,formData);
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length === 0)  {
        e.preventDefault();
         // callPublicApi('auth/signup', 'post',formData)
         //   .then((res) => {
@@ -83,6 +87,7 @@ const route = useRouter()
                   required
                 />
               </div>
+               {errors['username'] && <p style={{ color: 'red' }}>{errors['username']}</p>}
             </div>
  
             <div>
@@ -102,6 +107,7 @@ const route = useRouter()
                   required
                 />
               </div>
+               {errors['email'] && <p style={{ color: 'red' }}>{errors['email']}</p>}
             </div>
 
             <div>
@@ -120,6 +126,7 @@ const route = useRouter()
                   placeholder="Enter your password"
                   required
                 />
+                 {errors['password'] && <p style={{ color: 'red' }}>{errors['password']}</p>}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -146,6 +153,7 @@ const route = useRouter()
                   required
                 />
               </div>
+                {errors['password'] && <p style={{ color: 'red' }}>{errors['password']}</p>}
             </div>
             <button
               type="button"

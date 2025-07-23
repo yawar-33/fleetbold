@@ -1,11 +1,39 @@
 'use client';
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 const NavbarAltV2 = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [activeSection, setActiveSection] = useState('');
-
+const url = process.env.NEXT_PUBLIC_APP_URL
+const [data, setdata] = useState([]);
+//   useEffect(() => {
+//     getData()
+//   }, []);
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "*/*",
+    },
+  };
+     const getData = async () => {
+    axios
+      .get(`${url}/navitem/public/getAll`, options)
+      .then((res) => {
+        if(res.data.data.length !==0){
+         setdata(res.data.data[0])
+        }
+       
+      }).catch((error) => {
+        // setdataList(steps)
+        // toast({
+        //   title: "error:",
+        //   description: 
+        //     error.message
+        // });
+      })
+    } 
     useEffect(() => {
         const checkScreenSize = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -102,6 +130,8 @@ const NavbarAltV2 = () => {
                             </div>
                         </a>
 
+
+
                         {/* Desktop Navigation */}
                         {!isMobile && (
                             <>
@@ -109,8 +139,26 @@ const NavbarAltV2 = () => {
                                 <div className="nav-separator"></div>
 
                                 {/* Navigation Links */}
+                               
                                 <div className="nav-links">
-                                    <a 
+                                     {
+                                    data && data.length>0?data.map((item,index)=>(
+                                         <a 
+                                        href="#services" 
+                                        className={`nav-link ${isActive('services') ? 'nav-link-active' : ''}`}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleNavClick('#services');
+                                        }}
+                                    >
+                                        Features
+                                    </a>
+                                    )
+
+                                    
+
+                                    ):<>
+                                      <a 
                                         href="#services" 
                                         className={`nav-link ${isActive('services') ? 'nav-link-active' : ''}`}
                                         onClick={(e) => {
@@ -167,7 +215,9 @@ const NavbarAltV2 = () => {
                                         }}
                                     >
                                         Pricing
-                                    </a>
+                                    </a></>
+                                }
+                                  
                                 </div>
 
                                 {/* Contact Button */}

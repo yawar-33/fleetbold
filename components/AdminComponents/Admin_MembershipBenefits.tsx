@@ -234,7 +234,7 @@ const Admin_MembershipBenefits = () => {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
            
     <div className='p-3 '>
-
+             <label>Icon Link:<span style={{ color: 'red' }}>*</span></label>
               <input
                 type="text"
                 placeholder="Enter Icon Link"
@@ -247,7 +247,7 @@ const Admin_MembershipBenefits = () => {
             </div>
      
             <div className='p-3 pt-0'>
-
+              <label>Title:<span style={{ color: 'red' }}>*</span></label>
               <input
                 type="text"
                 placeholder="Title"

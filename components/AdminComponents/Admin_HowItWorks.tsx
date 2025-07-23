@@ -176,6 +176,7 @@ const Admin_HowItWorks = () => {
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
 
                         <div className='p-3'>
+                             <label>Title:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="text"
                                 placeholder="Title"
@@ -187,6 +188,7 @@ const Admin_HowItWorks = () => {
                             {errors['title'] && <p style={{ color: 'red' }}>{errors['title']}</p>}
                         </div>
                         <div className='p-3 pt-0'>
+                            <label>Description:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="textArea"
                                 placeholder="Description"
