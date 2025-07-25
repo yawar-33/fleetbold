@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 
-const MembershipHeader = () => {
+const MembershipHeader = (headerData) => {
+ 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-8">
     
@@ -15,7 +16,7 @@ const MembershipHeader = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <h2 className="text-xl md:text-2xl lg:text-6xl font-bold text-center text-white leading-tight">
-            Membership Benefits
+           {headerData.headerTitle}
           </h2>
         </motion.div>
 
@@ -26,7 +27,7 @@ const MembershipHeader = () => {
           className="flex justify-center"
         >
           <p className="text-lg text-gray-300 leading-relaxed max-w-2xl text-center">
-            Our membership comes with the promise of endless creativity and dedicated support.
+            {headerData.headerDescription}
           </p>
         </motion.div>
       </div>

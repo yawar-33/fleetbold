@@ -6,34 +6,50 @@ const NavbarAltV2 = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [activeSection, setActiveSection] = useState('');
-const url = process.env.NEXT_PUBLIC_APP_URL
-const [data, setdata] = useState([]);
-//   useEffect(() => {
-//     getData()
-//   }, []);
-  const options = {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "*/*",
-    },
-  };
-     const getData = async () => {
-    axios
-      .get(`${url}/navitem/public/getAll`, options)
-      .then((res) => {
-        if(res.data.data.length !==0){
-         setdata(res.data.data[0])
-        }
-       
-      }).catch((error) => {
-        // setdataList(steps)
-        // toast({
-        //   title: "error:",
-        //   description: 
-        //     error.message
-        // });
-      })
-    } 
+    const url = process.env.NEXT_PUBLIC_APP_URL
+    const [data, setdata] = useState([]);
+      useEffect(() => {
+        getData()
+      }, []);
+    const navbarItem = [
+        { idLink: 'services', label: 'services', url: '' },
+        { idLink: 'our-blog', label: 'our-blog', url: '' },
+        { idLink: 'how-it-works-section', label: 'how-it-works-section', url: '' },
+        { idLink: 'testinomials-section', label: 'testinomials-section', url: '' },
+        { idLink: 'faq-section', label: 'faq-section', url: '' },
+        { idLink: 'pricing-section', label: 'pricing-section', url: '' },
+
+    ]
+    const options = {
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+        },
+    };
+    const getData = async () => {
+        axios
+            .get(`${url}/navitem/public/getAll`, options)
+            .then((res) => {
+                if (res.data.data.length !== 0) {
+                    // Assign 'name' from array1 to array2
+                    let array2 = res.data.data
+                    array2.forEach((obj, index) => {
+                        if (!obj.url) {
+                            obj.idLink = navbarItem[index].idLink
+                        }
+                    });
+                    setdata(array2)
+                }
+
+            }).catch((error) => {
+                // setdataList(steps)
+                // toast({
+                //   title: "error:",
+                //   description: 
+                //     error.message
+                // });
+            })
+    }
     useEffect(() => {
         const checkScreenSize = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -62,12 +78,12 @@ const [data, setdata] = useState([]);
         };
 
         // Only add scroll listener if we're on a page with sections
-        const hasSections = document.getElementById('hero') || 
-                           document.getElementById('services') || 
-                           document.getElementById('how-it-works-section') ||
-                           document.getElementById('testinomials-section') ||
-                           document.getElementById('faq-section') ||
-                           document.getElementById('pricing-section');
+        const hasSections = document.getElementById('hero') ||
+            document.getElementById('services') ||
+            document.getElementById('how-it-works-section') ||
+            document.getElementById('testinomials-section') ||
+            document.getElementById('faq-section') ||
+            document.getElementById('pricing-section');
 
         if (hasSections) {
             window.addEventListener('scroll', handleScroll);
@@ -115,16 +131,16 @@ const [data, setdata] = useState([]);
                 <div className="navbar-inner">
                     <div className="nav-content">
                         {/* Logo */}
-                        <a 
-                            href="#hero" 
+                        <a
+                            href="#hero"
                             className="logo-container"
                             aria-label="FleetBold Home"
                             onClick={() => handleNavClick('#hero')}
                         >
                             <div className="logo-wrapper">
-                                <img 
-                                    src="https://framerusercontent.com/images/7GJD6qhMhDrRI9KsaDE4fwrnFAs.png" 
-                                    alt="FleetBold Logo" 
+                                <img
+                                    src="https://framerusercontent.com/images/7GJD6qhMhDrRI9KsaDE4fwrnFAs.png"
+                                    alt="FleetBold Logo"
                                     className="logo-image"
                                 />
                             </div>
@@ -139,85 +155,94 @@ const [data, setdata] = useState([]);
                                 <div className="nav-separator"></div>
 
                                 {/* Navigation Links */}
-                               
+
                                 <div className="nav-links">
-                                     {
-                                    data && data.length>0?data.map((item,index)=>(
-                                         <a 
-                                        href="#services" 
-                                        className={`nav-link ${isActive('services') ? 'nav-link-active' : ''}`}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleNavClick('#services');
-                                        }}
-                                    >
-                                        Features
-                                    </a>
-                                    )
+                                    {
+                                        data && data.length > 0 ? data.map((item, index) => (
+                                            item.url ?
+                                                <a
+                                                    href={item.url}
+                                                    target="_blank"
+                                                    rel="noopener"
+                                                    className="nav-link"
+                                                >
+                                                   {item.label}
+                                                </a> :
+                                                <a
+                                                    href={`#${item.idLink}`}
+                                                    className={`nav-link ${isActive(item.idLink) ? 'nav-link-active' : ''}`}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        handleNavClick(`#${item.idLink}`);
+                                                    }}
+                                                >
+                                                    {item.label}
+                                                </a>
+                                        )
 
-                                    
 
-                                    ):<>
-                                      <a 
-                                        href="#services" 
-                                        className={`nav-link ${isActive('services') ? 'nav-link-active' : ''}`}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleNavClick('#services');
-                                        }}
-                                    >
-                                        Features
-                                    </a>
-                                    <a 
-                                        href="https://blog.fleetbold.com/" 
-                                        target="_blank" 
-                                        rel="noopener" 
-                                        className="nav-link"
-                                    >
-                                        Our Blog
-                                    </a>
-                                    <a 
-                                        href="#how-it-works-section" 
-                                        className={`nav-link ${isActive('how-it-works-section') ? 'nav-link-active' : ''}`}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleNavClick('#how-it-works-section');
-                                        }}
-                                    >
-                                        How it Works
-                                    </a>
-                                    <a 
-                                        href="#testinomials-section"
-                                        className={`nav-link ${isActive('testinomials-section') ? 'nav-link-active' : ''}`}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleNavClick('#testinomials-section');
-                                        }}
-                                    >
-                                        Testimonials
-                                    </a>
-                                    <a 
-                                        href="#faq-section" 
-                                        className={`nav-link ${isActive('faq-section') ? 'nav-link-active' : ''}`}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleNavClick('#faq-section');
-                                        }}
-                                    >
-                                        FAQs
-                                    </a>
-                                    <a 
-                                        href="#pricing-section"
-                                        className={`nav-link ${isActive('pricing-section') ? 'nav-link-active' : ''}`}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleNavClick('#pricing-section');
-                                        }}
-                                    >
-                                        Pricing
-                                    </a></>
-                                }
-                                  
+
+                                        ) : <>
+                                            <a
+                                                href="#services"
+                                                className={`nav-link ${isActive('services') ? 'nav-link-active' : ''}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleNavClick('#services');
+                                                }}
+                                            >
+                                                Features
+                                            </a>
+                                            <a
+                                                href="https://blog.fleetbold.com/"
+                                                target="_blank"
+                                                rel="noopener"
+                                                className="nav-link"
+                                            >
+                                                Our Blog
+                                            </a>
+                                            <a
+                                                href="#how-it-works-section"
+                                                className={`nav-link ${isActive('how-it-works-section') ? 'nav-link-active' : ''}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleNavClick('#how-it-works-section');
+                                                }}
+                                            >
+                                                How it Works
+                                            </a>
+                                            <a
+                                                href="#testinomials-section"
+                                                className={`nav-link ${isActive('testinomials-section') ? 'nav-link-active' : ''}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleNavClick('#testinomials-section');
+                                                }}
+                                            >
+                                                Testimonials
+                                            </a>
+                                            <a
+                                                href="#faq-section"
+                                                className={`nav-link ${isActive('faq-section') ? 'nav-link-active' : ''}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleNavClick('#faq-section');
+                                                }}
+                                            >
+                                                FAQs
+                                            </a>
+                                            <a
+                                                href="#pricing-section"
+                                                className={`nav-link ${isActive('pricing-section') ? 'nav-link-active' : ''}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleNavClick('#pricing-section');
+                                                }}
+                                            >
+                                                Pricing
+                                            </a></>
+                                    }
+
                                 </div>
 
                                 {/* Contact Button */}
@@ -233,8 +258,8 @@ const [data, setdata] = useState([]);
 
                         {/* Mobile Menu Toggle */}
                         {isMobile && (
-                            <button 
-                                className="mobile-menu-toggle" 
+                            <button
+                                className="mobile-menu-toggle"
                                 onClick={toggleMobileMenu}
                                 aria-label="Toggle mobile menu"
                             >
@@ -251,65 +276,100 @@ const [data, setdata] = useState([]);
                     <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
                         <div className="mobile-menu-content">
                             <div className="mobile-nav-links">
-                                <a 
-                                    href="#services" 
-                                    className={`mobile-nav-link ${isActive('services') ? 'mobile-nav-link-active' : ''}`}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        handleNavClick('#services');
-                                    }}
-                                >
-                                    Features
-                                </a>
-                                <a 
-                                    href="https://blog.fleetbold.com/" 
-                                    target="_blank" 
-                                    rel="noopener" 
-                                    className="mobile-nav-link"
-                                    onClick={closeMobileMenu}
-                                >
-                                    Our Blog
-                                </a>
-                                <a 
-                                    href="#how-it-works-section" 
-                                    className={`mobile-nav-link ${isActive('how-it-works-section') ? 'mobile-nav-link-active' : ''}`}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        handleNavClick('#how-it-works-section');
-                                    }}
-                                >
-                                    How it Works
-                                </a>
-                                <a 
-                                    href="#testinomials-section"
-                                    className={`mobile-nav-link ${isActive('testinomials-section') ? 'mobile-nav-link-active' : ''}`}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        handleNavClick('#testinomials-section');
-                                    }}
-                                >
-                                    Testimonials
-                                </a>
-                                <a 
-                                    href="#faq-section" 
-                                    className={`mobile-nav-link ${isActive('faq-section') ? 'mobile-nav-link-active' : ''}`}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        handleNavClick('#faq-section');
-                                    }}
-                                >
-                                    FAQs
-                                </a>
-                                <a 
-                                    href="#pricing-section"
-                                    className={`mobile-nav-link ${isActive('pricing-section') ? 'mobile-nav-link-active' : ''}`}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        handleNavClick('#pricing-section');
-                                    }}
-                                >
-                                    Pricing
-                                </a>
+
+
+                                {
+                                    data && data.length > 0 ? data.map((item, index) => (
+                                        item.url ?
+                                            <a
+                                                href={item.url}
+                                                target="_blank"
+                                                rel="noopener"
+                                                className="mobile-nav-link"
+                                                onClick={closeMobileMenu}
+                                            >
+                                               {item.label}
+                                            </a> :
+                                            <a
+                                                href={`#${item.idLink}`}
+                                                className={`mobile-nav-link ${isActive('services') ? 'mobile-nav-link-active' : ''}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleNavClick(`#${item.idLink}`);
+                                                }}
+                                            >
+                                                {item.label}
+                                            </a>
+                                    )
+
+
+
+                                    ) : <>
+                                        <a
+                                            href="#services"
+                                            className={`mobile-nav-link ${isActive('services') ? 'mobile-nav-link-active' : ''}`}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleNavClick('#services');
+                                            }}
+                                        >
+                                            Features
+                                        </a>
+                                        <a
+                                            href="https://blog.fleetbold.com/"
+                                            target="_blank"
+                                            rel="noopener"
+                                            className="mobile-nav-link"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Our Blog
+                                        </a>
+                                        <a
+                                            href="#how-it-works-section"
+                                            className={`mobile-nav-link ${isActive('how-it-works-section') ? 'mobile-nav-link-active' : ''}`}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleNavClick('#how-it-works-section');
+                                            }}
+                                        >
+                                            How it Works
+                                        </a>
+                                        <a
+                                            href="#testinomials-section"
+                                            className={`mobile-nav-link ${isActive('testinomials-section') ? 'mobile-nav-link-active' : ''}`}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleNavClick('#testinomials-section');
+                                            }}
+                                        >
+                                            Testimonials
+                                        </a>
+                                        <a
+                                            href="#faq-section"
+                                            className={`mobile-nav-link ${isActive('faq-section') ? 'mobile-nav-link-active' : ''}`}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleNavClick('#faq-section');
+                                            }}
+                                        >
+                                            FAQs
+                                        </a>
+                                        <a
+                                            href="#pricing-section"
+                                            className={`mobile-nav-link ${isActive('pricing-section') ? 'mobile-nav-link-active' : ''}`}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleNavClick('#pricing-section');
+                                            }}
+                                        >
+                                            Pricing
+                                        </a></>
+                                }
+
+
+
+
+
                             </div>
 
                             <div className="mobile-contact-section">

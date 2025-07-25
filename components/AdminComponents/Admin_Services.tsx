@@ -15,13 +15,24 @@ const Admin_Services = () => {
     const [servicesList, setservicesList] = useState([]);
     const [editmode, setEditMode] = useState(false);
     const [errors, setErrors] = useState({});
-    const requiredFields = ['title', 'description','icon'];
+    const requiredFields = ['title', 'description', 'icon'];
     const [servicesModel, setservicesModel] = useState({
         id: 0,
         title: '',
         description: '',
         icon: ''
     })
+    const [headerData, setHeaderData] = useState({
+        headerDescription: 'From web design to branding, our expert team delivers creative solutions that elevate your brand and captivate your audience.',
+        headerTitle: "One Stop Design Solution"
+    });
+    const [headerModel, setHeaderModel] = useState({
+        headerDescription: '',
+        headerTitle: ''
+    });
+    const [headerEditmode, setHeaderEditMode] = useState(false);
+    const [headerErrors, setHeaderErrors] = useState({});
+    const headerRequiredFields = ['headerTitle', 'headerDescription'];
     const token = localStorage.getItem('authToken');
     const options = {
         headers: {
@@ -74,6 +85,7 @@ const Admin_Services = () => {
     ];
     useEffect(() => {
         getData()
+        getHeaderData()
     }, []);
 
     const addBenefit = (flag, mode, row) => {
@@ -131,9 +143,9 @@ const Admin_Services = () => {
     const handleSaveData = async (e) => {
         e.preventDefault();
 
-       const validationErrors = validation(requiredFields,servicesModel);
-    setErrors(validationErrors);
-    if (Object.keys(validationErrors).length === 0) {
+        const validationErrors = validation(requiredFields, servicesModel);
+        setErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
             axios
                 .post(`${url}/services`, servicesModel, options)
                 .then((res) => {
@@ -165,9 +177,9 @@ const Admin_Services = () => {
     };
     const handleUpdateData = async (e) => {
         e.preventDefault();
-        const validationErrors = validation(requiredFields,servicesModel);
-    setErrors(validationErrors);
-    if (Object.keys(validationErrors).length === 0) {
+        const validationErrors = validation(requiredFields, servicesModel);
+        setErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
             axios
                 .put(`${url}/services`, servicesModel, options)
                 .then((res) => {
@@ -229,16 +241,113 @@ const Admin_Services = () => {
             })
 
     };
+    const handleHeaderInputChange = (event) => {
+        const { name, value } = event.target
+        setHeaderModel({
+            ...headerModel,
+            [name]: value
+        })
+    }
+    const getHeaderData = async () => {
+        axios
+            .get(`${url}/servicesHeader/services-header`)
+            .then((res) => {
+                setHeaderData(res.data.data)
+            }).catch((error) => {
+                toast({
+                    title: "error:",
+                    description:
+                        error.response.data.message
+                });
+            })
+
+    };
+    const updateHeader = async () => {
+        const validationErrors = validation(headerRequiredFields, headerModel);
+        setHeaderErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
+            axios
+                .put(`${url}/servicesHeader/services-header`, headerModel)
+                .then((res) => {
+                    console.log('response1', res)
+                    toast({
+                        title: "Success:",
+                        description:
+                            "Record Update Successfully",
+                    });
+                    setHeaderEditMode(false)
+                    getHeaderData()
+                }).catch((error) => {
+                    toast({
+                        title: "error:",
+                        description:
+                            error.response.data.message,
+                    });
+                })
+
+        }
+
+    };
+
     return (
         <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Services</h1>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
-                    onClick={() => addBenefit(true, 'New', null)}
-                >
-                    Add New
-                </button>
-            </div>
+            {
+                headerEditmode ? <>
+                    <div className="flex items-center justify-between">
+                        <div className='p-3 '>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Header Title:<span style={{ color: 'red' }}>*</span></label>
+                            <input
+                                type="text"
+                                placeholder="Enter Title"
+                                name='headerTitle'
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                                onChange={handleHeaderInputChange}
+                                value={headerModel.headerTitle}
+                            />
+                            {headerErrors['headerTitle'] && <p style={{ color: 'red' }}>{headerErrors['headerTitle']}</p>}
+                        </div>
+                        <div>
+                            <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 mr-2"
+                                onClick={() => updateHeader()}
+                            >
+                                Update
+                            </button> <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                                onClick={() => setHeaderEditMode(false)}
+                            >
+                                Cancel
+                            </button>
+
+                        </div>
+
+                    </div>
+                    <div className='p-3 pt-0'>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Header Description:<span style={{ color: 'red' }}>*</span></label>
+                        <input
+                            type="text"
+                            placeholder="Enter Description"
+                            name='headerDescription'
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                            onChange={handleHeaderInputChange}
+                            value={headerModel.headerDescription}
+                        />
+                        {headerErrors['headerDescription'] && <p style={{ color: 'red' }}>{headerErrors['headerDescription']}</p>}
+                    </div>
+                </> : <>
+                    <div className="flex items-center justify-between">
+                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{headerData.headerTitle}</h1>
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                            onClick={() => {
+                                setHeaderEditMode(true)
+                                setHeaderModel({ ...headerData })
+                            }}
+                        >
+                            Edit
+                        </button>
+                    </div>
+                    <p className="text-s text-gray-500 dark:text-gray-400">{headerData.headerDescription}</p>
+                </>
+            }
+
 
             {
                 addnewScreen ?
@@ -264,7 +373,7 @@ const Admin_Services = () => {
               />
             </div> */}
                         <div className='p-3'>
-
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Icon Link:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="text"
                                 placeholder="Enter Icon Link"
@@ -273,10 +382,11 @@ const Admin_Services = () => {
                                 onChange={handleInputChange}
                                 value={servicesModel.icon}
                             />
-                              {errors['icon'] && <p style={{ color: 'red' }}>{errors['icon']}</p>}
+                            {errors['icon'] && <p style={{ color: 'red' }}>{errors['icon']}</p>}
                         </div>
 
                         <div className='p-3 pt-0'>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="text"
                                 placeholder="Title"
@@ -285,9 +395,10 @@ const Admin_Services = () => {
                                 onChange={handleInputChange}
                                 value={servicesModel.title}
                             />
-                              {errors['title'] && <p style={{ color: 'red' }}>{errors['title']}</p>}
+                            {errors['title'] && <p style={{ color: 'red' }}>{errors['title']}</p>}
                         </div>
                         <div className='p-3 pt-0'>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="textArea"
                                 placeholder="Description"
@@ -296,7 +407,7 @@ const Admin_Services = () => {
                                 onChange={handleInputChange}
                                 value={servicesModel.description}
                             />
-                             {errors['description'] && <p style={{ color: 'red' }}>{errors['description']}</p>}
+                            {errors['description'] && <p style={{ color: 'red' }}>{errors['description']}</p>}
                         </div>
                         <div className='p-3 pt-0'>
                             <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
@@ -317,7 +428,17 @@ const Admin_Services = () => {
                         {/* <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h2>
             </div> */}
-                        <div className="p-6">
+                        <div className="flex items-center justify-between p-2 space-y-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+                            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Services</h1>
+
+                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                                onClick={() => addBenefit(true, 'New', null)}
+                            >
+                                Add New
+                            </button>
+                        </div>
+
+                        <div className="p-3">
                             <div className="space-y-4">
                                 {
                                     servicesList && servicesList.length > 0 ? servicesList.map((row, index) => (
@@ -326,9 +447,9 @@ const Admin_Services = () => {
                                                 <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
                                                     <div className="h-5 w-5 text-gray-600 dark:text-gray-400">
                                                         <img
-                                                                src={row.icon}
-                                                            />
-                                                        
+                                                            src={row.icon}
+                                                        />
+
 
                                                     </div>
                                                 </div>

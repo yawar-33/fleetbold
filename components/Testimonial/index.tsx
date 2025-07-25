@@ -4,9 +4,44 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import TestimonialScrolling from "./testimonial-scrolling";
+import { testimonialData } from "./testimonialData"
+import axios from "axios";
 
 const Testimonial = () => {
+   const url = process.env.NEXT_PUBLIC_APP_URL
+      const [testimonialDataList, setTestimonialDataList] = useState({
+      faqs:[testimonialData],
+      headerTitle: 'Frequently Asked Questions (FAQs)',
+      headerDescription: 'Find the information you need about our services, plans, and processes. If you have more questions, feel free to reach out to us!'
+    
+      });
+   const options = {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+      },
+    };
+      const getData = async () => {
+      axios
+        .get(`${url}/testimonialHeader/testimonial-header`, options)
+        .then((res) => {
+          setTestimonialDataList(res.data.data)
+        }).catch((error) => {
+          
+          // toast({
+          //   title: "error:",
+          //   description:
+          //     error.message
+          // });
+        })
+  
+    };
+      useEffect(() => {
+          getData()
+      }, []);
+  
   return (
     <main className="max-w-7xl mx-auto px-4 py-12" id="testinomials-section">
 
@@ -48,9 +83,9 @@ const Testimonial = () => {
             </div>
 
               <section className="text-center max-w-xl mx-auto mb-12">
-                <h2 className="font-outfit font-[500] text-[45px] leading-tight12 tracking-normal text-center text-white no-underline">What Our Clients Are Saying</h2>
+                <h2 className="font-outfit font-[500] text-[45px] leading-tight12 tracking-normal text-center text-white no-underline">{testimonialDataList.headerTitle}</h2>
                 <p className="font-outfit font-normal text-[18px] leading-relaxed15 tracking-normal text-center text-white/80 no-underline">
-                  Discover how our solutions have transformed businesses and brought visions to life through our clients' experiences.
+                 {testimonialDataList.headerDescription}
                 </p>
               </section></>
           </motion.div>

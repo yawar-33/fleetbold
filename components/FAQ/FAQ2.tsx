@@ -1,7 +1,8 @@
 "use client";
+import axios from 'axios';
 import { Minus, Plus } from 'lucide-react';
-import React, { useState } from 'react';
-const faqData = [
+import React, { useState ,useEffect } from 'react';
+const faqsData = [
   {
     question: "What is FleetBold and how does it work?",
     answer:
@@ -32,7 +33,35 @@ const FAQ = () => {
 
 
   const [openIndexes, setOpenIndexes] = useState<Set<number>>(new Set());
+const url = process.env.NEXT_PUBLIC_APP_URL
+    const [faqData, setFaqData] = useState({
+      faqs:[...faqsData],
+      headerTitle: 'Frequently Asked Questions (FAQs)',
+      headerDescription: 'Find the information you need about our services, plans, and processes. If you have more questions, feel free to reach out to us!'
+    });
+    useEffect(() => {
+      getData()
+    }, []);
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+      },
+    };
+       const getData = async () => {
+      axios
+        .get(`${url}/faqHeader/faq-section`, options)
+        .then((res) => {
+          setFaqData(res.data.data)
+        }).catch((error) => {
 
+          // toast({
+          //   title: "error:",
+          //   description:
+          //     error.message
+          // });
+        })
+      }
   const toggleFAQ = (index: number) => {
     const newSet = new Set(openIndexes);
     if (newSet.has(index)) {
@@ -47,17 +76,16 @@ const FAQ = () => {
       <div className="max-w-5xl mx-auto px-6 py-12">
         <div className="flex items-center mb-6">
           <h1 className="flex-1 font-outfit text-[45px] font-medium leading-[1.2] text-center">
-            Frequently Asked Questions (FAQs)
+           {faqData.headerTitle}
           </h1>
         </div>
 
         <p className="font-outfit text-[18px] font-normal leading-[1.5] text-center text-white/80 max-w-xl mx-auto mb-10">
-          Find the information you need about our services, plans, and processes. If
-          you have more questions, feel free to reach out to us!
+         {faqData.headerDescription}
         </p>
 
         <div className="bg-[#0C0C0F] rounded-xl p-6 space-y-6  text-xs leading-relaxed">
-          {faqData.map((item, index) => {
+          {faqData.faqs.map((item, index) => {
             const isOpen = openIndexes.has(index);
             return (
               <div key={item.question}>

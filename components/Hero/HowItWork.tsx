@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import axios from 'axios';
-const ProcessBadge = () => {
+const ProcessBadge = (howItWorksData) => {
     return (
         <>
             <div className="flex justify-center mb-4 sm:mb-6" id="how-it-works-section">
@@ -17,10 +17,10 @@ const ProcessBadge = () => {
 
             <section className="text-center max-w-xl mx-auto mb-8 sm:mb-12 px-4">
                 <h2 className="font-outfit font-[500] text-[28px] sm:text-[35px] lg:text-[45px] leading-tight tracking-normal text-center text-white no-underline mb-2 sm:mb-4">
-                    How It Works
+                   {howItWorksData.headerTitle}
                 </h2>
                 <p className="font-outfit font-normal text-[16px] sm:text-[18px] leading-relaxed tracking-normal text-center text-white/80 no-underline">
-                    Our Simple 3-Step Process
+                   {howItWorksData.headerDescription}
                 </p>
             </section>
         </>
@@ -123,26 +123,37 @@ const StepCard = ({ step, title, description, index }) => {
         </motion.div>
     );
 };
-
+ const steps = [
+        {
+            title: "Link Your GPS Devices",
+            description: "Log in with your GPS provider whether it's Tesla, Bouncie, Moovetrax, or another supported platform. FleetBold will instantly detect and sync all active vehicles in your fleet."
+        },
+        {
+            title: "Sync Your Turo Bookings",
+            description: "Securely connect your Turo email. FleetBold will automatically import your past and current bookings and keep everything synced in real time going forward."
+        },
+        {
+            title: "Unlock the Full Dashboard",
+            description: "Track every trip, view earnings, generate invoices, and receive smart alerts for mileage, late returns, tolls, and more. Everything you need all in one powerful dashboard. Enjoy!"
+        }
+    ];
 const HowItWorksSection = () => {
     const url = process.env.NEXT_PUBLIC_APP_URL
-const [dataList, setdataList] = useState([]);
+ const [howItWorksData, setHowItWorksData] = useState({
+     howItWorksItems:[...steps],
+      headerTitle: "How It Works",
+      headerDescription: "Our Simple 3-Step Process",
+   });
   useEffect(() => {
     getData()
   }, []);
-  const options = {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "*/*",
-    },
-  };
      const getData = async () => {
     axios
-      .get(`${url}/howItWorks/public/getAll`, options)
+      .get(`${url}/howItWorksHeader/howItWorks-section`)
       .then((res) => {
-        setdataList(res.data.data)
+        setHowItWorksData(res.data.data)
       }).catch((error) => {
-         setdataList(steps)
+        
         // toast({
         //   title: "error:",
         //   description:
@@ -158,20 +169,7 @@ const [dataList, setdataList] = useState([]);
         margin: "50px"
     });
 
-    const steps = [
-        {
-            title: "Link Your GPS Devices",
-            description: "Log in with your GPS provider whether it's Tesla, Bouncie, Moovetrax, or another supported platform. FleetBold will instantly detect and sync all active vehicles in your fleet."
-        },
-        {
-            title: "Sync Your Turo Bookings",
-            description: "Securely connect your Turo email. FleetBold will automatically import your past and current bookings and keep everything synced in real time going forward."
-        },
-        {
-            title: "Unlock the Full Dashboard",
-            description: "Track every trip, view earnings, generate invoices, and receive smart alerts for mileage, late returns, tolls, and more. Everything you need all in one powerful dashboard. Enjoy!"
-        }
-    ];
+   
 
     return (
         <section
@@ -207,13 +205,13 @@ const [dataList, setdataList] = useState([]);
                             delay: 0.1
                         }}
                     >
-                        <ProcessBadge />
+                        <ProcessBadge {...howItWorksData}/>
                     </motion.div>
                 </div>
 
                 {/* Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto w-full">
-                    {dataList.map((step, index) => (
+                    {howItWorksData.howItWorksItems.map((step, index) => (
                         <StepCard
                             key={index}
                             step={index + 1}

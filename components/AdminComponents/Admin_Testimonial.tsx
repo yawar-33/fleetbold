@@ -19,8 +19,20 @@ const Admin_Testimonial = () => {
         name: '',
         content: '',
         image: '',
-        designation:'',
+        designation: '',
     })
+    const [headerData, setHeaderData] = useState({
+        headerTitle: "What Our Clients Are Saying",
+        headerDescription: "Discover how our solutions have transformed businesses and brought visions to life through our clients' experiences.",
+
+    });
+    const [headerModel, setHeaderModel] = useState({
+        headerDescription: '',
+        headerTitle: ''
+    });
+    const [headerEditmode, setHeaderEditMode] = useState(false);
+    const [headerErrors, setHeaderErrors] = useState({});
+    const headerRequiredFields = ['headerTitle', 'headerDescription'];
     const token = localStorage.getItem('authToken');
     const options = {
         headers: {
@@ -30,35 +42,35 @@ const Admin_Testimonial = () => {
         },
     };
     const services = [
-         {
-    id: 1,
-    name: "Ava Martinez",
-    content:
-      "I have tried most of the lead generation services in the industry, and none compare to the Advertizip Prime Bundle Leads. The mere fact of calling your leads and having them recognize you and await your call significantly changes and eases the entire process from the start.",
-    image:"https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
-    },
-  {
-    id: 2,
-    name: "Michael C.",
-    content:
-      "The combination of Advertizip leads and its chatbot appointment setter makes it my preferred tool for my business. I have been immersed in other activities when I receive a notification of a new appointment without even having interacted with the leads, because the chatbot has done all the hard work.",
-    image:"https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
-    },
-  {
-    id: 3,
-    name: "Linda H.",
-    content:
-      "I was skeptical at first, but the increase in our lead pipeline has been phenomenal. The platform is user-friendly, efficient, and delivers on its promises.",
-   image:"https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
-    },
-  {
-    id: 4,
-    name: "John Abraham",
-    content:
-      "This is the secret weapon for any real estate professional's arsenal. The lead quality and seamless marketing tools have transformed our approach and results.",
-   image:"https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
-    },
-];
+        {
+            id: 1,
+            name: "Ava Martinez",
+            content:
+                "I have tried most of the lead generation services in the industry, and none compare to the Advertizip Prime Bundle Leads. The mere fact of calling your leads and having them recognize you and await your call significantly changes and eases the entire process from the start.",
+            image: "https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
+        },
+        {
+            id: 2,
+            name: "Michael C.",
+            content:
+                "The combination of Advertizip leads and its chatbot appointment setter makes it my preferred tool for my business. I have been immersed in other activities when I receive a notification of a new appointment without even having interacted with the leads, because the chatbot has done all the hard work.",
+            image: "https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
+        },
+        {
+            id: 3,
+            name: "Linda H.",
+            content:
+                "I was skeptical at first, but the increase in our lead pipeline has been phenomenal. The platform is user-friendly, efficient, and delivers on its promises.",
+            image: "https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
+        },
+        {
+            id: 4,
+            name: "John Abraham",
+            content:
+                "This is the secret weapon for any real estate professional's arsenal. The lead quality and seamless marketing tools have transformed our approach and results.",
+            image: "https://storage.googleapis.com/a1aa/image/394f99cf-7686-435f-c41d-0d0cf291ff38.jpg"
+        },
+    ];
     useEffect(() => {
         getData()
     }, []);
@@ -68,11 +80,11 @@ const Admin_Testimonial = () => {
         if (mode === 'Edit') {
             settestimonialModel({
                 ...testimonialModel,
-                 id: row._id,
-                name:row.name,
+                id: row._id,
+                name: row.name,
                 content: row.content,
                 image: row.image,
-                designation:row.designation,
+                designation: row.designation,
             })
             setEditMode(true)
             setAddnewScreen(flag)
@@ -85,7 +97,7 @@ const Admin_Testimonial = () => {
                 name: '',
                 content: '',
                 image: '',
-                designation:'',
+                designation: '',
             })
         }
 
@@ -119,9 +131,9 @@ const Admin_Testimonial = () => {
     const handleSaveData = async (e) => {
         e.preventDefault();
 
-       const validationErrors = validation(requiredFields,testimonialModel);
-    setErrors(validationErrors);
-    if (Object.keys(validationErrors).length === 0) {
+        const validationErrors = validation(requiredFields, testimonialModel);
+        setErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
             axios
                 .post(`${url}/testimonial`, testimonialModel, options)
                 .then((res) => {
@@ -132,11 +144,11 @@ const Admin_Testimonial = () => {
                             "Record Save Successfully",
                     });
                     settestimonialModel({
-                         id: 0,
+                        id: 0,
                         name: '',
                         content: '',
                         image: '',
-                        designation:'',
+                        designation: '',
                     })
                     setAddnewScreen(false)
                     getData()
@@ -154,9 +166,9 @@ const Admin_Testimonial = () => {
     };
     const handleUpdateData = async (e) => {
         e.preventDefault();
-        const validationErrors = validation(requiredFields,testimonialModel);
-    setErrors(validationErrors);
-    if (Object.keys(validationErrors).length === 0) {
+        const validationErrors = validation(requiredFields, testimonialModel);
+        setErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
             axios
                 .put(`${url}/testimonial`, testimonialModel, options)
                 .then((res) => {
@@ -167,11 +179,11 @@ const Admin_Testimonial = () => {
                             "Record Update Successfully",
                     });
                     settestimonialModel({
-                         id: 0,
+                        id: 0,
                         name: '',
                         content: '',
                         image: '',
-                        designation:'',
+                        designation: '',
                     })
                     setAddnewScreen(false)
                     getData()
@@ -219,42 +231,138 @@ const Admin_Testimonial = () => {
             })
 
     };
+    const handleHeaderInputChange = (event) => {
+        const { name, value } = event.target
+        setHeaderModel({
+            ...headerModel,
+            [name]: value
+        })
+    }
+    const getHeaderData = async () => {
+        axios
+            .get(`${url}/testimonialHeader/testimonial-header`)
+            .then((res) => {
+                setHeaderData(res.data.data)
+            }).catch((error) => {
+                toast({
+                    title: "error:",
+                    description:
+                        error.response.data.message
+                });
+            })
+
+    };
+    const updateHeader = async () => {
+        const validationErrors = validation(headerRequiredFields, headerModel);
+        setHeaderErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
+            axios
+                .put(`${url}/testimonialHeader/testimonial-header`, headerModel)
+                .then((res) => {
+                    console.log('response1', res)
+                    toast({
+                        title: "Success:",
+                        description:
+                            "Record Update Successfully",
+                    });
+                    setHeaderEditMode(false)
+                    getHeaderData()
+                }).catch((error) => {
+                    toast({
+                        title: "error:",
+                        description:
+                            error.response.data.message,
+                    });
+                })
+
+        }
+
+    };
     return (
         <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Testimonial</h1>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
-                    onClick={() => addBenefit(true, 'New', null)}
-                >
-                    Add New
-                </button>
-            </div>
+            {
+                headerEditmode ? <>
+                    <div className="flex items-center justify-between">
+                        <div className='p-3 '>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Header Title:<span style={{ color: 'red' }}>*</span></label>
+                            <input
+                                type="text"
+                                placeholder="Enter Title"
+                                name='headerTitle'
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                                onChange={handleHeaderInputChange}
+                                value={headerModel.headerTitle}
+                            />
+                            {headerErrors['headerTitle'] && <p style={{ color: 'red' }}>{headerErrors['headerTitle']}</p>}
+                        </div>
+                        <div>
+                            <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 mr-2"
+                                onClick={() => updateHeader()}
+                            >
+                                Update
+                            </button> <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                                onClick={() => setHeaderEditMode(false)}
+                            >
+                                Cancel
+                            </button>
+
+                        </div>
+
+                    </div>
+                    <div className='p-3 pt-0'>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Header Description:<span style={{ color: 'red' }}>*</span></label>
+                        <input
+                            type="text"
+                            placeholder="Enter Description"
+                            name='headerDescription'
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                            onChange={handleHeaderInputChange}
+                            value={headerModel.headerDescription}
+                        />
+                        {headerErrors['headerDescription'] && <p style={{ color: 'red' }}>{headerErrors['headerDescription']}</p>}
+                    </div>
+                </> : <>
+                    <div className="flex items-center justify-between">
+                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{headerData.headerTitle}</h1>
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                            onClick={() => {
+                                setHeaderEditMode(true)
+                                setHeaderModel({ ...headerData })
+                            }}
+                        >
+                            Edit
+                        </button>
+                    </div>
+                    <p className="text-s text-gray-500 dark:text-gray-400">{headerData.headerDescription}</p>
+                </>
+            }
 
             {
                 addnewScreen ?
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                         <div className='ml-2'>
-              <div className="w-30 h-30 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mt-2">
-                <div className="h-15 w-15 text-gray-600 dark:text-gray-400">
-                  <img
-                    src={`data:image/png;base64,${testimonialModel.image}`}
-                  />
-                </div>
-              </div>
+                            <div className="w-30 h-30 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mt-2">
+                                <div className="h-15 w-15 text-gray-600 dark:text-gray-400">
+                                    <img
+                                        src={`data:image/png;base64,${testimonialModel.image}`}
+                                    />
+                                </div>
+                            </div>
 
-              <label className='pl-1' htmlFor="upload-input" style={{ cursor: 'pointer' }}>
-                upload Image
-               
-              </label>
-              <input
-                id="upload-input"
-                type="file"
-                onChange={handleFileChange}
-                style={{ display: 'none' }}
-              />
-            </div>
-                       
+                            <label className='pl-1' htmlFor="upload-input" style={{ cursor: 'pointer' }}>
+                                upload Image
+
+                            </label>
+                            <input
+                                id="upload-input"
+                                type="file"
+                                onChange={handleFileChange}
+                                style={{ display: 'none' }}
+                            />
+                        </div>
+
                         <div className='p-3 pt-0'>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="text"
                                 placeholder="Name"
@@ -263,9 +371,10 @@ const Admin_Testimonial = () => {
                                 onChange={handleInputChange}
                                 value={testimonialModel.name}
                             />
-                              {errors['name'] && <p style={{ color: 'red' }}>{errors['name']}</p>}
+                            {errors['name'] && <p style={{ color: 'red' }}>{errors['name']}</p>}
                         </div>
                         <div className='p-3 pt-0'>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Review:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="textArea"
                                 placeholder="Enter Content"
@@ -274,9 +383,10 @@ const Admin_Testimonial = () => {
                                 onChange={handleInputChange}
                                 value={testimonialModel.content}
                             />
-                             {errors['review'] && <p style={{ color: 'red' }}>{errors['review']}</p>}
+                            {errors['review'] && <p style={{ color: 'red' }}>{errors['review']}</p>}
                         </div>
-                          <div className='p-3 pt-0'>
+                        <div className='p-3 pt-0'>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Designation:</label>
                             <input
                                 type="text"
                                 placeholder="Enter Designation"
@@ -305,7 +415,16 @@ const Admin_Testimonial = () => {
                         {/* <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h2>
             </div> */}
-                        <div className="p-6">
+                        <div className="flex items-center justify-between p-2 space-y-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+                            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Reviews</h1>
+
+                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                                onClick={() => addBenefit(true, 'New', null)}
+                            >
+                                Add New
+                            </button>
+                        </div>
+                        <div className="p-3">
                             <div className="space-y-4">
                                 {
                                     testimonialList && testimonialList.length > 0 ? testimonialList.map((row, index) => (
@@ -314,14 +433,14 @@ const Admin_Testimonial = () => {
                                                 <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
                                                     <div className="h-5 w-5 text-gray-600 dark:text-gray-400">
                                                         <img
-                                                                src={`data:image/png;base64,${row.image}`}
-                                                            />
+                                                            src={`data:image/png;base64,${row.image}`}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-medium text-gray-900 dark:text-white">{row.name}</p>
                                                     <p className="text-xs text-gray-500 dark:text-gray-400">{row.content}</p>
-                                                      <p className="text-xs text-gray-500 dark:text-gray-400">{row.designation}</p>
+                                                    <p className="text-xs text-gray-500 dark:text-gray-400">{row.designation}</p>
                                                 </div>
                                             </div>
                                             <div>

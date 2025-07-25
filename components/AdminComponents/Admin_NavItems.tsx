@@ -210,7 +210,7 @@ const Admin_NavItems = () => {
     return (
         <div className="p-6 space-y-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Frequently Asked Questions (FAQs)</h1>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Navbar Items</h1>
                 <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
                     onClick={() => addBenefit(true, 'New', null)}
                 >
@@ -222,7 +222,7 @@ const Admin_NavItems = () => {
                 addnewScreen ?
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                         <div className='p-3'>
-
+ <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Label:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="text"
                                 placeholder="Enter Label"
@@ -235,6 +235,7 @@ const Admin_NavItems = () => {
                         </div>
 
                         <div className='p-3 pt-0'>
+                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">URL (Navigate Link):</label>
                             <input
                                 type="text"
                                 placeholder="Enter url"
@@ -244,7 +245,8 @@ const Admin_NavItems = () => {
                                 value={faqModel.url}
                             />
                         </div>
-                        <div className='p-3 pt-0'>
+                        {/* <div className='p-3 pt-0'>
+                                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">URL (Navigate Link):</label>
                             <input
                                 type="text"
                                 placeholder="Enter order"
@@ -253,7 +255,7 @@ const Admin_NavItems = () => {
                                 onChange={handleInputChange}
                                 value={faqModel.order}
                             />
-                        </div>
+                        </div> */}
                         <div className='p-3 pt-0'>
                             <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
                                 onClick={() => addBenefit(false, 'New', null)}>

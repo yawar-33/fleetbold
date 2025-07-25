@@ -9,19 +9,29 @@ import { validation } from './Utils/validation';
 const Admin_MembershipBenefits = () => {
   const { toast } = useToast()
   const url = process.env.NEXT_PUBLIC_APP_URL
-  const [selectedOption, setSelectedOption] = useState('option1');
   const [addnewScreen, setAddnewScreen] = useState(false)
   const [file, setFile] = useState(null);
   const [benefitsList, setBenefitsList] = useState([]);
   const [editmode, setEditMode] = useState(false);
   const [errors, setErrors] = useState({});
-  const requiredFields = ['title', 'description','icon'];
+  const requiredFields = ['title', 'description', 'icon'];
   const [benefitsModel, setBenefitsModel] = useState({
     id: 0,
     title: '',
     description: '',
     icon: '',
   })
+  const [headerData, setHeaderData] = useState({
+    headerDescription: 'Our membership comes with the promise of endless creativity and dedicated support.',
+    headerTitle: "Membership Benefits"
+  });
+  const [headerModel, setHeaderModel] = useState({
+    headerDescription: '',
+    headerTitle: ''
+  });
+  const [headerEditmode, setHeaderEditMode] = useState(false);
+  const [headerErrors, setHeaderErrors] = useState({});
+  const headerRequiredFields = ['headerTitle', 'headerDescription'];
   const token = localStorage.getItem('authToken');
   const options = {
     headers: {
@@ -64,9 +74,10 @@ const Admin_MembershipBenefits = () => {
   ];
   useEffect(() => {
     getData()
+    getHeaderData()
   }, []);
 
-  const addBenefit = (flag, mode, row) => {
+  const addBenefitItem = (flag, mode, row) => {
     console.log('row', row)
     if (mode === 'Edit') {
       setBenefitsModel({
@@ -117,11 +128,18 @@ const Admin_MembershipBenefits = () => {
       [name]: value
     })
   }
+  const handleHeaderInputChange = (event) => {
+    const { name, value } = event.target
+    setHeaderModel({
+      ...headerModel,
+      [name]: value
+    })
+  }
 
   const handleSaveData = async (e) => {
     e.preventDefault();
 
-    if (benefitsModel.title && benefitsModel.description &&  benefitsModel.icon) {
+    if (benefitsModel.title && benefitsModel.description && benefitsModel.icon) {
       axios
         .post(`${url}/membershipBenefits`, benefitsModel, options)
         .then((res) => {
@@ -153,8 +171,8 @@ const Admin_MembershipBenefits = () => {
   };
   const handleUpdateData = async (e) => {
     e.preventDefault();
-    
-    const validationErrors = validation(requiredFields,benefitsModel);
+
+    const validationErrors = validation(requiredFields, benefitsModel);
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length === 0) {
       axios
@@ -218,23 +236,114 @@ const Admin_MembershipBenefits = () => {
       })
 
   };
+
+
+  const getHeaderData = async () => {
+    axios
+      .get(`${url}/membershipHeader/membership-header`)
+      .then((res) => {
+        setHeaderData(res.data.data)
+      }).catch((error) => {
+        toast({
+          title: "error:",
+          description:
+            error.response.data.message
+        });
+      })
+
+  };
+  const updateHeader = async () => {
+    const validationErrors = validation(headerRequiredFields, headerModel);
+    setHeaderErrors(validationErrors);
+    if (Object.keys(validationErrors).length === 0) {
+      axios
+        .put(`${url}/membershipHeader/membership-header`, headerModel)
+        .then((res) => {
+          console.log('response1', res)
+          toast({
+            title: "Success:",
+            description:
+              "Record Update Successfully",
+          });
+          setHeaderEditMode(false)
+          getHeaderData()
+        }).catch((error) => {
+          toast({
+            title: "error:",
+            description:
+              error.response.data.message,
+          });
+        })
+
+    }
+
+  };
   return (
     <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Membership Benefits</h1>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
-          onClick={() => addBenefit(true, 'New', null)}
-        >
-          Add New
-        </button>
-      </div>
+      {
+        headerEditmode ? <>
+          <div className="flex items-center justify-between">
+            <div className='p-3 '>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Header Title:<span style={{ color: 'red' }}>*</span></label>
+              <input
+                type="text"
+                placeholder="Enter Title"
+                name='headerTitle'
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                onChange={handleHeaderInputChange}
+                value={headerModel.headerTitle}
+              />
+              {headerErrors['headerTitle'] && <p style={{ color: 'red' }}>{headerErrors['headerTitle']}</p>}
+            </div>
+            <div>
+              <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 mr-2"
+                onClick={() => updateHeader()}
+              >
+                Update
+              </button> <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                onClick={() => setHeaderEditMode(false)}
+              >
+                Cancel
+              </button>
+
+            </div>
+
+          </div>
+          <div className='p-3 pt-0'>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Header Description:<span style={{ color: 'red' }}>*</span></label>
+            <input
+              type="text"
+              placeholder="Enter Description"
+              name='headerDescription'
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+              onChange={handleHeaderInputChange}
+              value={headerModel.headerDescription}
+            />
+            {headerErrors['headerDescription'] && <p style={{ color: 'red' }}>{headerErrors['headerDescription']}</p>}
+          </div>
+        </> : <>
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{headerData.headerTitle}</h1>
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+              onClick={() => {
+                setHeaderEditMode(true)
+                setHeaderModel({ ...headerData })
+              }}
+            >
+              Edit
+            </button>
+          </div>
+          <p className="text-s text-gray-500 dark:text-gray-400">{headerData.headerDescription}</p>
+        </>
+      }
+
 
       {
         addnewScreen ?
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-           
-    <div className='p-3 '>
-             <label>Icon Link:<span style={{ color: 'red' }}>*</span></label>
+
+            <div className='p-3 '>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Icon Link:<span style={{ color: 'red' }}>*</span></label>
               <input
                 type="text"
                 placeholder="Enter Icon Link"
@@ -243,11 +352,11 @@ const Admin_MembershipBenefits = () => {
                 onChange={handleInputChange}
                 value={benefitsModel.icon}
               />
-                 {errors['icon'] && <p style={{ color: 'red' }}>{errors['icon']}</p>}
+              {errors['icon'] && <p style={{ color: 'red' }}>{errors['icon']}</p>}
             </div>
-     
+
             <div className='p-3 pt-0'>
-              <label>Title:<span style={{ color: 'red' }}>*</span></label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title:<span style={{ color: 'red' }}>*</span></label>
               <input
                 type="text"
                 placeholder="Title"
@@ -256,9 +365,10 @@ const Admin_MembershipBenefits = () => {
                 onChange={handleInputChange}
                 value={benefitsModel.title}
               />
-                 {errors['title'] && <p style={{ color: 'red' }}>{errors['title']}</p>}
+              {errors['title'] && <p style={{ color: 'red' }}>{errors['title']}</p>}
             </div>
             <div className='p-3 pt-0'>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description:<span style={{ color: 'red' }}>*</span></label>
               <input
                 type="textArea"
                 placeholder="Description"
@@ -267,11 +377,11 @@ const Admin_MembershipBenefits = () => {
                 onChange={handleInputChange}
                 value={benefitsModel.description}
               />
-                 {errors['description'] && <p style={{ color: 'red' }}>{errors['description']}</p>}
+              {errors['description'] && <p style={{ color: 'red' }}>{errors['description']}</p>}
             </div>
             <div className='p-3 pt-0'>
               <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
-                onClick={() => addBenefit(false, 'New', null)}>
+                onClick={() => addBenefitItem(false, 'New', null)}>
                 cancel
               </button>
               <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 ml-2 rounded-lg transition-colors duration-200"
@@ -288,7 +398,16 @@ const Admin_MembershipBenefits = () => {
             {/* <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h2>
             </div> */}
-            <div className="p-6">
+            <div className="flex items-center justify-between p-2 space-y-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Benefits</h1>
+
+              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                onClick={() => addBenefitItem(true, 'New', null)}
+              >
+                Add New
+              </button>
+            </div>
+            <div className="p-3">
               <div className="space-y-4">
                 {
                   benefitsList && benefitsList.length > 0 ? benefitsList.map((row, index) => (
@@ -296,12 +415,12 @@ const Admin_MembershipBenefits = () => {
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
                           <div className="h-5 w-5 text-gray-600 dark:text-gray-400">
-                            
-                             <LottieAnimation
-                                src={row.icon}
-                                className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
-                              /> 
-                            
+
+                            <LottieAnimation
+                              src={row.icon}
+                              className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
+                            />
+
 
                           </div>
                         </div>
@@ -312,7 +431,7 @@ const Admin_MembershipBenefits = () => {
                       </div>
                       <div>
                         <a className="text-orange-600 dark:text-orange-400 hover:underline font-medium "
-                          onClick={() => addBenefit(true, 'Edit', row)}>
+                          onClick={() => addBenefitItem(true, 'Edit', row)}>
                           Edit
                         </a>
                         <span className='p-2'>|</span>

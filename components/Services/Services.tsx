@@ -3,20 +3,59 @@
 import axios from 'axios';
 import { motion, useAnimation } from 'framer-motion';
 import { useState, useEffect } from 'react';
-
+const services = [
+    {
+      title: "3D Design",
+      description: "Explore new dimensions with our 3D design services. From product mockups to immersive environments, we deliver high-quality 3D visuals that stand out.",
+      icon: "https://framerusercontent.com/images/W7gQ3A9LHL4JFP7XIJtRlK910.svg"
+    },
+    {
+      title: "Logo Design",
+      description: "Create a memorable and impactful logo that embodies your brand's identity. Our designers work closely with you to deliver a logo that stands out.",
+      icon: "https://framerusercontent.com/images/mshk40AyxRtRxKPbTzFZMsXE.svg"
+    },
+    {
+      title: "Branding",
+      description: "Build a strong and cohesive brand identity with our comprehensive branding services. We help you create a consistent and recognizable brand image.",
+      icon: "https://framerusercontent.com/images/9heQGaBkz9r5Qd2tkiZZgUcJNY.svg"
+    },
+    {
+      title: "UI/UX Design",
+      description: "Improve user experience and interface design with our expert UI/UX services. We focus on creating intuitive and engaging digital experiences for your users.",
+      icon: "https://framerusercontent.com/images/knDbwCDQFdVjP3Gg5zDjYJEinyE.svg"
+    },
+    {
+      title: "Website Design",
+      description: "Craft stunning, user-friendly websites tailored to your brand's needs. Our design team ensures your online presence is both visually appealing and highly functional.",
+      icon: "https://framerusercontent.com/images/Ip5ahIvRsk4Ed8a48qeM3w5q2g.svg"
+    },
+    {
+      title: "Graphics Design",
+      description: "Enhance your brand's visual communication with custom graphics. From marketing materials to social media content, our designers bring your ideas to life.",
+      icon: "https://framerusercontent.com/images/Z7axBOVLm2D91xX6F83ZPkRmis.svg"
+    },
+    {
+      title: "Illustration",
+      description: "Add a unique touch to your projects with custom illustrations. Our talented illustrators can create artwork that perfectly complements your brand.",
+      icon: "https://framerusercontent.com/images/xYSEo8npvPP95FSFG7F9dp23rhI.svg"
+    },
+    {
+      title: "Motion Design",
+      description: "Bring your ideas to life with dynamic motion designs. Our team creates compelling animations and videos that captivate your audience.",
+      icon: "https://framerusercontent.com/images/hSsxTIt1F188CnKmQRlEEJlEXI.svg"
+    }
+  ];
 const ServicesSection = () => {
   const url = process.env.NEXT_PUBLIC_APP_URL
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [servicesList, setServicesList] = useState([]);
+  const [servicesData, setServicesData] = useState({
+     services:[...services],
+     headerDescription: "From web design to branding, our expert team delivers creative solutions that elevate your brand and captivate your audience.",
+     headerTitle: "One Stop Design Solution"
+   });
   const leftControls = useAnimation();
   const rightControls = useAnimation();
-const options = {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "*/*",
-    },
-  };
   useEffect(() => {
     setIsVisible(true);
     getData()
@@ -40,11 +79,11 @@ const options = {
   }, [leftControls, rightControls]);
 const getData = async () => {
     axios
-      .get(`${url}/services/public/getAll`, options)
+      .get(`${url}/servicesHeader/services-section`)
       .then((res) => {
-        setServicesList(res.data.data)
+        setServicesData(res.data.data)
       }).catch((error) => {
-         setServicesList(services)
+        
         // toast({
         //   title: "error:",
         //   description:
@@ -87,54 +126,11 @@ const getData = async () => {
     }
   };
 
-  const services = [
-    {
-      title: "3D Design",
-      description: "Explore new dimensions with our 3D design services. From product mockups to immersive environments, we deliver high-quality 3D visuals that stand out.",
-      icon: "https://framerusercontent.com/images/W7gQ3A9LHL4JFP7XIJtRlK910.svg"
-    },
-    {
-      title: "Logo Design",
-      description: "Create a memorable and impactful logo that embodies your brand's identity. Our designers work closely with you to deliver a logo that stands out.",
-      icon: "https://framerusercontent.com/images/mshk40AyxRtRxKPbTzFZMsXE.svg"
-    },
-    {
-      title: "Branding",
-      description: "Build a strong and cohesive brand identity with our comprehensive branding services. We help you create a consistent and recognizable brand image.",
-      icon: "https://framerusercontent.com/images/9heQGaBkz9r5Qd2tkiZZgUcJNY.svg"
-    },
-    {
-      title: "UI/UX Design",
-      description: "Improve user experience and interface design with our expert UI/UX services. We focus on creating intuitive and engaging digital experiences for your users.",
-      icon: "https://framerusercontent.com/images/knDbwCDQFdVjP3Gg5zDjYJEinyE.svg"
-    },
-    {
-      title: "Website Design",
-      description: "Craft stunning, user-friendly websites tailored to your brand's needs. Our design team ensures your online presence is both visually appealing and highly functional.",
-      icon: "https://framerusercontent.com/images/Ip5ahIvRsk4Ed8a48qeM3w5q2g.svg"
-    },
-    {
-      title: "Graphics Design",
-      description: "Enhance your brand's visual communication with custom graphics. From marketing materials to social media content, our designers bring your ideas to life.",
-      icon: "https://framerusercontent.com/images/Z7axBOVLm2D91xX6F83ZPkRmis.svg"
-    },
-    {
-      title: "Illustration",
-      description: "Add a unique touch to your projects with custom illustrations. Our talented illustrators can create artwork that perfectly complements your brand.",
-      icon: "https://framerusercontent.com/images/xYSEo8npvPP95FSFG7F9dp23rhI.svg"
-    },
-    {
-      title: "Motion Design",
-      description: "Bring your ideas to life with dynamic motion designs. Our team creates compelling animations and videos that captivate your audience.",
-      icon: "https://framerusercontent.com/images/hSsxTIt1F188CnKmQRlEEJlEXI.svg"
-    }
-  ];
-
   // Split services into two columns
   // const leftColumnServices = servicesList.slice(0, 4);
   // const rightColumnServices = servicesList.slice(4, 8);
-const leftColumnServices = servicesList.filter((_, index) => index % 2 === 0); // Even indexes
-const rightColumnServices = servicesList.filter((_, index) => index % 2 === 1); // Odd indexes
+const leftColumnServices = servicesData.services.filter((_, index) => index % 2 === 0); // Even indexes
+const rightColumnServices = servicesData.services.filter((_, index) => index % 2 === 1); // Odd indexes
 
   return (
     <section id="services" className="w-full py-16 ">
@@ -147,7 +143,7 @@ const rightColumnServices = servicesList.filter((_, index) => index % 2 === 1); 
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h2 className="text-4xl md:text-5xl lg:text-5xl text-center font-bold text-white leading-tight">
-                One Stop Design Solution
+                {servicesData.headerTitle}
               </h2>
             </motion.div>
 
@@ -158,7 +154,7 @@ const rightColumnServices = servicesList.filter((_, index) => index % 2 === 1); 
               className='text-center'
             >
               <p className="text-lg text-gray-300 leading-relaxed max-w-3xl text-center m-auto">
-                From web design to branding, our expert team delivers creative solutions that elevate your brand and captivate your audience.
+               {servicesData.headerDescription}
               </p>
             </motion.div>
           </div>

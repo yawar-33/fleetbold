@@ -5,21 +5,7 @@ import { useState, useEffect } from 'react';
 import LottieAnimation from './LottieAnimation';
 import MembershipHeader from './MembershipHeader';
 import axios from 'axios';
-const MemberShipBenefitsCard = () => {
-  const url = process.env.NEXT_PUBLIC_APP_URL
-  const [isVisible, setIsVisible] = useState(false);
-  const [benefitsList, setBenefitsList] = useState([]);
-  useEffect(() => {
-    setIsVisible(true);
-    getData()
-  }, []);
-  const options = {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "*/*",
-    },
-  };
-   const features = [
+ const features = [
     {
       title: "Unlimited Request",
       description: "Make as many design requests as you need without any limits.",
@@ -51,13 +37,31 @@ const MemberShipBenefitsCard = () => {
       icon: "https://framerusercontent.com/assets/BJ4F7Sz38tbwXHxmoCjePRCKk.json"
     }
   ];
+const MemberShipBenefitsCard = () => {
+  const url = process.env.NEXT_PUBLIC_APP_URL
+  const [isVisible, setIsVisible] = useState(false);
+  const [benefitdata, setBenefitdata] = useState({
+    benefits:[...features],
+    headerDescription: "Our membership comes with the promise of endless creativity and dedicated support.",
+    headerTitle: "Membership Benefits"
+  });
+  useEffect(() => {
+    setIsVisible(true);
+    getData()
+  }, []);
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "*/*",
+    },
+  };
+  
   const getData = async () => {
     axios
-      .get(`${url}/membershipBenefits/public/getAll`, options)
+      .get(`${url}/membershipHeader/membership-section`, options)
       .then((res) => {
-        setBenefitsList(res.data.data)
+        setBenefitdata(res.data.data)
       }).catch((error) => {
-         setBenefitsList(features)
         // toast({
         //   title: "error:",
         //   description:
@@ -82,13 +86,12 @@ const MemberShipBenefitsCard = () => {
 
   return (
     <div className="w-full overflow-hidden">
-      <MembershipHeader />
+      <MembershipHeader {...benefitdata}/>
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
-          {benefitsList.map((feature, index) =>
+          { benefitdata.benefits.map((benefit, index) =>
 
           (
-
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -108,12 +111,12 @@ const MemberShipBenefitsCard = () => {
                 <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 sm:mb-6 mx-auto flex items-center justify-center relative z-10 flex-shrink-0">
                 
                    <LottieAnimation
-                    src={feature.icon}
+                    src={benefit.icon}
                     className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
                  />
                    {/* <img
-                    src={`data:image/png;base64,${feature.icon}`}
-                    alt="Feature Icon"
+                    src={`data:image/png;base64,${benefit.icon}`}
+                    alt="benefit Icon"
                     className="w-full h-full max-w-20 max-h-20 sm:max-w-24 sm:max-h-24"
                   /> */}
                   
@@ -122,11 +125,11 @@ const MemberShipBenefitsCard = () => {
                 {/* Content */}
                 <div className="relative z-10 w-full">
                   <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-white text-center break-words">
-                    {feature.title}
+                    {benefit.title}
                   </h3>
 
                   <p className="text-gray-300 text-sm sm:text-base leading-relaxed text-center break-words hyphens-auto">
-                    {feature.description}
+                    {benefit.description}
                   </p>
                 </div>
 

@@ -33,7 +33,11 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ text }) => {
 const Pricing = () => {
   const [email, setEmail] = useState('');
  const url = process.env.NEXT_PUBLIC_APP_URL
-const [dataList, setdataList] = useState([]);
+const [pricingData, setPricingData] = useState({
+     pricingList:[],
+      headerTitle: "Pricing with No Hidden Fees",
+      headerDescription: "Our modern design, real-time insights, and seamless tools deliver the control and confidence you need to scale. No long-term commitments, surprise charges, or setup costs—just clarity and performance."
+   });
   useEffect(() => {
     getData()
   }, []);
@@ -45,9 +49,9 @@ const [dataList, setdataList] = useState([]);
   };
      const getData = async () => {
     axios
-      .get(`${url}/pricingPlan/public/getAll`, options)
+      .get(`${url}/pricingHeader/pricing-section`)
       .then((res) => {
-        setdataList(res.data.data)
+        setPricingData(res.data.data)
       }).catch((error) => {
         // setdataList(steps)
         // toast({
@@ -75,7 +79,7 @@ const [dataList, setdataList] = useState([]);
             color: '#ffffff',
             marginBottom: '15px'
           }}>
-            Pricing with No Hidden Fees
+            {pricingData.headerTitle}
           </h2>
           <p style={{
             fontFamily: '"Outfit", "Outfit Placeholder", sans-serif',
@@ -85,8 +89,8 @@ const [dataList, setdataList] = useState([]);
             color: 'rgba(255, 255, 255, 0.8)',
             margin: 0
           }}>
-            Our modern design, real-time insights, and seamless tools deliver the control and confidence you need to scale. No long-term commitments, surprise charges, or setup costs—just clarity and performance.
-          </p>
+           {pricingData.headerDescription}
+           </p>
         </section>
         
         {/* Cards Container */}
@@ -94,7 +98,7 @@ const [dataList, setdataList] = useState([]);
           
           {/* Starter Plan */}
           {
-            dataList.map((data, index) => (
+            pricingData.pricingList.length>0? pricingData.pricingList.map((data, index) => (
               
                 data.name === 'Starter Plan'?<> <div className="framer-kgo7za" data-border="true">
             <div className="framer-1gfbwed">
@@ -309,9 +313,8 @@ const [dataList, setdataList] = useState([]);
            </>:<></>
               
               
-            ))
-          }
-          {/* <div className="framer-kgo7za" data-border="true">
+            )):<>
+             <div className="framer-kgo7za" data-border="true">
             <div className="framer-1gfbwed">
               <div className="framer-3t4ylf">
                 <div className="framer-d92mk">
@@ -366,10 +369,10 @@ const [dataList, setdataList] = useState([]);
                 </a>
               </div>
             </div>
-          </div> */}
+          </div> 
 
           {/* Premium Plan */}
-          {/* <div className="framer-108250c" data-border="true">
+          <div className="framer-108250c" data-border="true">
             <div className="framer-1pjs9xc">
               <div className="framer-5c3smi">
                 <div className="framer-ejat6c">
@@ -450,10 +453,10 @@ const [dataList, setdataList] = useState([]);
                 </div>
               </div>
             </div>
-          </div> */}
+          </div>
 
           {/* Enterprise Plan */}
-          {/* <div className="framer-14y7761" data-border="true">
+           <div className="framer-14y7761" data-border="true">
             <div className="framer-1a6d73t">
               <div className="framer-5nugq8">
                 <div className="framer-lm80sb">
@@ -503,7 +506,9 @@ const [dataList, setdataList] = useState([]);
               </div>
             </div>
             <div className="framer-cvt2eu"></div>
-          </div> */}
+          </div></>
+          }
+         
         </div>
       </div>
        

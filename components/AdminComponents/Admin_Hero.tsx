@@ -233,7 +233,7 @@ const Admin_Hero = () => {
                 addnewScreen ?
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                        <div className='p-3'>
-                           <label>Badge:</label>
+                           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Badge:</label>
                             <input
                                 type="text"
                                 placeholder="Enter Badge"
@@ -245,7 +245,7 @@ const Admin_Hero = () => {
                              
                         </div>
                         <div className='p-3 pt-0'>
-                                <label>Headline:<span style={{ color: 'red' }}>*</span></label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Headline:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="text"
                                 placeholder="Enter Headline"
@@ -258,7 +258,7 @@ const Admin_Hero = () => {
                         </div>
 
                         <div className='p-3 pt-0'>
-                             <label>SubHeadline:<span style={{ color: 'red' }}>*</span></label>
+                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">SubHeadline:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="text"
                                 placeholder="Enter Subheadline"

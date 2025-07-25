@@ -18,6 +18,18 @@ const Admin_HowItWorks = () => {
         title: '',
         description: '',
     })
+    const [headerData, setHeaderData] = useState({
+         headerTitle: "How It Works",
+        headerDescription: "Our Simple 3-Step Process",
+       
+    });
+    const [headerModel, setHeaderModel] = useState({
+        headerDescription: '',
+        headerTitle: ''
+    });
+    const [headerEditmode, setHeaderEditMode] = useState(false);
+    const [headerErrors, setHeaderErrors] = useState({});
+    const headerRequiredFields = ['headerTitle', 'headerDescription'];
     const token = localStorage.getItem('authToken');
     const options = {
         headers: {
@@ -29,6 +41,7 @@ const Admin_HowItWorks = () => {
 
     useEffect(() => {
         getData()
+        getHeaderData()
     }, []);
 
     const addBenefit = (flag, mode, row) => {
@@ -160,23 +173,118 @@ const Admin_HowItWorks = () => {
             })
 
     };
+    const handleHeaderInputChange = (event) => {
+        const { name, value } = event.target
+        setHeaderModel({
+            ...headerModel,
+            [name]: value
+        })
+    }
+    const getHeaderData = async () => {
+        axios
+            .get(`${url}/howItWorksHeader/howItWorks-header`)
+            .then((res) => {
+                setHeaderData(res.data.data)
+            }).catch((error) => {
+                toast({
+                    title: "error:",
+                    description:
+                        error.response.data.message
+                });
+            })
+
+    };
+    const updateHeader = async () => {
+        const validationErrors = validation(headerRequiredFields, headerModel);
+        setHeaderErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
+            axios
+                .put(`${url}/howItWorksHeader/howItWorks-header`, headerModel)
+                .then((res) => {
+                    console.log('response1', res)
+                    toast({
+                        title: "Success:",
+                        description:
+                            "Record Update Successfully",
+                    });
+                    setHeaderEditMode(false)
+                    getHeaderData()
+                }).catch((error) => {
+                    toast({
+                        title: "error:",
+                        description:
+                            error.response.data.message,
+                    });
+                })
+
+        }
+
+    };
     return (
         <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">How It Works</h1>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
-                    onClick={() => addBenefit(true, 'New', null)}
-                >
-                    Add New
-                </button>
-            </div>
+            {
+                headerEditmode ? <>
+                    <div className="flex items-center justify-between">
+                        <div className='p-3 '>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Header Title:<span style={{ color: 'red' }}>*</span></label>
+                            <input
+                                type="text"
+                                placeholder="Enter Title"
+                                name='headerTitle'
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                                onChange={handleHeaderInputChange}
+                                value={headerModel.headerTitle}
+                            />
+                            {headerErrors['headerTitle'] && <p style={{ color: 'red' }}>{headerErrors['headerTitle']}</p>}
+                        </div>
+                        <div>
+                            <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 mr-2"
+                                onClick={() => updateHeader()}
+                            >
+                                Update
+                            </button> <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                                onClick={() => setHeaderEditMode(false)}
+                            >
+                                Cancel
+                            </button>
+
+                        </div>
+
+                    </div>
+                    <div className='p-3 pt-0'>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Header Description:<span style={{ color: 'red' }}>*</span></label>
+                        <input
+                            type="text"
+                            placeholder="Enter Description"
+                            name='headerDescription'
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                            onChange={handleHeaderInputChange}
+                            value={headerModel.headerDescription}
+                        />
+                        {headerErrors['headerDescription'] && <p style={{ color: 'red' }}>{headerErrors['headerDescription']}</p>}
+                    </div>
+                </> : <>
+                    <div className="flex items-center justify-between">
+                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{headerData.headerTitle}</h1>
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                            onClick={() => {
+                                setHeaderEditMode(true)
+                                setHeaderModel({ ...headerData })
+                            }}
+                        >
+                            Edit
+                        </button>
+                    </div>
+                    <p className="text-s text-gray-500 dark:text-gray-400">{headerData.headerDescription}</p>
+                </>
+            }
 
             {
                 addnewScreen ?
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
 
                         <div className='p-3'>
-                             <label>Title:<span style={{ color: 'red' }}>*</span></label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="text"
                                 placeholder="Title"
@@ -188,7 +296,7 @@ const Admin_HowItWorks = () => {
                             {errors['title'] && <p style={{ color: 'red' }}>{errors['title']}</p>}
                         </div>
                         <div className='p-3 pt-0'>
-                            <label>Description:<span style={{ color: 'red' }}>*</span></label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description:<span style={{ color: 'red' }}>*</span></label>
                             <input
                                 type="textArea"
                                 placeholder="Description"
@@ -218,28 +326,38 @@ const Admin_HowItWorks = () => {
                         {/* <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h2>
             </div> */}
-                        <div className="p-6">
+
+                        <div className="flex items-center justify-between p-2 space-y-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+                            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Items</h1>
+
+                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                                onClick={() => addBenefit(true, 'New', null)}
+                            >
+                                Add New
+                            </button>
+                        </div>
+                        <div className="p-4">
                             <div className="space-y-4">
                                 {
                                     servicesList && servicesList.length > 0 ? servicesList.map((row, index) => (
                                         <div key={index} className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
                                             <div className="flex items-center space-x-3">
-                                                
-                                                    <div className="h-5 w-5 text-gray-600 dark:text-gray-400">
-                                                        <div className="flex justify-center mb-4 sm:mb-6">
-                                                            <div
-                                                                className="w-8 h-8 sm:w-6 sm:h-6 lg:w-9 lg:h-9 flex-shrink-0"
-                                                                style={{
-                                                                    imageRendering: 'pixelated',
-                                                                    backgroundSize: '100% 100%',
-                                                                    backgroundImage: `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 66 66"><circle cx="30" cy="30" r="30" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><text x="33" y="38" text-anchor="middle" fill="white" font-size="20" font-weight="bold">${index + 1}</text></svg>')`
-                                                                }}
-                                                                aria-hidden="true"
-                                                            />
-                                                        </div>
 
+                                                <div className="h-5 w-5 text-gray-600 dark:text-gray-400">
+                                                    <div className="flex justify-center mb-4 sm:mb-6">
+                                                        <div
+                                                            className="w-8 h-8 sm:w-6 sm:h-6 lg:w-9 lg:h-9 flex-shrink-0"
+                                                            style={{
+                                                                imageRendering: 'pixelated',
+                                                                backgroundSize: '100% 100%',
+                                                                backgroundImage: `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 66 66"><circle cx="30" cy="30" r="30" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><text x="33" y="38" text-anchor="middle" fill="white" font-size="20" font-weight="bold">${index + 1}</text></svg>')`
+                                                            }}
+                                                            aria-hidden="true"
+                                                        />
                                                     </div>
-                                                
+
+                                                </div>
+
                                                 <div>
                                                     <p className="text-sm font-medium text-gray-900 dark:text-white">{row.title}</p>
                                                     <p className="text-xs text-gray-500 dark:text-gray-400">{row.description}</p>
